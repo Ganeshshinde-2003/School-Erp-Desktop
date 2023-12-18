@@ -5,15 +5,14 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC59aP3HXo2TRt9YvtBNU7VqnjgnFaGjFk",
-  authDomain: "lmsapp-5ab03.firebaseapp.com",
-  projectId: "lmsapp-5ab03",
-  storageBucket: "lmsapp-5ab03.appspot.com",
-  messagingSenderId: "786247972605",
-  appId: "1:786247972605:web:6b28136cee8cbd4f857094",
+  apiKey: process.env.REACT_APP_API_KEY || '',
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN || '',
+  projectId: process.env.REACT_APP_PROJECT_ID || '',
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET || '',
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID || '',
+  appId: process.env.REACT_APP_APP_ID || '',
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
