@@ -54,8 +54,7 @@ const AddSubject = () => {
       setShowDeleteAlert(true);
       setDocId(documentId);
     }
-  }
-    ;
+  };
 
   const onConfirm = async () => {
     console.log("handle delete");

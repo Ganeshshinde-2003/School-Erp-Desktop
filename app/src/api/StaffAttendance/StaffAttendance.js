@@ -222,6 +222,7 @@ export const calculateAttendancePercentage = async (options) => {
 
   export const getAttendanceList = async (date) => {
     try {
+      console.log(date);
       const attendanceList = [];
   
       // Fetch teacher data
@@ -238,11 +239,10 @@ export const calculateAttendancePercentage = async (options) => {
         const isPresent = await getAttendanceStatus(teacherId, date);
   
         attendanceList.push({
-          name: teacherName,
-          id: teacherId,
-          isteacher: true,
-          isnonTeacher: false,
-          isPresent,
+          Name: teacherName,
+          EmpId: teacherId,
+          Role: "Teacher",
+          Status: isPresent
         });
       }
   
@@ -258,13 +258,12 @@ export const calculateAttendancePercentage = async (options) => {
         const staffName = `${staffData.firstName} ${staffData.lastName}`;
   
         const isPresent = await getAttendanceStatus(staffId, date);
-  
+       
         attendanceList.push({
-          name: staffName,
-          id: staffId,
-          isteacher: false,
-          isnonTeacher: true,
-          isPresent,
+          Name: staffName,
+          EmpId: staffId,
+          Role:"Staff",
+          Status: isPresent,
         });
       }
   
@@ -284,7 +283,7 @@ export const calculateAttendancePercentage = async (options) => {
         const dateObject = new Date(date);
         const monthAbbreviation = dateObject.toLocaleString('default', { month: 'short' });
         const monthData = staffAttendanceDoc.data()[monthAbbreviation];
-        for(let i = 0; i < monthData.length; i++) {
+        for(let i = 0; i < monthData?.length; i++) {
             if(monthData[i].date == date) {
                 return monthData[i].isPresent;
             }
