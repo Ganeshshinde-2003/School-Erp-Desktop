@@ -1,5 +1,5 @@
 .activeDiv {
-  background: #242424;
+  background: #505050;
 }
 .activeDiv div span {
   color: white;
@@ -33,6 +33,10 @@ div a {
 
 .icon-parent{
   position: relative;
+}
+
+.icon-parent a span {
+  /* color: black !important; */
 }
 
 .main-sidenavbar {

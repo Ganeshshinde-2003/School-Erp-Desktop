@@ -130,12 +130,12 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
           <Oval
             height={40}
             width={40}
-            color="#343dff"
+            color="#333333"
             wrapperStyle={{ textAlign: "center" }}
             wrapperClass=""
             visible={true}
             ariaLabel="oval-loading"
-            secondaryColor="#343fff"
+            secondaryColor="#B5B5B5"
             strokeWidth={2}
             strokeWidthSecondary={2}
           />
