@@ -3,7 +3,7 @@ import { Oval } from "react-loader-spinner"; // Assuming you are using the Oval 
 import "../Pages/PutAttendance/PutAttendancs.css";
 import { getAttendanceList, storeStaffAttendance } from "../api/StaffAttendance/StaffAttendance";
 import DynamicTable from "./DynamicTable";
-import AddButton from "./AddButton";
+import { toast } from "react-toastify";
 
 const DatePicker = ({ minDate, maxDate }) => {
   const monthNames = [
@@ -77,6 +77,7 @@ const DatePicker = ({ minDate, maxDate }) => {
       setAttendanceData(transformedData);
     } catch (error) {
       console.error("Error fetching attendance list:", error);
+      toast.error("Error fetching data");
     } finally {
       setIsLoading(false);
     }
@@ -131,7 +132,6 @@ const DatePicker = ({ minDate, maxDate }) => {
               isPresent: !staff.isPresent, // Toggle the isPresent value
             };
           }
-          console.log("Attendece data",attendanceData);
           return staff;
         });
   
@@ -146,7 +146,6 @@ const DatePicker = ({ minDate, maxDate }) => {
         });
 
         setAttendanceList(updatedAttendanceList);
-        console.log("AttendanceList",attendanceList);
         return {
           ...attendanceData,
           staffArray: updatedStaffArray,

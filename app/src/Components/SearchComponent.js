@@ -10,6 +10,7 @@ import {
 } from "../api/StudentMaster/AddStudentDirectly";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +33,8 @@ function SearchComponent() {
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error Searching data");
+
     }
   }, 100);
 

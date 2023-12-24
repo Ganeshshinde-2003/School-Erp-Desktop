@@ -10,6 +10,8 @@ import {
 } from "../../api/ClassMaster/AddClassAndSection";
 import { getAllOptionalSubjectsName } from "../../api/ClassMaster/AddOptionalSubject";
 import { getAllSubjectsNameFromDb } from "../../api/ClassMaster/Addsubject";
+import { toast } from "react-toastify";
+
 
 const AddOrUpdateClassAndSectionForm = ({
   isUpdateOn,
@@ -51,6 +53,8 @@ const AddOrUpdateClassAndSectionForm = ({
       }
     } catch (error) {
       console.error("Error fetching subject data", error);
+      toast.error("Error fetching data");
+
     }
   };
 

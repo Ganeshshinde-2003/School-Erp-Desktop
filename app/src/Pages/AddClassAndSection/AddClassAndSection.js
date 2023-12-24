@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
 import AddButton from "../../Components/AddButton";
 import { Oval } from 'react-loader-spinner';
-import { addClassAndSectionsToDatabase, deleteClassAndSectionsData, getAllClassesAndSectionNames, getAllclassesAndSectionNames, getClassAndSectionsDatabase, getSubjectsByClassName } from "../../api/ClassMaster/AddClassAndSection";
+import {  deleteClassAndSectionsData,  getClassAndSectionsDatabase } from "../../api/ClassMaster/AddClassAndSection";
 import AddOrUpdateClassAndSectionForm from "./AddOrUpdateClassAndSectionForm ";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddClassAndSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +26,9 @@ const AddClassAndSubject = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
-      });
+      })
   };
 
   useEffect(() => {
@@ -81,13 +83,16 @@ setIsModalOpen(true);
 
 const handleSubjectAdded = () => {
   setDataChanged(true);
+  toast.success("Classes And Seaction added successfully");
+
 };
 
 const handleSubjectUpdated = () => {
-
   setDocId(null);
   setSubjectUpdate(false)
   setDataChanged(true);
+  toast.success("Classes And Seaction Updated successfully");
+
 };
 
 return (
