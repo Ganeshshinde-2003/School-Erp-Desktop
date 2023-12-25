@@ -7,6 +7,7 @@ import {
   getSpecificStaffDataFromDb,
   updateStaffToDatabase,
 } from "../../api/StaffManagement/AddNonTeachingStaff";
+import { toast } from "react-toastify";
 
 const AddorUpdateNonTeachingStaff = ({
   isUpdateOn,
@@ -62,18 +63,18 @@ const AddorUpdateNonTeachingStaff = ({
     try {
       const response = await updateStaffToDatabase(DocId, staffData);
 
-      setConfirmationMessage(response.message);
+      toast.success(response.message);
 
       setstaffData(inticalData);
 
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        setIsModalOpen(false);
-        handleNonTeachingstaffUpdated();
-      }, 2000);
+       
     } catch (error) {
       console.error("Error updating subject data", error);
     }
+    finally{
+      setIsModalOpen(false);
+     handleNonTeachingstaffUpdated();
+     }
   };
 
   const handleAdd = async () => {
@@ -92,18 +93,15 @@ const AddorUpdateNonTeachingStaff = ({
     } else {
       try {
         const response = await addNonTeachingStaffToDb(staffData);
-
-        setConfirmationMessage(response.message);
-
+        toast.success(response.message);
         setstaffData(inticalData);
       } catch (error) {
         console.error("Error updating subject data", error);
       }
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        setIsModalOpen(false);
-        handleNonStaffAdded();
-      }, 2000); // Hide the message after 2 seconds
+     finally{
+       setIsModalOpen(false);
+       handleNonStaffAdded();
+     }
     }
   };
 
@@ -284,12 +282,6 @@ const AddorUpdateNonTeachingStaff = ({
           </div>
         </form>
       </div>
-
-      {confirmationMessage && (
-        <div className="text-green-500 mt-4 text-center">
-          {confirmationMessage}
-        </div>
-      )}
     </Modal>
   );
 };

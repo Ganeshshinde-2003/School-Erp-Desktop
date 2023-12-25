@@ -2,9 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
-import Modal from "./Modal";
-import { getTimetableData } from "../api/Timetable/Timetable";
-import DynamicTable from "../Components/DynamicTable";
+import Modal from "../../Components/Modal";
+import { getTimetableData } from "../../api/Timetable/Timetable";
+import DynamicTable from "../../Components/DynamicTable";
+import "../../App.css";
+import { FaEdit } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+import { FaPlus } from "react-icons/fa";
+import UpdateTimetable from "./UpdateTImetable";
+import AddButton from "../../Components/AddButton";
+
 
 function extractSectionCode(section) {
   const matches = section.match(/\d+[A-Z]/);
@@ -14,6 +21,14 @@ function extractSectionCode(section) {
 const TimetableModal = ({ isOpen, closeModal, section }) => {
   const [timetableData, setTimetableData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [day, setDay] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [isEditOn, setIsEditOn] = useState(false);
+  const [subject, setSubject] = useState(null);
+  const [sectionCode, setSectionCode] = useState(section);
+  const [dataToShow, setDataToShow] = useState(null);
 
   useEffect(() => {
     if (section) {
@@ -33,12 +48,37 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
 
   const handleAddButtonClick = (day) => {
     // Handle logic for adding new entries for the specific day
+    setDay(day);
+    setIsEditOn(false);
+    const data = {
+      className: extractSectionCode(section),
+      day: day,
+      startTime: "",
+      endTime: "",
+      subject: "",
+    };
+    setDataToShow(data);
+    setIsModalOpen(true);
     console.log(`Add button clicked for ${day}`);
   };
 
-  const handleEditButtonClick = (day, startTime) => {
+  const handleEditButtonClick = (day, startTime, endTime, subject) => {
     // Handle logic for editing the selected entry
-    console.log(`Edit button clicked for ${day} at ${startTime}`);
+    setDay(day);
+    setStartTime(startTime);
+    setEndTime(endTime);
+    setSubject(subject);
+    setIsEditOn(true);
+    const data = {
+      className: extractSectionCode(section),
+      day: day,
+      startTime: startTime,
+      endTime: endTime,
+      subject: subject,
+    };
+    setDataToShow(data);
+    setIsModalOpen(true);
+    console.log(`Edit button clicked for ${day} at ${startTime} - ${endTime} for ${subject}`);
   };
 
   const handleDeleteButtonClick = (day, startTime) => {
@@ -71,17 +111,20 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
         rowData[day] = entry ? (
           <div className="flex items-center space-x-2">
             <div>
-              &nbsp;{`${entry.subject}`}&nbsp;
+             <b> &nbsp;{`${entry.subject}`}&nbsp;</b>
               <br></br>
               &nbsp;{`${entry.startTime} - ${entry.endTime}`}&nbsp;
               <br></br>
-              <div className="flex">
-              <button className="bg-blue-500 text-white px-2 py-1 rounded-full" onClick={() => handleEditButtonClick(day, startTime)}>
-                Edit
-              </button>&nbsp;
-              <button className="bg-red-500 text-white px-2 py-1 rounded-full" onClick={() => handleDeleteButtonClick(day, startTime)}>
-                Delete
-              </button>
+              <div className="flex option-btn-timetable">
+              <FaEdit
+              onClick={() => handleEditButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
+              className="cursor-pointer text-blue-500 mr-2"
+            />
+            <ImCross
+            onClick={() => handleDeleteButtonClick(day, startTime)}
+              className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-red-500 p-1"
+            />
+         
               </div>
             </div>
           </div>
@@ -103,11 +146,15 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
       ),
       ...days.reduce((acc, day) => {
         acc[day] = (
-          <div className="flex items-center justify-center space-x-2">
-            <button className="bg-blue-500 text-white px-2 py-1 rounded-full text-sm" onClick={() => handleAddButtonClick(day)}>
-              <span className="bg-green-500 text-white px-1 py-1 rounded-full">+</span>&nbsp;Add class
-            </button>
+            <button className="bg-black text-white px-2 py-1 rounded-full text-sm add-class-btn" onClick={() => handleAddButtonClick(day)}>
+            <div
+            className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center absolute"
+            
+          >
+            <FaPlus className="w-4 h-4 text-white" />
           </div>
+          <span style={{ marginLeft: "15px" }}>Add</span>
+            </button>
         );
         return acc;
       }, {}),
@@ -118,6 +165,15 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
     return tableData;
   };
 
+  const handleUpdateTimetable = () => {
+    setDataChanged(true);
+  };
+
+  const openModal = () => {
+    console.log("Open modal");
+    setIsModalOpen(true);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -125,17 +181,24 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
       contentLabel="Timetable Modal"
     >
       <div className="modal-content">
-        <h2>Timetable for {section}</h2>
+     {!isLoading? <span className="flex justify-between timetable-title-padding">
+     <h2><b>Timetable for {section}</b></h2> 
+     <ImCross
+     onClick={closeModal}
+     className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-black p-1"
+   />
+     </span>: null} 
+
         {isLoading ? (
           <Oval
             height={40}
             width={40}
-            color="#343dff"
+            color="#333333"
             wrapperStyle={{ textAlign: "center" }}
             wrapperClass=""
             visible={true}
             ariaLabel="oval-loading"
-            secondaryColor="#343fff"
+            secondaryColor="#B5B5B5"
             strokeWidth={2}
             strokeWidthSecondary={2}
           />
@@ -149,10 +212,24 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
             />
           </React.Fragment>
         ) : (
-          <div>No timetable data available</div>
+          <AddButton buttonText={"Add Timetable"} onClickButton={openModal} />
         )}
-        <button onClick={closeModal}>Close</button>
       </div>
+      <UpdateTimetable
+      isModalOpen={isModalOpen}
+      setIsModalOpen={setIsModalOpen}
+      day={day}
+      setDay={setDay}
+      startTime={startTime}
+      setStartTime={setStartTime}
+      endTime={endTime}
+      setEndTime={setEndTime}
+      subject={subject}
+      setSubject={setSubject}
+      isEditOn={isEditOn}
+      dataToShow={dataToShow}
+      sectionCode={sectionCode}
+    />
     </Modal>
   );
 };

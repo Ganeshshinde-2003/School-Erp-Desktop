@@ -32,12 +32,12 @@ const CheckSyllabus = () => {
             <Oval
               height={80}
               width={80}
-              color="#343dff"
+              color="#333333"
               wrapperStyle={{}}
               wrapperClass=""
               visible={true}
               ariaLabel="oval-loading"
-              secondaryColor="#343fff"
+              secondaryColor="#B5B5B5"
               strokeWidth={2}
               strokeWidthSecondary={2}
             />

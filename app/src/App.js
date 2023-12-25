@@ -27,6 +27,8 @@ import CheckSyllabus from "./Pages/CheckSyllabus/CheckSyllabus.js";
 import AddExams from "./Pages/AddExams/AddExams.js";
 import SearchDetailsShow from "./Pages/SearchDetailsShow/SearchDetailsShow.js";
 import PutAttendance from "./Pages/PutAttendance/PutAttendance.js";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -132,8 +134,11 @@ const App = () => {
             />
             <Route path="/exam-addition/add-exam" element={<AddExams />} />
             <Route path="/searchresult/:id" element={<SearchDetailsShow />} />
+            
           </Routes>
         </div>
+        <ToastContainer position="top-right" />
+
       </div>
     </BrowserRouter>
   );

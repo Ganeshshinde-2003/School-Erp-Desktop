@@ -10,6 +10,8 @@ import {
 } from "../../api/ClassMaster/AddClassAndSection";
 import { getAllOptionalSubjectsName } from "../../api/ClassMaster/AddOptionalSubject";
 import { getAllSubjectsNameFromDb } from "../../api/ClassMaster/Addsubject";
+import { toast } from "react-toastify";
+
 
 const AddOrUpdateClassAndSectionForm = ({
   isUpdateOn,
@@ -30,7 +32,6 @@ const AddOrUpdateClassAndSectionForm = ({
   const [optionalSubjectList, setOptionalSubjectList] = useState([]);
 
   const [error, setError] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState(null);
 
 
   useEffect(() => {
@@ -51,6 +52,8 @@ const AddOrUpdateClassAndSectionForm = ({
       }
     } catch (error) {
       console.error("Error fetching subject data", error);
+      toast.error("Error fetching data");
+
     }
   };
 
@@ -103,17 +106,16 @@ const AddOrUpdateClassAndSectionForm = ({
         classAndSectionData
       );
 
-      setConfirmationMessage(response.message);
+      toast.success(response.message);
 
-      setClassAndSectionData(inticalData);
-
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        setIsModalOpen(false);
-        handleSubjectUpdated();
-      }, 2000);
+     
     } catch (error) {
       console.error("Error updating subject data", error);
+    }
+    finally{
+      setClassAndSectionData(inticalData);
+      setIsModalOpen(false);
+      handleSubjectUpdated();
     }
   };
 
@@ -127,17 +129,16 @@ const AddOrUpdateClassAndSectionForm = ({
           classAndSectionData
         );
         // Show a confirmation message
-        setConfirmationMessage(response.message);
-
+        toast.success(response.message);
         setClassAndSectionData(inticalData);
       } catch (error) {
         console.error("Error updating subject data", error);
       }
-      setTimeout(() => {
-        setConfirmationMessage(null);
+      finally {
         setIsModalOpen(false);
         handleSubjectAdded();
-      }, 2000); // Hide the message after 2 seconds
+      }
+       
     }
   };
 
@@ -241,12 +242,6 @@ const AddOrUpdateClassAndSectionForm = ({
           </div>
         </form>
       </div>
-
-      {confirmationMessage && (
-        <div className="text-green-500 mt-4 text-center">
-          {confirmationMessage}
-        </div>
-      )}
     </Modal>
   );
 };
