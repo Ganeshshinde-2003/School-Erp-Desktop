@@ -10,6 +10,7 @@ import {
 import DynamicTable from "../../Components/DynamicTable";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 
 const AddDriver = () => {
@@ -57,11 +58,12 @@ const AddDriver = () => {
 
   const onConfirm = async ()=>{
     const response = await deleteDriverData(docId);
-    console.log("Delete document with ID:", docId);
     if (response.status) {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
+
   }
 }
 
@@ -79,17 +81,12 @@ const AddDriver = () => {
   };
 
   const handleDriverAdded = () => {
-    setTimeout(() => {
       setDataChanged(true);
-    }, 2000); // Hide the message after 2 seconds
   };
 
   const handleDriverUpdated = () => {
+    setDataChanged(true);
     setDriverUpdate(true);
-    setTimeout(() => {
-      setDriverUpdate(false);
-      setDataChanged(true);
-    }, 2000); // Hide the message after 2 seconds
   };
   return (
     <div className="mt-4 w-full ov-sc">

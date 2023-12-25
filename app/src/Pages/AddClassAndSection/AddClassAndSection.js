@@ -65,6 +65,8 @@ const AddClassAndSubject = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
+
   }
 }
 
@@ -83,7 +85,6 @@ setIsModalOpen(true);
 
 const handleSubjectAdded = () => {
   setDataChanged(true);
-  toast.success("Classes And Seaction added successfully");
 
 };
 
@@ -91,7 +92,6 @@ const handleSubjectUpdated = () => {
   setDocId(null);
   setSubjectUpdate(false)
   setDataChanged(true);
-  toast.success("Classes And Seaction Updated successfully");
 
 };
 

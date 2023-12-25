@@ -9,6 +9,7 @@ import {
   getStaffDataFromDatabase,
 } from "../../api/StaffManagement/AddNonTeachingStaff";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddNonTeachingStaff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +62,8 @@ const AddNonTeachingStaff = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
+
     }
   };
 

@@ -9,6 +9,7 @@ import {
 } from "../../api/AddHoliday/AddHoliday";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddStudent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +62,7 @@ const AddStudent = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
     }
   }
 

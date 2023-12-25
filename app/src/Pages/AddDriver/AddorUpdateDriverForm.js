@@ -8,6 +8,9 @@ import {
   updateDriverDataToDatabase,
 } from "../../api/TransportMaster/AddDriver";
 import { getAllVehiclesName } from "../../api/TransportMaster/AddVehicle";
+import { toast } from "react-toastify";
+
+
 const initialDriverData = {
   firstName: "",
   lastName: "",
@@ -32,7 +35,6 @@ const AddOrUpdateDriverForm = ({
   const [driverData, setDriverData] = useState(initialDriverData);
   const [error, setError] = useState(false);
   const [allotVechle, SetAllotVechle] = useState([]);
-  const [confirmationMessage, setConfirmationMessage] = useState(null);
 
   useEffect(() => {
     if (isModalOpen && isUpdateOn) {
@@ -86,34 +88,31 @@ const AddOrUpdateDriverForm = ({
   const handleUpdate = async () => {
     try {
       const response = await updateDriverDataToDatabase(DocId, driverData);
-
-      setConfirmationMessage(response.message);
+      toast.success(response.message);
       setDriverData(initialDriverData);
-      setTimeout(() => {
-        setConfirmationMessage(null);
-        setIsModalOpen(false);
-        handleDriverUpdated();
-      }, 2000); // Hide the message after 2 seconds
+      
     } catch (error) {
       console.error("Error updating subject data", error);
+    }
+    finally{
+      setIsModalOpen(false);
+      handleDriverUpdated();
     }
   };
 
   const handleAdd = async () => {
     try {
       const response = await addDriverDataToDb(driverData);
-
-      setConfirmationMessage(response.message);
-      alert(response.message);
+      toast.success(response.message);
       setDriverData(initialDriverData);
     } catch (error) {
       console.error("Error updating subject data", error);
     }
-    setTimeout(() => {
-      setConfirmationMessage(null);
+    finally{
       setIsModalOpen(false);
       handleDriverAdded();
-    }, 2000); // Hide the message after 2 seconds
+    }
+     
   };
 
   if (!isModalOpen) return null;
@@ -308,11 +307,7 @@ const AddOrUpdateDriverForm = ({
           </div>
         </form>
       </div>
-      {confirmationMessage && (
-        <div className="text-green-500 mt-4 text-center">
-          {confirmationMessage}
-        </div>
-      )}
+    
     </Modal>
   );
 };
