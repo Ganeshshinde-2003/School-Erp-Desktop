@@ -40,3 +40,36 @@
 .ov-sc {
   overflow: scroll;
 }
+
+.add-optional-sub-table {
+  display: table;
+}
+
+.add-class-btn {
+  padding: 5px 10px;
+  display: inline;
+  width: 85px;
+  height: 35px;
+}
+
+.timetable-edit-btn, .timetable-delete-btn {
+  width: 50px;
+  height: 20px;
+  font-size: 12px;
+}
+
+.option-btn-timetable{
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.timetable-title-padding{
+  padding: 5px 10px;
+  align-items: center;
+}
+
+.x-close-btn{
+  border-radius: 50%;
+  border: 1px solid;
+  padding: 5px;
+}

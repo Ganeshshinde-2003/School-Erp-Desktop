@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
-import TimetableModal from "./TimeTableModal";
+import TimetableModal from "../Pages/Timetable/TimeTableModal";
 
 import "./DynamicTable.css";
 import AddButton from "./AddButton";

@@ -74,7 +74,9 @@ export const addTimetable = async (data) => {
     };
 
     // Update the class document with the modified timetable data
-    await setDoc(timetableRef, {
+
+
+    await updateDoc(timetableRef, {
       ...classData,
       [day]: dayData,
     });
