@@ -73,3 +73,14 @@
   border: 1px solid;
   padding: 5px;
 }
+
+.modal-content-style-timetable{
+  min-width: 45vw;
+  min-height: 30vh;
+}
+
+.oval-styling-timetable{
+  position: absolute;
+  top: 50vh;
+    left: 50vw;
+}

@@ -47,9 +47,6 @@ const DatePicker = ({ minDate, maxDate }) => {
     return result;
   };
 
-<<<<<<< HEAD
-  const [selectedDate, setSelectedDate] = useState(null);
-=======
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceList, setAttendanceList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -89,7 +86,6 @@ const DatePicker = ({ minDate, maxDate }) => {
   useEffect(() => {
     fetchAttendanceList(selectedDate);
   }, [selectedDate]);
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
 
   const nextMonth = () => {
     if (currentMonth < 11) {
@@ -109,19 +105,6 @@ const DatePicker = ({ minDate, maxDate }) => {
     }
   };
 
-<<<<<<< HEAD
-  const handleSelectedDate = (event) => {
-    if (event.target.id === "day") {
-      setSelectedDate(
-        new Date(
-          currentYear,
-          currentMonth,
-          event.target.getAttribute("data-day")
-        )
-      );
-    }
-    console.log(selectedDate);
-=======
   const handleSelectedDate = async (event) => {
     setIsButtonDisabled(true);
     if (event.target.id === "day") {
@@ -132,57 +115,11 @@ const DatePicker = ({ minDate, maxDate }) => {
       setIsLoading(true);
       fetchAttendanceList(newSelectedDate);
     }
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
   };
 
   const getTimeFromState = (_day) => {
     return new Date(currentYear, currentMonth, _day).getTime();
   };
-<<<<<<< HEAD
-  return (
-    <div className="pickerWrapper">
-      <div className="headerDate">
-        <button
-          onClick={prevMonth}
-          disabled={minDate?.getTime() > getTimeFromState(1)}
-        >
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </button>
-        <p className="month-name">
-          {monthNames[currentMonth]} {currentYear}
-        </p>
-        <button
-          onClick={nextMonth}
-          disabled={
-            maxDate?.getTime() <
-            getTimeFromState(getNumberDaysInMonth(currentYear, currentMonth))
-          }
-        >
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-      </div>
-      <div className="bodyDate">
-        <div className="sevenColGrid">
-          {getSortedDays(currentYear, currentMonth).map((day) => (
-            <p className="month-days">{day}</p>
-          ))}
-        </div>
-        <div className="sevenColGrid" onClick={handleSelectedDate}>
-          {range(1, getNumberDaysInMonth(currentYear, currentMonth) + 1).map(
-            (day) => (
-              <p
-                id="day"
-                data-day={day}
-                className={`
-                  ${
-                    selectedDate?.getTime() ===
-                    new Date(currentYear, currentMonth, day).getTime()
-                      ? "active"
-                      : ""
-                  } 
-                  ${
-                    day === new Date().getDate()
-=======
 
   const handleAction = async (actionType, staffId) => {
     setIsButtonDisabled(false);
@@ -269,19 +206,10 @@ const DatePicker = ({ minDate, maxDate }) => {
                       : ""
                     } 
                   ${day === new Date().getDate()
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
                       ? currentMonth === new Date().getMonth()
                         ? "current-date"
                         : ""
                       : ""
-<<<<<<< HEAD
-                  }`}
-              >
-                {day}
-              </p>
-            )
-          )}
-=======
                     }`}
                 >
                   {day}
@@ -289,7 +217,6 @@ const DatePicker = ({ minDate, maxDate }) => {
               )
             )}
           </div>
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
         </div>
       </div>
       {isLoading ? (

@@ -8,8 +8,10 @@ import {
   getAllClassesAndSectionNames,
   getSubjectsByClassName,
 } from "../../api/ClassMaster/AddClassAndSection";
+import { FaLock } from "react-icons/fa";
 
 const UpdateTimetable = ({
+  handleDataChnage,
   isModalOpen,
   setIsModalOpen,
   day,
@@ -58,7 +60,7 @@ const UpdateTimetable = ({
     console.log(dataToShow);
     setDataToShowforthiscomponent(dataToShow);
     getSubjectNames(extractedSectionCode);
-  },[dataToShow]);
+  }, [dataToShow]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +74,7 @@ const UpdateTimetable = ({
     dataToShow[name] = value;
   };
 
+
   const handleUpdate = async () => {};
 
   const handleAdd = async () => {
@@ -81,7 +84,8 @@ const UpdateTimetable = ({
     } catch (error) {
       console.error("Error updating subject data", error);
     }
-    // setIsModalOpen(false);
+    setIsModalOpen(false);
+    handleDataChnage();
   };
 
   if (!isModalOpen) return null;
@@ -99,7 +103,19 @@ const UpdateTimetable = ({
       </h2>
       <div className="addTeacher-form">
         <form>
+          {isEditOn ? (
+            <div className="flex justify-between items-center">
+              <h3>
+                <b>{day}</b> from{" "}
+                <b>
+                  {startTime} - {endTime}
+                </b>{" "}
+              </h3>
+            </div>
+          ) : null}
           <div className="addTeacher-main-form subject-form">
+
+          {!isEditOn ?
             <div className="form-first">
               <label className="block text-sm font-medium text-gray-700">
                 Day
@@ -119,33 +135,36 @@ const UpdateTimetable = ({
                 <option value="Friday">Friday</option>
                 <option value="Saturday">Saturday</option>
                 <option value="Sunday">Sunday</option>
+              </select>
+              {isEditOn ? <FaLock /> : null}
+            </div>:null}
 
-
-      </select> 
-            </div>
             <div className="flex justify-between items-center">
-            <label className="block text-sm w-[200px] font-medium text-gray-700">
-            Subject
-          </label>
-            <select
-            name="subject"
-            value={dataToShowforthiscomponent?.subject}
-            onChange={handleInputChange}
-            className="mt-1 p-2 block w-[92%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            <option value="">--- Select ---</option>
-            {subjectsName.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-            </select>
+              <label className="block text-sm w-[200px] font-medium text-gray-700">
+                Subject
+              </label>
+              <select
+                name="subject"
+                value={dataToShowforthiscomponent?.subject}
+                onChange={handleInputChange}
+                className="mt-1 p-2 block w-[92%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="">--- Select ---</option>
+                {subjectsName.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            {!isEditOn ?
             <div className="flex justify-between items-center">
               <label className="block text-sm w-[200px] font-medium text-gray-700">
                 Start Time
               </label>
               <input
+                readOnly={isEditOn}
                 type="text"
                 rows="6"
                 placeholder="HH:MM am/pm"
@@ -154,12 +173,17 @@ const UpdateTimetable = ({
                 onChange={handleInputChange}
                 className="mt-1 p-2 block w-[92%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+
             </div>
+            :null}
+
+            {!isEditOn ?
             <div className="flex justify-between items-center">
               <label className="block text-sm w-[200px] font-medium text-gray-700">
                 End Time
               </label>
               <input
+                readOnly={isEditOn}
                 type="text"
                 placeholder="HH:MM am/pm"
                 rows="6"
@@ -168,7 +192,10 @@ const UpdateTimetable = ({
                 onChange={handleInputChange}
                 className="mt-1 p-2 block w-[92%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+
             </div>
+
+            :null}
           </div>
           <div className="add-subject-btn addTeacher-buttons">
             <button
