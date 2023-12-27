@@ -93,7 +93,7 @@ const AddTeacher = () => {
   };
 
   return (
-    <div className="mt-4 w-full ov-sc">
+    <div className="ml-4 mt-4 w-full ov-sc">
       <div className="mt-5 max-w-full">
         <div>
           {isLoading ? (

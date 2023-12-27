@@ -232,20 +232,22 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
   
     const tableData = [];
   
-    // Generate table rows
+
     for (const startTime of sortedStartTimes) {
-      const rowData = { startTime };
+      const rowData = { };
   
       // Populate data and add "Edit" and "Delete" buttons for each day
       for (const day of days) {
         const entry = timetableData[day] && timetableData[day][startTime];
         rowData[day] = entry ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 timetable-block-style justify-center">
             <div>
+            
               <b> &nbsp;{`${entry.subject}`}&nbsp;</b>
               <br></br>
+              <div className="timetable-timings-style">
               &nbsp;{`${entry.startTime} - ${entry.endTime}`}&nbsp;
-              <br></br>
+              </div>
               <div className="flex option-btn-timetable">
                 <FaEdit
                   onClick={() => handleEditButtonClick(day, entry.startTime, entry.endTime, entry.subject)}

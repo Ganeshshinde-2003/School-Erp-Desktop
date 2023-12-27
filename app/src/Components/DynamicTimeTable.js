@@ -83,12 +83,12 @@ const DynamicTimeTable = ({
       <tbody>
         {sortedData.map((row, rowIndex) => (
           <tr key={rowIndex} className={`h-[${rowHeight}px]`}>
-            <td className="py-2 px-4 border border-gray-300 text-center">
+            <td className="py-2 border border-gray-300 text-center">
               {siNo + rowIndex}
             </td>
             {columns.map((column) => (
               <td
-                className="py-2 px-4 border border-gray-300 text-center"
+                className="py-2 border border-gray-300 text-center"
                 key={column}
               >
                 {column === "Section" ? (
@@ -109,7 +109,7 @@ const DynamicTimeTable = ({
             ))}
             {action && (
               <td
-                className={`h-[${rowHeight}px] py-2 px-4 border border-gray-300 text-center`}
+                className={`h-[${rowHeight}px] py-2 border border-gray-300 text-center`}
               >
                 <div className="flex items-center justify-around">
                   <FaEdit
@@ -125,7 +125,7 @@ const DynamicTimeTable = ({
             )}
             {ispanding && (
               <td
-                className={`h-[${rowHeight}px] py-2 px-4 border border-gray-300 text-center`}
+                className={`h-[${rowHeight}px] py-2 border border-gray-300 text-center`}
               >
                 <div className="flex items-center justify-around">
                   <button
