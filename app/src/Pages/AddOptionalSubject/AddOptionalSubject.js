@@ -93,7 +93,7 @@ const AddOptionalSubject = () => {
   };
 
   return (
-    <div className="mt-4 w-full ov-sc">
+    <div className="ml-4 mt-4 w-full ov-sc">
       <div className="mt-5 max-w- min-w-full">
         <div className="flex justify-around">
           {isLoading ? ( // Display the loader while data is loading

@@ -107,6 +107,7 @@ const DatePicker = ({ minDate, maxDate }) => {
       setCurrentYear((prev) => prev - 1);
     }
   };
+
   const handleSelectedDate = async (event) => {
     setIsButtonDisabled(true);
     if (event.target.id === "day") {
@@ -122,6 +123,7 @@ const DatePicker = ({ minDate, maxDate }) => {
   const getTimeFromState = (_day) => {
     return new Date(currentYear, currentMonth, _day).getTime();
   };
+
   const handleAction = async (actionType, staffId) => {
     setIsButtonDisabled(false);
     if (actionType === "toggle") {

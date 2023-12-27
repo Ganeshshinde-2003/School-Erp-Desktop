@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 import Modal from "../../Components/Modal";
-import { getTimetableData } from "../../api/Timetable/Timetable";
+import { deleteTimetableEntry, getTimetableData } from "../../api/Timetable/Timetable";
 import DynamicTable from "../../Components/DynamicTable";
 import "../../App.css";
 import { FaEdit } from "react-icons/fa";
@@ -11,12 +11,15 @@ import { ImCross } from "react-icons/im";
 import { FaPlus } from "react-icons/fa";
 import UpdateTimetable from "./UpdateTImetable";
 import AddButton from "../../Components/AddButton";
+import AlertComponent from "../../Components/AlertComponent";
 
 
 function extractSectionCode(section) {
   const matches = section.match(/\d+[A-Z]/);
   return matches ? matches[0] : null;
 }
+
+
 
 const TimetableModal = ({ isOpen, closeModal, section }) => {
   const [timetableData, setTimetableData] = useState(null);
@@ -28,23 +31,50 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
   const [isEditOn, setIsEditOn] = useState(false);
   const [subject, setSubject] = useState(null);
   const [sectionCode, setSectionCode] = useState(section);
-  const [dataToShow, setDataToShow] = useState(null);
+  const [dataChanged, setDataChanged] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
+  const inticalData = {
+    className: extractSectionCode(section), // Provide a default value, empty string in this case
+    day: "", // Provide a default value
+    startTime: "", // Provide a default value
+    endTime: "", // Provide a default value
+    subject: "", // Provide a default value
+  };
+  const [dataToShow, setDataToShow] = useState(inticalData);
+
+
+
+
+
+  const fetchData = () => {
+    var className = extractSectionCode(section);
+    getTimetableData(className)
+      .then((data) => {
+        setTimetableData(data.timetableData);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching timetable data:", error);
+        setIsLoading(false);
+      });
+  };
+
 
   useEffect(() => {
-    if (section) {
       // Fetch timetable data for the selected section
-      var className = extractSectionCode(section);
-      getTimetableData(className)
-        .then((data) => {
-          setTimetableData(data.timetableData);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching timetable data:", error);
-          setIsLoading(false);
-        });
-    }
-  }, [section]);
+      fetchData();
+      console.log("======================timetable data ========================",timetableData)
+  },[section]);
+
+  if (dataChanged) {
+    fetchData();
+    setDataChanged(false);
+  }
+
+  const handleDataChnage = () => {
+    setDataChanged(true);
+  };
 
   const handleAddButtonClick = (day) => {
     // Handle logic for adding new entries for the specific day
@@ -81,89 +111,190 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
     console.log(`Edit button clicked for ${day} at ${startTime} - ${endTime} for ${subject}`);
   };
 
-  const handleDeleteButtonClick = (day, startTime) => {
-    // Handle logic for deleting the selected entry
-    console.log(`Delete button clicked for ${day} at ${startTime}`);
+  const handleDeleteButtonClick = async(day, startTime, endTime, subject) => {
+
+    setDay(day);
+    setStartTime(startTime);
+    setEndTime(endTime);
+    setSubject(subject);
+    setIsEditOn(true);
+    const data = {
+      className: extractSectionCode(section),
+      day: day,
+      startTime: startTime,
+      endTime: endTime,
+      subject: subject,
+    };
+    const res = await deleteTimetableEntry(data);
+    console.log(res.message);
+    
+    console.log(`Delete button clicked for ${day} at ${startTime}-${endTime} for ${subject}`);
+    setDataChanged(true);
   };
+
+  // const generateTable = () => {
+  //   if (!timetableData) {
+  //     return null;
+  //   }
+
+  //   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
+  //   const allStartTimes = Array.from(
+  //     new Set(
+  //       days
+  //         .flatMap((day) => Object.keys(timetableData[day] || {}))
+  //     )
+  //   );
+
+  //   const tableData = [];
+
+  //   // Generate table rows
+  //   for (const startTime of allStartTimes) {
+  //     const rowData = { startTime };
+
+  //     // Populate data and add "Edit" and "Delete" buttons for each day
+  //     for (const day of days) {
+  //       const entry = timetableData[day] && timetableData[day][startTime];
+  //       rowData[day] = entry ? (
+  //         <div className="flex items-center space-x-2">
+  //           <div>
+  //            <b> &nbsp;{`${entry.subject}`}&nbsp;</b>
+  //             <br></br>
+  //             &nbsp;{`${entry.startTime} - ${entry.endTime}`}&nbsp;
+  //             <br></br>
+  //             <div className="flex option-btn-timetable">
+  //             <FaEdit
+  //             onClick={() => handleEditButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
+  //             className="cursor-pointer text-blue-500 mr-2"
+  //           />
+  //           <ImCross
+  //           onClick={() => handleDeleteButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
+  //             className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-red-500 p-1"
+  //           />
+         
+  //             </div>
+  //           </div>
+  //         </div>
+  //       ) : "";
+
+  //     }
+
+  //     tableData.push(rowData);
+  //   }
+
+  //   // Add a row with "+" buttons under each day
+  //   const addButtonsRow = {
+  //     startTime: (
+  //       <div className="flex items-center justify-center">
+  //         {/* <button className="bg-green-500 text-white px-5 py-1 rounded-full" onClick={() => handleAddButtonClick("all")}>
+  //           + Add Class
+  //         </button> */}
+  //       </div>
+  //     ),
+  //     ...days.reduce((acc, day) => {
+  //       acc[day] = (
+  //           <button className="bg-black text-white px-2 py-1 rounded-full text-sm add-class-btn" onClick={() => handleAddButtonClick(day)}>
+  //           <div
+  //           className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center absolute"
+            
+  //         >
+  //           <FaPlus className="w-4 h-4 text-white" />
+  //         </div>
+  //         <span style={{ marginLeft: "15px" }}>Add</span>
+  //           </button>
+  //       );
+  //       return acc;
+  //     }, {}),
+  //   };
+
+  //   tableData.push(addButtonsRow);
+
+  //   return tableData;
+  // };
 
   const generateTable = () => {
     if (!timetableData) {
       return null;
     }
-
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
+  
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const allStartTimes = Array.from(
       new Set(
-        days
-          .flatMap((day) => Object.keys(timetableData[day] || {}))
+        days.flatMap((day) => Object.keys(timetableData[day] || {}))
       )
     );
-
+  
+    // Sort start times
+    const sortedStartTimes = allStartTimes.sort((a, b) => {
+      const aDate = new Date(`2000-01-01 ${a}`);
+      const bDate = new Date(`2000-01-01 ${b}`);
+      return aDate - bDate;
+    });
+  
     const tableData = [];
+  
 
-    // Generate table rows
-    for (const startTime of allStartTimes) {
-      const rowData = { startTime };
-
+    for (const startTime of sortedStartTimes) {
+      const rowData = { };
+  
       // Populate data and add "Edit" and "Delete" buttons for each day
       for (const day of days) {
         const entry = timetableData[day] && timetableData[day][startTime];
         rowData[day] = entry ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 timetable-block-style justify-center">
             <div>
-             <b> &nbsp;{`${entry.subject}`}&nbsp;</b>
+            
+              <b> &nbsp;{`${entry.subject}`}&nbsp;</b>
               <br></br>
+              <div className="timetable-timings-style">
               &nbsp;{`${entry.startTime} - ${entry.endTime}`}&nbsp;
-              <br></br>
+              </div>
               <div className="flex option-btn-timetable">
-              <FaEdit
-              onClick={() => handleEditButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
-              className="cursor-pointer text-blue-500 mr-2"
-            />
-            <ImCross
-            onClick={() => handleDeleteButtonClick(day, startTime)}
-              className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-red-500 p-1"
-            />
-         
+                <FaEdit
+                  onClick={() => handleEditButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
+                  className="cursor-pointer text-blue-500 mr-2"
+                />
+                <ImCross
+                  onClick={() => handleDeleteButtonClick(day, entry.startTime, entry.endTime, entry.subject)}
+                  className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-red-500 p-1"
+                />
               </div>
             </div>
           </div>
         ) : "";
-
       }
-
+  
       tableData.push(rowData);
     }
-
+  
     // Add a row with "+" buttons under each day
     const addButtonsRow = {
       startTime: (
         <div className="flex items-center justify-center">
           {/* <button className="bg-green-500 text-white px-5 py-1 rounded-full" onClick={() => handleAddButtonClick("all")}>
-            + Add Class
-          </button> */}
+              + Add Class
+            </button> */}
         </div>
       ),
       ...days.reduce((acc, day) => {
         acc[day] = (
-            <button className="bg-black text-white px-2 py-1 rounded-full text-sm add-class-btn" onClick={() => handleAddButtonClick(day)}>
+          <button className="bg-black text-white px-2 py-1 rounded-full text-sm add-class-btn" onClick={() => handleAddButtonClick(day)}>
             <div
-            className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center absolute"
-            
-          >
-            <FaPlus className="w-4 h-4 text-white" />
-          </div>
-          <span style={{ marginLeft: "15px" }}>Add</span>
-            </button>
+              className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center absolute"
+            >
+              <FaPlus className="w-4 h-4 text-white" />
+            </div>
+            <span style={{ marginLeft: "15px" }}>Add</span>
+          </button>
         );
         return acc;
       }, {}),
     };
-
+  
     tableData.push(addButtonsRow);
-
+  
     return tableData;
   };
+  
 
   const handleUpdateTimetable = () => {
     setDataChanged(true);
@@ -175,12 +306,27 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
   };
 
   return (
+    <>
+    {isLoading ? (
+      <div className="oval-styling-timetable">
+      <Oval
+      height={40}
+      width={40}
+      color="#333333"
+      wrapperStyle={{ textAlign: "center" }}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#B5B5B5"
+      strokeWidth={2}
+      strokeWidthSecondary={2}
+    /> </div>): (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Timetable Modal"
     >
-      <div className="modal-content">
+      <div className="modal-content modal-content-style-timetable">
      {!isLoading? <span className="flex justify-between timetable-title-padding">
      <h2><b>Timetable for {section}</b></h2> 
      <ImCross
@@ -212,10 +358,14 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
             />
           </React.Fragment>
         ) : (
-          <AddButton buttonText={"Add Timetable"} onClickButton={openModal} />
+          <AddButton buttonText={"Add Timetable"} onClickButton={openModal}  buttonStyle={{
+            top: "9vh",
+            left: "13vw",
+          }}  />
         )}
       </div>
       <UpdateTimetable
+      handleDataChnage={handleDataChnage}
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
       day={day}
@@ -230,7 +380,10 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
       dataToShow={dataToShow}
       sectionCode={sectionCode}
     />
-    </Modal>
+    
+              </Modal>)
+    }
+    </>
   );
 };
 

@@ -61,6 +61,7 @@
 .option-btn-timetable{
   align-items: center;
   justify-content: space-evenly;
+  margin-top: 10px;
 }
 
 .timetable-title-padding{
@@ -72,4 +73,23 @@
   border-radius: 50%;
   border: 1px solid;
   padding: 5px;
+}
+
+.modal-content-style-timetable{
+  min-width: 45vw;
+  min-height: 30vh;
+}
+
+.oval-styling-timetable{
+  position: absolute;
+  top: 50vh;
+    left: 50vw;
+}
+
+.timetable-block-style {
+  /* width: 180px; */
+}
+
+.timetable-timings-style {
+  white-space: nowrap;
 }

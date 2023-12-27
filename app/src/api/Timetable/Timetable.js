@@ -54,8 +54,13 @@ export const getTimetableTable = async () => {
   }
 };
 
-export const addTimetable = async (data) => {
-  const { className, subject, startTime, endTime, day } = data;
+export const deleteTimetableEntry = async ({
+  className,
+  day,
+  startTime,
+  endTime,
+  subject,
+}) => {
   const timetableRef = doc(db, "Timetable", className);
 
   try {
@@ -63,8 +68,58 @@ export const addTimetable = async (data) => {
     const classDocSnapshot = await getDoc(timetableRef);
     const classData = classDocSnapshot.data() || {};
 
+    // Check if the day and startTime exist in the timetable data
+    if (
+      classData[day] &&
+      classData[day][startTime] &&
+      classData[day][startTime].endTime === endTime &&
+      classData[day][startTime].subject === subject
+    ) {
+      // Delete the timetable entry for the specified day and startTime
+      delete classData[day][startTime];
+
+      // Update the class document with the modified timetable data
+      await updateDoc(timetableRef, classData);
+
+      console.log("Timetable entry deleted successfully");
+      return {
+        status: true,
+        message: "Timetable entry deleted successfully",
+      };
+    } else {
+      console.log("Timetable entry not found");
+      return {
+        status: false,
+        message: "Timetable entry not found",
+      };
+    }
+  } catch (error) {
+    console.error("Error deleting timetable entry:", error);
+    return {
+      status: false,
+      message: "Error deleting timetable entry",
+    };
+  }
+};
+
+export const addTimetable = async (data) => {
+  const { className, subject, startTime, endTime, day } = data;
+  const timetableRef = doc(db, "Timetable", className);
+
+  try {
+    // Check if the class document exists
+    const classDocSnapshot = await getDoc(timetableRef);
+    
+    if (!classDocSnapshot.exists()) {
+      // Create the class document if it doesn't exist
+      await setDoc(timetableRef, {});
+    }
+
+    // Get the current timetable data for the class
+    const classDocData = classDocSnapshot.data() || {};
+
     // Get the current timetable data for the specified day
-    const dayData = classData[day] || {};
+    const dayData = classDocData[day] || {};
 
     // Update the day data with the new timetable entry
     dayData[startTime] = {
@@ -74,10 +129,8 @@ export const addTimetable = async (data) => {
     };
 
     // Update the class document with the modified timetable data
-
-
     await updateDoc(timetableRef, {
-      ...classData,
+      ...classDocData,
       [day]: dayData,
     });
 
