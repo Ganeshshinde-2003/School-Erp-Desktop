@@ -8,6 +8,7 @@ import {
 } from "../../api/ClassMaster/AddOptionalSubject";
 import "./AddOptionalSubject.css";
 import "../AddTeacher/AddTeacherForm.css";
+import { toast } from "react-toastify";
 
 const AddOrUpdateOptionalSubjectForm = ({
   isUpdateOn,
@@ -42,6 +43,7 @@ const AddOrUpdateOptionalSubjectForm = ({
       }
     } catch (error) {
       console.error("Error fetching subject data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -64,7 +66,7 @@ const AddOrUpdateOptionalSubjectForm = ({
         subjectName: "",
         subjectCode: "",
       });
-
+      toast.success(response.message);
       setTimeout(() => {
         setConfirmationMessage(null);
         setIsModalOpen(false);
@@ -87,7 +89,7 @@ const AddOrUpdateOptionalSubjectForm = ({
           subjectName: "",
           subjectCode: "",
         });
-
+        toast.success(response.message);
         // Show a confirmation message
         if (response.status) {
           setConfirmationMessage(response.message);

@@ -11,6 +11,7 @@ import AddButton from "../../Components/AddButton";
 import AddVehicleForm from "./AdOrUpdateVehicleForm";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddVehicle = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +31,7 @@ const AddVehicle = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };
@@ -46,30 +48,30 @@ const AddVehicle = () => {
   };
 
   useEffect(() => {
-    fetchData(); 
+    fetchData();
   }, []);
 
   if (dataChanged) {
-    fetchData(); 
+    fetchData();
     setDataChanged(false);
   }
 
-  const onConfirm = async ()=>{
+  const onConfirm = async () => {
     const response = await deleteVehicleData(docId);
     console.log("Delete document with ID:", docId);
     if (response.status) {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
-  }
-}
+      toast.success(response.message);
+    }
+  };
 
   const onCancel = () => {
-  setDocId(null);
-  setShowDeleteAlert(false);
+    setDocId(null);
+    setShowDeleteAlert(false);
+  };
 
-};
-  
   const openModal = () => {
     setIsModalOpen(true);
     setDocId(null);
@@ -79,7 +81,7 @@ const AddVehicle = () => {
   const handleVehicleAdded = () => {
     setTimeout(() => {
       setDataChanged(true);
-    }, 2000); 
+    }, 2000);
   };
 
   const handleVehicleUpdated = () => {
@@ -137,7 +139,7 @@ const AddVehicle = () => {
         DocId={docId}
         isUpdateOn={vehicleUpdate}
       />
-        {showDeleteAlert && (
+      {showDeleteAlert && (
         <AlertComponent onConfirm={onConfirm} onCancel={onCancel} />
       )}
     </div>

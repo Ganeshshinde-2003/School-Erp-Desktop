@@ -29,6 +29,9 @@ import SearchDetailsShow from "./Pages/SearchDetailsShow/SearchDetailsShow.js";
 import PutAttendance from "./Pages/PutAttendance/PutAttendance.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import CoreSettings from "./Pages/CoreSettings/CoreSettings.js";
+import Templates from "./Pages/Templates/Templates.js";
+import Users from "./Pages/Users/Users.js";
 
 const App = () => {
   return (
@@ -134,11 +137,15 @@ const App = () => {
             />
             <Route path="/exam-addition/add-exam" element={<AddExams />} />
             <Route path="/searchresult/:id" element={<SearchDetailsShow />} />
-            
+            <Route
+              path="/core-functions/core-settings"
+              element={<CoreSettings />}
+            />
+            <Route path="/core-functions/templates" element={<Templates />} />
+            <Route path="/core-functions/users" element={<Users />} />
           </Routes>
         </div>
         <ToastContainer position="top-right" />
-
       </div>
     </BrowserRouter>
   );

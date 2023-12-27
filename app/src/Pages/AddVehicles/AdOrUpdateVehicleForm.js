@@ -9,6 +9,7 @@ import {
   getAllVehiclesName,
 } from "../../api/TransportMaster/AddVehicle";
 import { getAllTransportSlabs } from "../../api/TransportMaster/AddStopAndFees";
+import { toast } from "react-toastify";
 
 const initialVehicleData = {
   vehicleName: "",
@@ -55,6 +56,7 @@ const AddVehicleForm = ({
       }
     } catch (error) {
       console.error("Error fetching vehicle data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -83,6 +85,7 @@ const AddVehicleForm = ({
 
       setConfirmationMessage(response.message);
       setVehicleData(initialVehicleData);
+      toast.success(response.message);
       setTimeout(() => {
         setConfirmationMessage(null);
         setIsModalOpen(false);
@@ -99,6 +102,7 @@ const AddVehicleForm = ({
 
       setConfirmationMessage(response.message);
       setVehicleData(initialVehicleData);
+      toast.success(response.message);
     } catch (error) {
       console.error("Error adding vehicle data", error);
     }
@@ -190,10 +194,7 @@ const AddVehicleForm = ({
         </form>
       </div>
       <div className="addTeacher-buttons">
-        <button
-          type="button"
-          onClick={isUpdateOn ? handleUpdate : handleAdd}
-        >
+        <button type="button" onClick={isUpdateOn ? handleUpdate : handleAdd}>
           {isUpdateOn ? "Update" : "Add"}
         </button>
         <button
@@ -212,7 +213,7 @@ const AddVehicleForm = ({
           {confirmationMessage}
         </div>
       )}
-    </Modal >
+    </Modal>
   );
 };
 

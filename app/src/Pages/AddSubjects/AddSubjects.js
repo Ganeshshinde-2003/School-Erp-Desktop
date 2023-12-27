@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
-import AlertComponent from "../../Components/AlertComponent"
+import AlertComponent from "../../Components/AlertComponent";
 import AddButton from "../../Components/AddButton";
 import {
   getSubjectDataFromDb,
@@ -11,6 +11,7 @@ import {
 import { Oval } from "react-loader-spinner";
 import AddOrUpdateSubjectForm from "./AddOrUpdateSubjectForm ";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +31,7 @@ const AddSubject = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };
@@ -49,7 +51,6 @@ const AddSubject = () => {
       setSubjectUpdate(true);
       setDocId(documentId);
       setIsModalOpen(true);
-
     } else if (actionType === "delete") {
       setShowDeleteAlert(true);
       setDocId(documentId);
@@ -64,13 +65,13 @@ const AddSubject = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
     }
-  }
+  };
 
   const onCancel = () => {
     setDocId(null);
     setShowDeleteAlert(false);
-
   };
   const openModal = () => {
     console.log("Open modal");
@@ -88,8 +89,6 @@ const AddSubject = () => {
     setSubjectUpdate(false);
     setDataChanged(true);
   };
-
-
 
   return (
     <div className="mt-4 w-full ov-sc">
@@ -141,7 +140,6 @@ const AddSubject = () => {
       {showDeleteAlert && (
         <AlertComponent onConfirm={onConfirm} onCancel={onCancel} />
       )}
-
     </div>
   );
 };

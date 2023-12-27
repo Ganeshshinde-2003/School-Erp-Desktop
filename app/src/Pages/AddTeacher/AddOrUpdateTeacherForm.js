@@ -12,6 +12,7 @@ import {
   getAllClassesAndSectionNames,
   getSubjectsByClassName,
 } from "../../api/ClassMaster/AddClassAndSection";
+import { toast } from "react-toastify";
 
 const AddOrUpdateTeacherForm = ({
   isUpdateOn,
@@ -128,6 +129,7 @@ const AddOrUpdateTeacherForm = ({
       }
     } catch (error) {
       console.error("Error fetching teacher data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -222,7 +224,7 @@ const AddOrUpdateTeacherForm = ({
       setConfirmationMessage(response.message);
 
       setTeacherData(inticalteacherData);
-
+      toast.success(response.message);
       setTimeout(() => {
         setConfirmationMessage(null);
         setIsModalOpen(false);
@@ -239,6 +241,7 @@ const AddOrUpdateTeacherForm = ({
       const response = await addTeacherToDatabase(teacherData);
       setTeacherData(inticalteacherData);
       setConfirmationMessage(response.message);
+      toast.success(response.message);
     } catch (error) {
       console.error("Error adding teacher data", error);
     }

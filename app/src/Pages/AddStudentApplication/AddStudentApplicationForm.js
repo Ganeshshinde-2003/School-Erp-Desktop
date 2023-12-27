@@ -3,7 +3,7 @@ import Modal from "../../Components/Modal";
 import Alert from "@mui/material/Alert";
 import "../AddTeacher/AddTeacherForm.css";
 import "./AddStudentApplication.css";
-
+import { toast } from "react-toastify";
 import {
   addStudentByApplicationToDatabase,
   getApplicantStudentFromDatabase,
@@ -46,7 +46,7 @@ const AddStudentForm = ({ isModalOpen, setIsModalOpen }) => {
 
     console.log(response);
     setIsModalOpen(false);
-
+    toast.success(response.message);
     setFormData({
       applicationNo: "",
       firstName: "",

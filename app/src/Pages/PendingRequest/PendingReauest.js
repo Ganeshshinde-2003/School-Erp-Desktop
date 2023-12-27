@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable.js";
-import { deleteStudent, getApplicantStudentDataFromDd, getApplicantStudentFromDatabase } from "../../api/StudentMaster/AddStudentByApplication.js"; // Replace with the correct path
+import {
+  deleteStudent,
+  getApplicantStudentDataFromDd,
+  getApplicantStudentFromDatabase,
+} from "../../api/StudentMaster/AddStudentByApplication.js"; // Replace with the correct path
 import { Oval } from "react-loader-spinner";
 import AddButton from "../../Components/AddButton.js";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AlertComponent from "../../Components/AlertComponent.js";
 import { addStudentDirectlyToDatabase } from "../../api/StudentMaster/AddStudentDirectly.js";
 import AddOrUpdateStudentForm from "../AddStudentsDirectly/AddOrUpdateStudentForm .js";
@@ -17,9 +21,8 @@ const PendingRequest = () => {
   const [dataChanged, setDataChanged] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [docId, setDocId] = useState("");
-  const [alertmsg,setAlertmsg] = useState(false);
+  const [alertmsg, setAlertmsg] = useState(false);
   const navigate = useNavigate();
-
 
   const fetchData = () => {
     getApplicantStudentFromDatabase()
@@ -30,6 +33,7 @@ const PendingRequest = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
         setIsLoading(false);
+        toast.error("Error fetching data");
       });
   };
 
@@ -38,76 +42,74 @@ const PendingRequest = () => {
   }, []);
 
   if (dataChanged) {
-    fetchData(); 
+    fetchData();
     setDataChanged(false);
   }
   const onCancel = () => {
     setDocId(null);
     setShowDeleteAlert(false);
-
   };
-  const handleAction =async (actionType, documentId) => {
-
+  const handleAction = async (actionType, documentId) => {
     console.log(`Action: ${actionType}, Document ID: ${documentId}`);
     if (actionType === "approve") {
       setAlertmsg(false);
       setShowDeleteAlert(true);
       setDocId(documentId);
-     
       // navigate('/student-master/add-student');
-
-    } 
-    else if (actionType === "disapprove") {
+    } else if (actionType === "disapprove") {
       setAlertmsg(true);
       setShowDeleteAlert(true);
       setDocId(documentId);
-
     }
+  };
 
-  }
-
-  const onConfirm = async ()=>{
-    if(alertmsg){
+  const onConfirm = async () => {
+    if (alertmsg) {
       const response = await deleteStudent(docId);
       console.log("Delete document with ID:", docId);
       if (response.status) {
         setDocId(null);
         setDataChanged(true);
       }
-    }
-    else {
+      toast.success(response.message);
+    } else {
       console.log("Approved document with ID:", docId);
       const response = await getApplicantStudentDataFromDd(docId);
       console.log(response);
-    
-      const { firstName, lastName, mobileNo, joiningClass,dob,aadharNo,previousschoolTCNo} = response;
-    
+
+      const {
+        firstName,
+        lastName,
+        mobileNo,
+        joiningClass,
+        dob,
+        aadharNo,
+        previousschoolTCNo,
+      } = response;
+
       const studentDataObject = {
         firstName,
         lastName,
         mobileNo,
         joiningClass,
-      
+
         personalDetails: {
           dob,
           aadharNo,
         },
-      
-        addressDetails: {
-        },
-      
-        takeAdmissionfees: {
-        },
-       
-        demography: {
-        },
-      
+
+        addressDetails: {},
+
+        takeAdmissionfees: {},
+
+        demography: {},
+
         studentHistory: {
           previousschoolTCNo,
         },
-        optionalSubjects:[]
+        optionalSubjects: [],
       };
-      console.log("studentObject",studentDataObject);
+      console.log("studentObject", studentDataObject);
       const deleted = await deleteStudent(docId);
       console.log("Delete document:", deleted);
 
@@ -120,18 +122,18 @@ const PendingRequest = () => {
       // navigate('/student-master/add-student');
     }
     setShowDeleteAlert(false);
-  }
+  };
 
-  const handleStudentUpdated=()=>{
+  const handleStudentUpdated = () => {
     setDocId(null);
     console.log(" document updated with ID:");
     setDataChanged(true);
-  }
+  };
 
-  const handleStudentAdded=()=>{
+  const handleStudentAdded = () => {
     console.log(" document added with ID:");
     setDataChanged(true);
-  }
+  };
 
   return (
     <div className="mt-4 w-full ov-sc">
@@ -153,7 +155,7 @@ const PendingRequest = () => {
           ) : (
             <div className="add-optional-sub-table">
               <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-              Pending Admission Requests
+                Pending Admission Requests
               </h1>
               <DynamicTable
                 data={studentData}
@@ -163,9 +165,7 @@ const PendingRequest = () => {
                 handleAction={handleAction}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
-                <AddButton
-                  buttonText={"Add students"}
-                />
+                <AddButton buttonText={"Add students"} />
               </p>
             </div>
           )}
@@ -173,15 +173,19 @@ const PendingRequest = () => {
       </div>
       {showDeleteAlert && (
         <AlertComponent
-        onConfirm={onConfirm} 
-        onCancel={onCancel} 
-        alertMessage={alertmsg? "Are you sure to not to permit this student to allow to admit?":"Are you sure to permit this student to allow to admit?"}
-        cnfBttonText={alertmsg?"Disapprove":"Approve"}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          alertMessage={
+            alertmsg
+              ? "Are you sure to not to permit this student to allow to admit?"
+              : "Are you sure to permit this student to allow to admit?"
+          }
+          cnfBttonText={alertmsg ? "Disapprove" : "Approve"}
         />
       )}
 
       <AddOrUpdateStudentForm
-        isModalOpen={isModalOpen} 
+        isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleStudentAdded={handleStudentAdded}
         handleStudentUpdated={handleStudentUpdated}
@@ -192,4 +196,4 @@ const PendingRequest = () => {
   );
 };
 
-export default  PendingRequest;
+export default PendingRequest;

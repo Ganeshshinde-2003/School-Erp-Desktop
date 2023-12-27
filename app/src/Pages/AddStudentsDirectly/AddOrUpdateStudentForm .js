@@ -12,6 +12,8 @@ import { getAllOptionalSubjectsName } from "../../api/ClassMaster/AddOptionalSub
 import { getAllTransportSlabs } from "../../api/TransportMaster/AddStopAndFees";
 import { getAllFeeSlab } from "../../api/FeeStructure/AddFeeSlab";
 import { getAllclassNames } from "../../api/ClassMaster/AddClassAndSection";
+import { toast } from "react-toastify";
+
 const initialStudentData = {
   studentId: "",
   firstName: "",
@@ -252,6 +254,7 @@ const AddOrUpdateStudentForm = ({
       const response = await addStudentDirectlyToDatabase(studentData);
       setConfirmationMessage(response.message);
       setStudentData(initialStudentData);
+      toast.success(response.message);
     } catch (error) {
       console.error("Error updating subject data", error);
     }

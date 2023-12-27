@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner"; // Assuming you are using the Oval component for loading
 import "../Pages/PutAttendance/PutAttendancs.css";
-import { getAttendanceList, storeStaffAttendance } from "../api/StaffAttendance/StaffAttendance";
+import {
+  getAttendanceList,
+  storeStaffAttendance,
+} from "../api/StaffAttendance/StaffAttendance";
 import DynamicTable from "./DynamicTable";
 import { toast } from "react-toastify";
 
@@ -47,13 +50,10 @@ const DatePicker = ({ minDate, maxDate }) => {
     return result;
   };
 
-<<<<<<< HEAD
-  const [selectedDate, setSelectedDate] = useState(null);
-=======
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceList, setAttendanceList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [attendanceData,setAttendanceData]=useState({});
+  const [attendanceData, setAttendanceData] = useState({});
 
   const formatToYYYYMMDD = (date) => {
     const year = date.getFullYear();
@@ -89,7 +89,6 @@ const DatePicker = ({ minDate, maxDate }) => {
   useEffect(() => {
     fetchAttendanceList(selectedDate);
   }, [selectedDate]);
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
 
   const nextMonth = () => {
     if (currentMonth < 11) {
@@ -108,20 +107,6 @@ const DatePicker = ({ minDate, maxDate }) => {
       setCurrentYear((prev) => prev - 1);
     }
   };
-
-<<<<<<< HEAD
-  const handleSelectedDate = (event) => {
-    if (event.target.id === "day") {
-      setSelectedDate(
-        new Date(
-          currentYear,
-          currentMonth,
-          event.target.getAttribute("data-day")
-        )
-      );
-    }
-    console.log(selectedDate);
-=======
   const handleSelectedDate = async (event) => {
     setIsButtonDisabled(true);
     if (event.target.id === "day") {
@@ -132,58 +117,11 @@ const DatePicker = ({ minDate, maxDate }) => {
       setIsLoading(true);
       fetchAttendanceList(newSelectedDate);
     }
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
   };
 
   const getTimeFromState = (_day) => {
     return new Date(currentYear, currentMonth, _day).getTime();
   };
-<<<<<<< HEAD
-  return (
-    <div className="pickerWrapper">
-      <div className="headerDate">
-        <button
-          onClick={prevMonth}
-          disabled={minDate?.getTime() > getTimeFromState(1)}
-        >
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </button>
-        <p className="month-name">
-          {monthNames[currentMonth]} {currentYear}
-        </p>
-        <button
-          onClick={nextMonth}
-          disabled={
-            maxDate?.getTime() <
-            getTimeFromState(getNumberDaysInMonth(currentYear, currentMonth))
-          }
-        >
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-      </div>
-      <div className="bodyDate">
-        <div className="sevenColGrid">
-          {getSortedDays(currentYear, currentMonth).map((day) => (
-            <p className="month-days">{day}</p>
-          ))}
-        </div>
-        <div className="sevenColGrid" onClick={handleSelectedDate}>
-          {range(1, getNumberDaysInMonth(currentYear, currentMonth) + 1).map(
-            (day) => (
-              <p
-                id="day"
-                data-day={day}
-                className={`
-                  ${
-                    selectedDate?.getTime() ===
-                    new Date(currentYear, currentMonth, day).getTime()
-                      ? "active"
-                      : ""
-                  } 
-                  ${
-                    day === new Date().getDate()
-=======
-
   const handleAction = async (actionType, staffId) => {
     setIsButtonDisabled(false);
     if (actionType === "toggle") {
@@ -197,7 +135,7 @@ const DatePicker = ({ minDate, maxDate }) => {
           }
           return staff;
         });
-  
+
         const updatedAttendanceList = attendanceList.map((entry) => {
           if (entry.EmpId === staffId) {
             return {
@@ -216,13 +154,11 @@ const DatePicker = ({ minDate, maxDate }) => {
       });
     }
   };
-  
-  
 
-  const handleSaveAttendence = async()=>{
+  const handleSaveAttendence = async () => {
     const response = await storeStaffAttendance(attendanceData);
     console.log(response.message);
-  }
+  };
 
   return (
     <div className="flex flex-col w-full items-center">
@@ -263,33 +199,25 @@ const DatePicker = ({ minDate, maxDate }) => {
                   id="day"
                   data-day={day}
                   className={`
-                  ${selectedDate?.getTime() ===
-                      new Date(currentYear, currentMonth, day).getTime()
+                  ${
+                    selectedDate?.getTime() ===
+                    new Date(currentYear, currentMonth, day).getTime()
                       ? "active"
                       : ""
-                    } 
-                  ${day === new Date().getDate()
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
+                  } 
+                  ${
+                    day === new Date().getDate()
                       ? currentMonth === new Date().getMonth()
                         ? "current-date"
                         : ""
                       : ""
-<<<<<<< HEAD
                   }`}
-              >
-                {day}
-              </p>
-            )
-          )}
-=======
-                    }`}
                 >
                   {day}
                 </p>
               )
             )}
           </div>
->>>>>>> 8aab953e5ce37e42d9717ef6d18413c90d8171eb
         </div>
       </div>
       {isLoading ? (
@@ -320,17 +248,17 @@ const DatePicker = ({ minDate, maxDate }) => {
           />
           <p className="h-16 text-center font-bold text-white flex items-center justify-center">
             <button
-            type="button"
+              type="button"
               disabled={isButtonDisabled}
               style={{
-                cursor: isButtonDisabled ? 'not-allowed' : 'pointer',
-    
+                cursor: isButtonDisabled ? "not-allowed" : "pointer",
               }}
               onClick={handleSaveAttendence}
               className={`cursor-pointer text-white font-semibold rounded px-3 py-1 mr-2 ${
                 isButtonDisabled ? "bg-gray-500" : "bg-black"
-              }`}>
-             Save Attendence
+              }`}
+            >
+              Save Attendence
             </button>
           </p>
         </div>
@@ -338,7 +266,5 @@ const DatePicker = ({ minDate, maxDate }) => {
     </div>
   );
 };
-
-
 
 export default DatePicker;

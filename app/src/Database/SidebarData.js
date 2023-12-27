@@ -344,7 +344,7 @@ export const SidebarData = [
     ],
   },
   {
-    title: "Promote Students",
+    title: "Core Functions",
     custonIcons: (
       <img
         src="assets/icons/15promotestudent.png"
@@ -357,8 +357,18 @@ export const SidebarData = [
 
     subNav: [
       {
-        title: "Add driver",
-        path: "/teacher-master/add-teacher",
+        title: "Core Settings",
+        path: "/core-functions/core-settings",
+        cName: "sub-nav",
+      },
+      {
+        title: "Templates",
+        path: "/core-functions/templates",
+        cName: "sub-nav",
+      },
+      {
+        title: "Users",
+        path: "/core-functions/users",
         cName: "sub-nav",
       },
     ],

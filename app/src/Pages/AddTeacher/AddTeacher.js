@@ -12,6 +12,7 @@ import {
 import AlertComponent from "../../Components/AlertComponent";
 import { getSubjectsByClassName } from "../../api/ClassMaster/AddClassAndSection";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddTeacher = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,6 +33,7 @@ const AddTeacher = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };
@@ -67,6 +69,7 @@ const AddTeacher = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
     }
   };
 

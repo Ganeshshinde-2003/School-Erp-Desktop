@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
 import AddButton from "../../Components/AddButton";
-import { Oval } from 'react-loader-spinner';
-import {  deleteClassAndSectionsData,  getClassAndSectionsDatabase } from "../../api/ClassMaster/AddClassAndSection";
+import { Oval } from "react-loader-spinner";
+import {
+  deleteClassAndSectionsData,
+  getClassAndSectionsDatabase,
+} from "../../api/ClassMaster/AddClassAndSection";
 import AddOrUpdateClassAndSectionForm from "./AddOrUpdateClassAndSectionForm ";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
@@ -13,7 +16,7 @@ const AddClassAndSubject = () => {
   const [subjectUpdate, setSubjectUpdate] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
-  const [subjectData, setSubjectData] = useState([]); 
+  const [subjectData, setSubjectData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataChanged, setDataChanged] = useState(false);
   const [docId, setDocId] = useState(null);
@@ -28,7 +31,7 @@ const AddClassAndSubject = () => {
         console.error("Error fetching data:", error);
         toast.error("Error fetching data");
         setIsLoading(false);
-      })
+      });
   };
 
   useEffect(() => {
@@ -36,28 +39,24 @@ const AddClassAndSubject = () => {
   }, []);
 
   if (dataChanged) {
-      fetchData(); // Refetch data when dataChanged is true
-      setDataChanged(false);
-    }
+    fetchData(); // Refetch data when dataChanged is true
+    setDataChanged(false);
+  }
 
-    
   const handleAction = async (actionType, documentId) => {
-    
-    if (actionType === 'edit') {
-      console.log('edit ocument with ID:', documentId);
-      setSubjectUpdate(true)
+    if (actionType === "edit") {
+      console.log("edit ocument with ID:", documentId);
+      setSubjectUpdate(true);
       setDocId(documentId);
       console.log(docId);
       setIsModalOpen(true);
-     
-    } else if (actionType === 'delete') {
+    } else if (actionType === "delete") {
       setShowDeleteAlert(true);
       setDocId(documentId);
     }
   };
 
-
-  const onConfirm = async ()=>{
+  const onConfirm = async () => {
     console.log("handle delete");
     const response = await deleteClassAndSectionsData(docId);
     console.log("Delete document with ID:", docId);
@@ -66,81 +65,80 @@ const AddClassAndSubject = () => {
       setDocId(null);
       setShowDeleteAlert(false);
       toast.success(response.message);
+    }
+  };
 
-  }
-}
+  const onCancel = () => {
+    setDocId(null);
+    setShowDeleteAlert(false);
+  };
 
-const onCancel = () => {
-  setDocId(null);
-  setShowDeleteAlert(false);
+  // Function to open the modal
+  const openModal = async () => {
+    setDocId(null);
+    setSubjectUpdate(false);
+    setIsModalOpen(true);
+  };
 
-};
+  const handleSubjectAdded = () => {
+    setDataChanged(true);
+  };
 
-// Function to open the modal
-const openModal = async() => {
-setDocId(null);
-setSubjectUpdate(false)
-setIsModalOpen(true);
-};
+  const handleSubjectUpdated = () => {
+    setDocId(null);
+    setSubjectUpdate(false);
+    setDataChanged(true);
+  };
 
-const handleSubjectAdded = () => {
-  setDataChanged(true);
-
-};
-
-const handleSubjectUpdated = () => {
-  setDocId(null);
-  setSubjectUpdate(false)
-  setDataChanged(true);
-
-};
-
-return (
-<div className="mt-4 w-full ov-sc">
-  <div className="mt-5 max-w-full">
-    <div className="flex justify-around">
-
-      {isLoading ? ( // Display the loader while data is loading
-        <Oval
-          height={80}
-          width={80}
-          color="#333333"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          ariaLabel='oval-loading'
-          secondaryColor="#B5B5B5"
-          strokeWidth={2}
-          strokeWidthSecondary={2}
-
-        />
-      ) : (
-        <div className="add-optional-sub-table">
-          <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-          Add Classes
-          </h1>
-          <DynamicTable data={subjectData} rowHeight={100} action={true} handleAction={handleAction} ispanding={false} />
-          <p className="h-16 text-center font-bold text-white flex items-center justify-center">
-            <AddButton buttonText={"Add Class"} onClickButton={openModal} />
-          </p>
+  return (
+    <div className="mt-4 w-full ov-sc">
+      <div className="mt-5 max-w-full">
+        <div className="flex justify-around">
+          {isLoading ? ( // Display the loader while data is loading
+            <Oval
+              height={80}
+              width={80}
+              color="#333333"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="oval-loading"
+              secondaryColor="#B5B5B5"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          ) : (
+            <div className="add-optional-sub-table">
+              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
+                Add Classes
+              </h1>
+              <DynamicTable
+                data={subjectData}
+                rowHeight={100}
+                action={true}
+                handleAction={handleAction}
+                ispanding={false}
+              />
+              <p className="h-16 text-center font-bold text-white flex items-center justify-center">
+                <AddButton buttonText={"Add Class"} onClickButton={openModal} />
+              </p>
+            </div>
+          )}
         </div>
-      )}
-
-
-    </div>
-  </div>
-  <AddOrUpdateClassAndSectionForm
-    isModalOpen={isModalOpen}
-    setIsModalOpen={setIsModalOpen}
-    handleSubjectAdded={handleSubjectAdded}
-    handleSubjectUpdated={handleSubjectUpdated}
-    DocId={docId}
-    isUpdateOn={subjectUpdate}
-  />
-   {showDeleteAlert && (
+      </div>
+      <AddOrUpdateClassAndSectionForm
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleSubjectAdded={handleSubjectAdded}
+        handleSubjectUpdated={handleSubjectUpdated}
+        DocId={docId}
+        isUpdateOn={subjectUpdate}
+      />
+      {showDeleteAlert && (
         <AlertComponent onConfirm={onConfirm} onCancel={onCancel} />
       )}
-</div>
-)};
+    </div>
+  );
+};
 
 export default AddClassAndSubject;

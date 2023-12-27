@@ -12,7 +12,6 @@ import { getAllOptionalSubjectsName } from "../../api/ClassMaster/AddOptionalSub
 import { getAllSubjectsNameFromDb } from "../../api/ClassMaster/Addsubject";
 import { toast } from "react-toastify";
 
-
 const AddOrUpdateClassAndSectionForm = ({
   isUpdateOn,
   isModalOpen,
@@ -33,14 +32,12 @@ const AddOrUpdateClassAndSectionForm = ({
 
   const [error, setError] = useState(false);
 
-
   useEffect(() => {
     if (isModalOpen && isUpdateOn) {
       getSubjectData(DocId);
     }
     getSubjects();
     getOptionalSubjects();
-
   }, [isModalOpen, isUpdateOn]);
 
   const getSubjectData = async (DocId) => {
@@ -53,7 +50,6 @@ const AddOrUpdateClassAndSectionForm = ({
     } catch (error) {
       console.error("Error fetching subject data", error);
       toast.error("Error fetching data");
-
     }
   };
 
@@ -63,7 +59,7 @@ const AddOrUpdateClassAndSectionForm = ({
       console.log("response", subjectList);
     });
   };
-  
+
   const getOptionalSubjects = async () => {
     await getAllOptionalSubjectsName().then((data) => {
       setOptionalSubjectList(data);
@@ -107,12 +103,9 @@ const AddOrUpdateClassAndSectionForm = ({
       );
 
       toast.success(response.message);
-
-     
     } catch (error) {
       console.error("Error updating subject data", error);
-    }
-    finally{
+    } finally {
       setClassAndSectionData(inticalData);
       setIsModalOpen(false);
       handleSubjectUpdated();
@@ -133,12 +126,10 @@ const AddOrUpdateClassAndSectionForm = ({
         setClassAndSectionData(inticalData);
       } catch (error) {
         console.error("Error updating subject data", error);
-      }
-      finally {
+      } finally {
         setIsModalOpen(false);
         handleSubjectAdded();
       }
-       
     }
   };
 

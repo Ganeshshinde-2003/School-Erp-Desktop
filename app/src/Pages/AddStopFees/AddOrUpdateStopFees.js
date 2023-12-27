@@ -10,6 +10,7 @@ import {
 } from "../../api/TransportMaster/AddStopAndFees";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const AddStop = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,6 +30,7 @@ const AddStop = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };
@@ -63,6 +65,7 @@ const AddStop = () => {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
   }
 }
 

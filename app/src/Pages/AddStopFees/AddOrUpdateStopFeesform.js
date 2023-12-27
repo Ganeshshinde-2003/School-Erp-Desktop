@@ -7,8 +7,7 @@ import {
   updateTransportDataToDatabase,
   getSpecificTransportDataFromDb,
 } from "../../api/TransportMaster/AddStopAndFees";
-import { Oval } from "react-loader-spinner";
-
+import { toast } from "react-toastify";
 
 const initialStopData = {
   stopName: "",
@@ -44,6 +43,7 @@ const AddOrUpdateStopForm = ({
       }
     } catch (error) {
       console.error("Error fetching stop data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -61,6 +61,7 @@ const AddOrUpdateStopForm = ({
 
       setConfirmationMessage(response.message);
       setStopData(initialStopData);
+      toast.success(response.message);
       setTimeout(() => {
         setConfirmationMessage(null);
         setIsModalOpen(false);
@@ -74,7 +75,7 @@ const AddOrUpdateStopForm = ({
   const handleAdd = async () => {
     try {
       const response = await addTransportDataToDb(stopData);
-
+      toast.success(response.message);
       setConfirmationMessage(response.message);
       setStopData(initialStopData);
     } catch (error) {

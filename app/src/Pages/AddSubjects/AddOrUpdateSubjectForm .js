@@ -8,6 +8,7 @@ import {
 } from "../../api/ClassMaster/Addsubject";
 import "./AddSubjectForm.css";
 import "../AddTeacher/AddTeacherForm.css";
+import { toast } from "react-toastify";
 
 const AddOrUpdateSubjectForm = ({
   isUpdateOn,
@@ -42,6 +43,7 @@ const AddOrUpdateSubjectForm = ({
       }
     } catch (error) {
       console.error("Error fetching subject data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -58,7 +60,7 @@ const AddOrUpdateSubjectForm = ({
       const response = await updateSubjectInDatabase(DocId, subjectData);
 
       setConfirmationMessage(response.message);
-
+      toast.success(response.message);
       setSubjectData(inticalData);
 
       setTimeout(() => {
@@ -79,7 +81,7 @@ const AddOrUpdateSubjectForm = ({
         const response = await addSubjectToDatabase(subjectData);
         // Show a confirmation message
         setConfirmationMessage(response.message);
-
+        toast.success(response.message);
         setSubjectData(inticalData);
       } catch (error) {
         console.error("Error updating subject data", error);
@@ -132,7 +134,7 @@ const AddOrUpdateSubjectForm = ({
                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
-            
+
             <div className="form-first">
               <label className="block text-sm font-medium text-gray-700">
                 Subject Total Marks
