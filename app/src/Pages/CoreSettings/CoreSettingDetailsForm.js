@@ -16,7 +16,7 @@ const FeeSlabNamePopUp = ({
   return (
     <Modal setShowModal={setIsModalOpen2}>
       <h2 className="text-[20px] font-bold text-left bg-[#333333] text-white addTeacher-header">
-        Add Fee Description
+        Fee Collection Account Details
       </h2>
       <div className="addTeacher-form">
         <form>
@@ -24,12 +24,47 @@ const FeeSlabNamePopUp = ({
             <div className="form-first">
               <div>
                 <label className="block text-[18px] font-medium text-[#333333]">
-                  Enter the slab name*
+                  Fee collection Account No.*
                 </label>
                 <input
                   type="text"
                   name="firstName"
-                  value={newSlabName}
+                  onChange={(e) => setNewSlabName(e.target.value)}
+                  required
+                  className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-[18px] font-medium text-[#333333]">
+                  IFSC Code*
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  onChange={(e) => setNewSlabName(e.target.value)}
+                  required
+                  className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-[18px] font-medium text-[#333333]">
+                  Account Holders Name*
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  onChange={(e) => setNewSlabName(e.target.value)}
+                  required
+                  className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-[18px] font-medium text-[#333333]">
+                  Bank Name*
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
                   onChange={(e) => setNewSlabName(e.target.value)}
                   required
                   className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -48,7 +83,7 @@ const FeeSlabNamePopUp = ({
                 setIsModalOpen2(false);
               }}
             >
-              Add
+              Update
             </button>
             <button
               type="button"

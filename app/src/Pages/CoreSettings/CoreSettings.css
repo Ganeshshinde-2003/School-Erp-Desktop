@@ -8,3 +8,6 @@
 .components-coresettings input {
   background-color: #e5e5e5;
 }
+.invalid-button {
+  background-color: gray !important;
+}

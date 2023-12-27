@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal";
 import Alert from "@mui/material/Alert";
 import "../AddTeacher/AddTeacherForm.css";
+import FeeSlabNamePopUp from "./CoreSettingDetailsForm";
 
 const AddOrUpdateStudentForm = ({
   isUpdateOn,
@@ -12,7 +13,12 @@ const AddOrUpdateStudentForm = ({
 }) => {
   const [getPassword, setGetPassword] = useState(null);
   const [validPassword, setValidPassword] = useState(false);
+  const [activeCom, setActiveCom] = useState(1);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [newSlabName, setNewSlabName] = useState("");
+  const [trackActiveCom, setTrackActiveCom] = useState(1);
 
+  const handleAddSlab = () => {};
   const handleInputChange = (e) => {
     const password = e.target.value;
     setGetPassword(password);
@@ -45,7 +51,14 @@ const AddOrUpdateStudentForm = ({
             </div>
           </div>
           <div className="addTeacher-buttons">
-            <button type="button" disabled={!validPassword}>
+            <button
+              type="button"
+              disabled={!validPassword}
+              className={validPassword ? "" : "invalid-button"}
+              onClick={() => {
+                setIsModalOpen2(true);
+              }}
+            >
               Continue
             </button>
             <button
@@ -60,6 +73,14 @@ const AddOrUpdateStudentForm = ({
           </div>
         </form>
       </div>
+      <FeeSlabNamePopUp
+        isModalOpen2={isModalOpen2}
+        setIsModalOpen2={setIsModalOpen2}
+        newSlabName={newSlabName}
+        setNewSlabName={setNewSlabName}
+        activeCom={trackActiveCom}
+        onAddSlab={handleAddSlab}
+      />
     </Modal>
   );
 };
