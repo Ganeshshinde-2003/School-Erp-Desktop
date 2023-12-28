@@ -50,7 +50,6 @@ const LoginPage = () => {
                 onClickButton={handleSubmit}
                 isUpdateDisabled={false}
               />
-              <Link to="/signup">Don't Have An Account?</Link>
             </div>
           </div>
         </form>
