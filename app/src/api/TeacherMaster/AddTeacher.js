@@ -91,6 +91,15 @@ export const teacherDatatest = {
 export const addTeacherToDatabase = async (teacherData) => {
   const teacherRef = collection(db, "AddTeachers");
 
+   const querySnapshot = await getDocs(query(teacherRef, where("teacherId", "==", teacherData?.teacherId)));
+
+   if (!querySnapshot.empty) {
+       return { status: false, message: "Teacher with the same teacherId already exists" };
+   }
+  // Create a reference to the document with the sectionName as docId
+  const teacherDocRef = doc(teacherRef,teacherData?.teacherId);
+
+
   try {
     const profilePicRef = ref(
       storage,
@@ -110,7 +119,7 @@ export const addTeacherToDatabase = async (teacherData) => {
   );
 
   try {
-    const teacherDoc = await addDoc(teacherRef, {
+    const teacherDoc = await setDoc(teacherDocRef, {
       teacherId: teacherData.teacherId,
       designation: teacherData.designation,
       emailId: teacherData.emailId,
@@ -132,7 +141,7 @@ export const addTeacherToDatabase = async (teacherData) => {
     return {
       status: true,
       message: "Teacher and subcollections added successfully",
-      docId: teacherDoc.id,
+      docId: teacherDoc.teacheId,
     };
   } catch (error) {
     console.log(error);

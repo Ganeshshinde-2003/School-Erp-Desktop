@@ -1,5 +1,5 @@
 import { db } from "../../config/firebase";
-import { getDocs,addDoc,doc,updateDoc,deleteDoc,collection,getDoc,serverTimestamp,query,orderBy,setDoc, } from "firebase/firestore";
+import { getDocs,addDoc,doc,updateDoc,deleteDoc,collection,getDoc,serverTimestamp,query,orderBy,setDoc, where, } from "firebase/firestore";
 
 
 
@@ -9,9 +9,9 @@ export const testStudentData = {
     lastName: 'Doe',
     mobileNo: '9876543210',
     joiningClass: '10th',
-    dob: '2000-01-01', // Assuming date format is YYYY-MM-DD
+    dob: '2000-01-01', 
     previousschoolTCNo: '7890123456',
-    applicationFees: 100, // Assuming currency in your context
+    applicationFees: 100, 
     paymentmode: 'online',
     upitransactionNo: 'ABC123XYZ',
     aadharNo: '123456789012',
@@ -20,8 +20,17 @@ export const testStudentData = {
 
 export const addStudentByApplicationToDatabase = async (studentData) => {
     const studentRef = collection(db, 'AddStudentByApplication');
+
+    const querySnapshot = await getDocs(query(studentRef, where("applicationNo", "==", studentData.applicationNo)));
+
+    if (!querySnapshot.empty) {
+        return { status: false, message: "student with the same studentId already exists" };
+    }
+   // Create a reference to the document with the sectionName as docId 
+    const studentDocRef = doc(studentRef, studentData?.applicationNo);
+
     try {
-        const studentDoc = await addDoc(studentRef, {
+        const studentDoc = await setDoc(studentDocRef, {
             applicationNo: studentData.applicationNo,
             firstName: studentData.firstName,
             lastName: studentData.lastName,
@@ -41,13 +50,13 @@ export const addStudentByApplicationToDatabase = async (studentData) => {
         console.log('Data added successfully');
         return {
             status: true,
-            message: 'Student and subcollections added successfully',
+            message: 'Student Application added successfully',
         };
     } catch (error) {
         console.error(error);
         return {
             status: false,
-            message: 'Error adding student and subcollections',
+            message: 'Error adding Student Application',
         };
     }
 };
