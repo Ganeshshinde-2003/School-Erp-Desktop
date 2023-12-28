@@ -1,0 +1,29 @@
+.login-container {
+  height: auto;
+  width: auto;
+  border: 2px solid #333333;
+  border-radius: 10px;
+  background-color: rgb(247, 240, 240);
+}
+.login-container h3 {
+  text-align: center;
+  background-color: #333333;
+  padding: 15px 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: rgb(247, 240, 240);
+  font-size: 20px;
+}
+.login-container .addTeacher-main-form {
+  padding: 40px 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-container .addTeacher-main-form .form-first {
+  gap: 20px;
+}
+.login-container a {
+  padding: 10px 20px !important;
+}

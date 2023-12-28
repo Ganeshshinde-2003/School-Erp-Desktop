@@ -32,16 +32,23 @@ import { ToastContainer } from "react-toastify";
 import CoreSettings from "./Pages/CoreSettings/CoreSettings.js";
 import Templates from "./Pages/Templates/Templates.js";
 import Users from "./Pages/Users/Users.js";
+import LoginPage from "./Pages/Auth/LoginPage.js";
+import SingUpPage from "./Pages/Auth/SIngUpPage.js";
 
 const App = () => {
+  const isLoginPage = window.location.pathname === "/login";
+  const isSignUpPage = window.location.pathname === "/signup";
+
   return (
     <BrowserRouter>
       <div className="flex flex-col">
-        <Navbar />
+        {!isLoginPage && !isSignUpPage && <Navbar />}
         <div className="flex">
-          <Sidebar />
+          {!isLoginPage && !isSignUpPage && <Sidebar />}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SingUpPage />} />
             <Route
               path="/class-master/add-subjects"
               element={<AddSubjects />}
