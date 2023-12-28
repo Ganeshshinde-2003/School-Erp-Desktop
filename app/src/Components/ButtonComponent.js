@@ -1,11 +1,12 @@
 import React from "react";
 
-const ButtonComponent = ({ buttonText, onClickButton }) => {
+const ButtonComponent = ({ buttonText, onClickButton, isUpdateDisabled }) => {
   return (
     <button
       type="button"
+      disabled={isUpdateDisabled}
       onClick={onClickButton}
-      className="bg-[#3076FF] text-white px-5 py-2 flex items-center rounded"
+      className={`bg-${isUpdateDisabled ? "gray-600" : "blue-500"} text-white px-5 py-2 flex items-center rounded`}
       style={{ position: "relative" }}
     >
       <span>{buttonText}</span>

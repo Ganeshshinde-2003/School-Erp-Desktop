@@ -3,13 +3,13 @@ import Modal from "../../Components/Modal";
 import Alert from "@mui/material/Alert";
 import "../AddTeacher/AddTeacherForm.css";
 import FeeSlabNamePopUp from "./CoreSettingDetailsForm";
+import FeeCollectionDetailsModal from "./CoreSettingDetailsForm";
 
 const AddOrUpdateStudentForm = ({
   isUpdateOn,
   isModalOpen,
   setIsModalOpen,
   DocId,
-  handleStudentUpdated,
 }) => {
   const [getPassword, setGetPassword] = useState(null);
   const [validPassword, setValidPassword] = useState(false);
@@ -73,14 +73,11 @@ const AddOrUpdateStudentForm = ({
           </div>
         </form>
       </div>
-      <FeeSlabNamePopUp
-        isModalOpen2={isModalOpen2}
-        setIsModalOpen2={setIsModalOpen2}
-        newSlabName={newSlabName}
-        setNewSlabName={setNewSlabName}
-        activeCom={trackActiveCom}
-        onAddSlab={handleAddSlab}
-      />
+      <FeeCollectionDetailsModal
+      isOpen={isModalOpen2}
+      onClose={setIsModalOpen2}
+    />
+
     </Modal>
   );
 };
