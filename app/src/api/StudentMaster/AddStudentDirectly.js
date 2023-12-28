@@ -94,6 +94,15 @@ export const studentDataTest = {
 export const addStudentDirectlyToDatabase = async (studentData) => {
   const studentRef = collection(db, "AddStudentsDirectly");
 
+   const querySnapshot = await getDocs(query(studentRef, where("studentId", "==", studentData.studentId)));
+
+   if (!querySnapshot.empty) {
+       return { status: false, message: "student with the same studentId already exists" };
+   }
+  // Create a reference to the document with the sectionName as docId
+  const studentDocRef = doc(studentRef,studentData?.studentId);
+
+
   try {
     const profilePicRef = ref(
       storage,
@@ -113,7 +122,7 @@ export const addStudentDirectlyToDatabase = async (studentData) => {
   );
 
   try {
-    const studentDoc = await addDoc(studentRef, {
+    const studentDoc = await setDoc(studentDocRef, {
       firstName: studentData.firstName,
       lastName: studentData.lastName,
       studentId: studentData.studentId,
@@ -135,17 +144,16 @@ export const addStudentDirectlyToDatabase = async (studentData) => {
     console.log("Data added successfully");
     return {
       status: true,
-      message: "Student added in db successfully",
-      docId: studentDoc.id,
+      message: "Student added in Database successfully",
     };
   } catch (error) {
     console.error(error);
     return {
       status: false,
-      message: "Error adding student in db",
+      message: "Error adding student in Database",
     };
   }
-};
+}
 
 export const updateStudentDirectlyToDatabase = async (
   documentId,

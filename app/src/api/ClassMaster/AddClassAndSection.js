@@ -22,7 +22,7 @@ import {
  * @param {Array} classData.optionalSubjects - An array of optional subjects.
  */
 export const addClassAndSectionsToDatabase = async (classData) => {
-  const classAndSectionsRef = collection(db, "AddClassAndSections");
+  const classAndSectionsRef = doc(db, "AddClassAndSections",classData.className);
   try {
     const className = classData.className;
     const noOfSections = classData.noOfSections;
@@ -33,7 +33,7 @@ export const addClassAndSectionsToDatabase = async (classData) => {
       nameOfSections.push(sectionName);
     }
 
-    await addDoc(classAndSectionsRef, {
+    await setDoc(classAndSectionsRef, {
       className,
       noOfSections,
       nameOfSections, //will auto generate when wants use we can use
