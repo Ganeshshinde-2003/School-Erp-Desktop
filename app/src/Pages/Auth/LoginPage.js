@@ -2,9 +2,15 @@ import React from "react";
 import "./LoginPage.css";
 import "../AddTeacher/AddTeacherForm.css";
 import ButtonComponent from "../../Components/ButtonComponent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    window.location.href = "/home";
+  };
+
   return (
     <div className="flex w-full h-[100vh] justify-center items-center">
       <div className="login-container">
@@ -41,8 +47,8 @@ const LoginPage = () => {
 
               <ButtonComponent
                 buttonText={"Login"}
-                onClickButton={() => {}}
-                color={"#333333"}
+                onClickButton={handleSubmit}
+                isUpdateDisabled={false}
               />
               <Link to="/signup">Don't Have An Account?</Link>
             </div>

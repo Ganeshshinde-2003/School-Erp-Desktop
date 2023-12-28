@@ -36,7 +36,7 @@ import LoginPage from "./Pages/Auth/LoginPage.js";
 import SingUpPage from "./Pages/Auth/SIngUpPage.js";
 
 const App = () => {
-  const isLoginPage = window.location.pathname === "/login";
+  const isLoginPage = window.location.pathname === "/";
   const isSignUpPage = window.location.pathname === "/signup";
 
   return (
@@ -46,8 +46,8 @@ const App = () => {
         <div className="flex">
           {!isLoginPage && !isSignUpPage && <Sidebar />}
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SingUpPage />} />
             <Route
               path="/class-master/add-subjects"

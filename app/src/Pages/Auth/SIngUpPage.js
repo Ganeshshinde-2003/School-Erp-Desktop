@@ -44,7 +44,7 @@ const SingUpPage = () => {
                 onClickButton={() => {}}
                 color={"#333333"}
               />
-              <Link to="/login">Already Have An Account?</Link>
+              <Link to="/">Already Have An Account?</Link>
             </div>
           </div>
         </form>
