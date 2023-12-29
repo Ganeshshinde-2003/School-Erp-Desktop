@@ -5,8 +5,10 @@ import ButtonComponent from "../../Components/ButtonComponent";
 import { getSpecificUser, loginAdminUser } from "../../api/Authapi/auth";
 import { toast } from "react-toastify";
 import { useUser } from "../../Context/UserAuthContext";
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
   const initialData = {
     userName: "",
     password: "",
@@ -19,10 +21,10 @@ const LoginPage = () => {
       const response = await loginAdminUser(loginData);
       if (response.status) {
         toast.success(response.message);
-        const userData = await getSpecificUser(loginData.userName);
-        console.log(userData);
-        await loginUser(userData);
-        window.location.href = "/home";
+        console.log(loginData.userName);
+        await loginUser(loginData.userName);
+        setIsAuthenticated(true);
+        navigate("/home");
       } else {
         toast.error(response.message);
       }

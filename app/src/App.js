@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -36,119 +36,135 @@ import LoginPage from "./Pages/Auth/LoginPage.js";
 import { UserProvider } from "./Context/UserAuthContext.js";
 
 const App = () => {
-  const isLoginPage = window.location.pathname === "/";
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <UserProvider>
       <BrowserRouter>
         <div className="flex flex-col">
-          {!isLoginPage && <Navbar />}
+          {isAuthenticated && <Navbar />}
           <div className="flex">
-            {!isLoginPage && <Sidebar />}
+            {isAuthenticated && <Sidebar />}
             <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/" element={<LoginPage />} />
               <Route
-                path="/class-master/add-subjects"
-                element={<AddSubjects />}
+                path="/"
+                element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
               />
-              <Route
-                path="/class-master/add-optional-subject"
-                element={<AddOptionalSubject />}
-              />
+              {isAuthenticated && (
+                <>
+                  <Route path="/home" element={<Home />} />
+                  <Route
+                    path="/class-master/add-subjects"
+                    element={<AddSubjects />}
+                  />
+                  <Route
+                    path="/class-master/add-optional-subject"
+                    element={<AddOptionalSubject />}
+                  />
 
-              <Route
-                path="/class-master/add-class-and-section"
-                element={<AddClassAndSection />}
-              />
-              <Route
-                path="/teacher-master/add-teacher"
-                element={<AddTeacher />}
-              />
-              <Route
-                path="/student-master/add-student"
-                element={<AddStudent />}
-              />
-              <Route
-                path="/transport-master/add-driver"
-                element={<AddDriver />}
-              />
-              <Route
-                path="/transport-master/locate-driver"
-                element={<LocateDriver />}
-              />
-              <Route
-                path="/student-master/add-student-Application"
-                element={<AddStudentPage />}
-              />
-              <Route
-                path="/student-master/pending_request"
-                element={<AddStudent />}
-              />
-              <Route
-                path="/student-master/pending-request"
-                element={<PendingRequest />}
-              />
-              <Route
-                path="/hodidays-master/add-holiday"
-                element={<AddHoliday />}
-              />
-              <Route
-                path="transport-master/add-stops-fees"
-                element={<AddStop />}
-              />
-              <Route
-                path="/expense-adding/add-expense"
-                element={<ExpenseAdding />}
-              />
-              <Route
-                path="/fee-structures/add-fee-slab"
-                element={<AddFeeSlab />}
-              />
-              <Route
-                path="/transport-master/add-vehciles"
-                element={<AddVehicle />}
-              />
-              <Route
-                path="/fee-structures/add-fee-structures"
-                element={<AddFeeStructure />}
-              />
-              <Route
-                path="/send-notice/add-notices"
-                element={<AddNoticePage />}
-              />
-              <Route
-                path="/staff-management/add-non-teaching-staff"
-                element={<AddNonTeachingStaff />}
-              />
-              <Route
-                path="/staff-management/salary-to-teachers"
-                element={<SalaryToTeacher />}
-              />
-              <Route
-                path="/staff-management/salary-to-non-teaching-staff"
-                element={<SalaryToNonTeachingStaff />}
-              />
-              <Route
-                path="/timetable/add-timetable"
-                element={<TimetablePage />}
-              />
-              <Route
-                path="/syllabus/check-syllabus"
-                element={<CheckSyllabus />}
-              />
-              <Route
-                path="/staff-attendance/put-attendance"
-                element={<PutAttendance />}
-              />
-              <Route path="/exam-addition/add-exam" element={<AddExams />} />
-              <Route path="/searchresult/:id" element={<SearchDetailsShow />} />
-              <Route
-                path="/core-functions/core-settings"
-                element={<CoreSettings />}
-              />
-              <Route path="/core-functions/templates" element={<Templates />} />
-              <Route path="/core-functions/users" element={<Users />} />
+                  <Route
+                    path="/class-master/add-class-and-section"
+                    element={<AddClassAndSection />}
+                  />
+                  <Route
+                    path="/teacher-master/add-teacher"
+                    element={<AddTeacher />}
+                  />
+                  <Route
+                    path="/student-master/add-student"
+                    element={<AddStudent />}
+                  />
+                  <Route
+                    path="/transport-master/add-driver"
+                    element={<AddDriver />}
+                  />
+                  <Route
+                    path="/transport-master/locate-driver"
+                    element={<LocateDriver />}
+                  />
+                  <Route
+                    path="/student-master/add-student-Application"
+                    element={<AddStudentPage />}
+                  />
+                  <Route
+                    path="/student-master/pending_request"
+                    element={<AddStudent />}
+                  />
+                  <Route
+                    path="/student-master/pending-request"
+                    element={<PendingRequest />}
+                  />
+                  <Route
+                    path="/hodidays-master/add-holiday"
+                    element={<AddHoliday />}
+                  />
+                  <Route
+                    path="transport-master/add-stops-fees"
+                    element={<AddStop />}
+                  />
+                  <Route
+                    path="/expense-adding/add-expense"
+                    element={<ExpenseAdding />}
+                  />
+                  <Route
+                    path="/fee-structures/add-fee-slab"
+                    element={<AddFeeSlab />}
+                  />
+                  <Route
+                    path="/transport-master/add-vehciles"
+                    element={<AddVehicle />}
+                  />
+                  <Route
+                    path="/fee-structures/add-fee-structures"
+                    element={<AddFeeStructure />}
+                  />
+                  <Route
+                    path="/send-notice/add-notices"
+                    element={<AddNoticePage />}
+                  />
+                  <Route
+                    path="/staff-management/add-non-teaching-staff"
+                    element={<AddNonTeachingStaff />}
+                  />
+                  <Route
+                    path="/staff-management/salary-to-teachers"
+                    element={<SalaryToTeacher />}
+                  />
+                  <Route
+                    path="/staff-management/salary-to-non-teaching-staff"
+                    element={<SalaryToNonTeachingStaff />}
+                  />
+                  <Route
+                    path="/timetable/add-timetable"
+                    element={<TimetablePage />}
+                  />
+                  <Route
+                    path="/syllabus/check-syllabus"
+                    element={<CheckSyllabus />}
+                  />
+                  <Route
+                    path="/staff-attendance/put-attendance"
+                    element={<PutAttendance />}
+                  />
+                  <Route
+                    path="/exam-addition/add-exam"
+                    element={<AddExams />}
+                  />
+                  <Route
+                    path="/searchresult/:id"
+                    element={<SearchDetailsShow />}
+                  />
+                  <Route
+                    path="/core-functions/core-settings"
+                    element={<CoreSettings />}
+                  />
+                  <Route
+                    path="/core-functions/templates"
+                    element={<Templates />}
+                  />
+                  <Route path="/core-functions/users" element={<Users />} />
+                </>
+              )}
             </Routes>
           </div>
           <ToastContainer position="top-right" />

@@ -3,6 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import "./Navbar.css";
 import SearchComponent from "./SearchComponent";
+
 const Navbar = () => {
   return (
     <nav className="navbar flex justify-between items-center sticky top-0 z-20">
@@ -19,7 +20,7 @@ const Navbar = () => {
           <option value="2022-2023">2022-2023</option>
         </select>
         <img src="assets/icons/question-icon.png" alt="question" />
-        <Avatar sx={{ bgcolor: deepPurple[500] }}>SA</Avatar>
+        <Avatar sx={{ bgcolor: deepPurple[500] }}></Avatar>
       </div>
     </nav>
   );

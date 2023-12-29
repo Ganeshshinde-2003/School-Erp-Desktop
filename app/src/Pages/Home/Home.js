@@ -37,6 +37,14 @@ const Home = () => {
     ],
   });
 
+  // Access user data from the context
+  const { userData } = useUser();
+
+  // Log user data when it changes
+  useEffect(() => {
+    console.log("User Data:", userData);
+  }, [userData]);
+
   return (
     <div className="mt-5 mb-5 flex flex-col w-full	items-center">
       <div className="flex justify-around w-full">
