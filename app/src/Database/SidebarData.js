@@ -308,7 +308,7 @@ export const SidebarData = [
       },
       {
         title: "Reports",
-        path: "reports-allocation/reports",
+        path: "/reports-allocation/reports",
         cName: "sub-nav",
       },
     ],

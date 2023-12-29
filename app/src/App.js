@@ -35,6 +35,9 @@ import Users from "./Pages/Users/Users.js";
 import LoginPage from "./Pages/Auth/LoginPage.js";
 import { UserProvider } from "./Context/UserAuthContext.js";
 import LogoutPage from "./Pages/Auth/LogoutPage.js";
+import VisualizeGraphs from "./Pages/VisualizeGraphs/VisualizeGraphs.js";
+import AssignSections from "./Pages/AssignSections/AssignSections.js";
+import Reports from "./Pages/Reports/Reports.js";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -47,10 +50,14 @@ const App = () => {
           <div className="flex">
             {isAuthenticated && <Sidebar />}
             <Routes>
-              <Route
-                path="/*"
-                element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
-              />
+              {!isAuthenticated && (
+                <Route
+                  path="/*"
+                  element={
+                    <LoginPage setIsAuthenticated={setIsAuthenticated} />
+                  }
+                />
+              )}
               {isAuthenticated && (
                 <>
                   <Route path="/home" element={<Home />} />
@@ -164,6 +171,18 @@ const App = () => {
                     element={<Templates />}
                   />
                   <Route path="/core-functions/users" element={<Users />} />
+                  <Route
+                    path="/reports-allocation/visualize-graphs"
+                    element={<VisualizeGraphs />}
+                  />
+                  <Route
+                    path="/reports-allocation/assign-sections"
+                    element={<AssignSections />}
+                  />
+                  <Route
+                    path="/reports-allocation/reports"
+                    element={<Reports />}
+                  />
                   <Route
                     path="/logout"
                     element={
