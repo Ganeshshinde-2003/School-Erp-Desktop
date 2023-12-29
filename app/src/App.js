@@ -47,7 +47,7 @@ const App = () => {
             {isAuthenticated && <Sidebar />}
             <Routes>
               <Route
-                path="/"
+                path="/*"
                 element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
               />
               {isAuthenticated && (

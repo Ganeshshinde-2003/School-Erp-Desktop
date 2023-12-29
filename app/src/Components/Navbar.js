@@ -6,7 +6,7 @@ import SearchComponent from "./SearchComponent";
 
 const Navbar = () => {
   return (
-    <nav className="navbar flex justify-between items-center sticky top-0 z-20">
+    <nav className="navbar flex justify-between items-center sticky top-0 z-20 py-2">
       <div className="flex items-center ml-4">
         <img src="assets/icons/navbar-logo.png" alt="logo" />
         <p className="text-white">Indian Public School</p>
