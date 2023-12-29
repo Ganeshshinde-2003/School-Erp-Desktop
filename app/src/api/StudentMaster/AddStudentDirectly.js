@@ -236,3 +236,39 @@ export const getSpecificStudentDataFromDd = async (DocId) => {
     throw error;
   }
 };
+
+
+export const getStudentListByJoiningClass = async (joiningClass) => {
+  const studentRef = collection(db, "AddStudentsDirectly");
+
+  try {
+    const q = query(studentRef, where("joiningClass", "==", joiningClass));
+    const querySnapshot = await getDocs(q);
+
+    const studentList = [];
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const fullName = `${data.firstName} ${data.lastName}`;
+      const optionalSubjects = data.optionalSubjects || [];
+      
+      studentList.push({
+        fullName,
+        optionalSubjects,
+      });
+    });
+
+    const totalStudents = querySnapshot.size;
+
+    return {
+      studentList,
+      totalStudents,
+    };
+  } catch (error) {
+    console.error("Error fetching student list by joining class: ", error);
+    return {
+      status: false,
+      message: "Error fetching student list by joining class",
+    };
+  }
+};
