@@ -4,6 +4,7 @@ import "../AddTeacher/AddTeacherForm.css";
 import ButtonComponent from "../../Components/ButtonComponent";
 import { loginAdminUser } from "../../api/Authapi/auth";
 import { toast } from "react-toastify";
+import { useUser } from "../../Context/UserAuthContext";
 
 const LoginPage = () => {
   const initialData = {
@@ -11,17 +12,19 @@ const LoginPage = () => {
     password: "",
   };
   const [loginData, setLoginData] = useState(initialData);
+  const { loginUser } = useUser();
 
   const handleSubmit = async () => {
     try {
       const response = await loginAdminUser(loginData);
-      setLoginData(initialData);
       if (response.status) {
         toast.success(response.message);
+        await loginUser(loginData);
         window.location.href = "/home";
       } else {
         toast.error(response.message);
       }
+      setLoginData(initialData);
     } catch (error) {
       toast.error("Invalid Credentials");
     }

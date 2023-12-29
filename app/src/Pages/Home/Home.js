@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Birthdays from "../../Database/Birthday";
 import DynamicTable from "../../Components/DynamicTable";
 import Attendance from "../../Database/Attendance";
@@ -8,8 +8,8 @@ import "./Home.css";
 import BarGraph from "../../Components/BarGraph";
 import BarGraphData from "../../Database/BarGraphData";
 import PieGraph from "../../Components/PieGraph";
+import { useUser } from "../../Context/UserAuthContext.js";
 const Home = () => {
-  // Bar Chart
   const [attendanceBarGraphData, setAttendanceBarGraphData] = useState({
     labels: BarGraphData.map((data) => data.class),
     datasets: [
