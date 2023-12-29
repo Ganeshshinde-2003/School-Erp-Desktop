@@ -4,6 +4,7 @@ import Alert from "@mui/material/Alert";
 import "../AddTeacher/AddTeacherForm.css";
 import FeeSlabNamePopUp from "./CoreSettingDetailsForm";
 import FeeCollectionDetailsModal from "./CoreSettingDetailsForm";
+import { CheckAccountPassword } from "../../api/Authapi/auth";
 
 const AddOrUpdateStudentForm = ({
   isUpdateOn,
@@ -19,10 +20,11 @@ const AddOrUpdateStudentForm = ({
   const [trackActiveCom, setTrackActiveCom] = useState(1);
 
   const handleAddSlab = () => {};
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const password = e.target.value;
     setGetPassword(password);
-    const isValid = true;
+    const response = await CheckAccountPassword(password);
+    const isValid = response.status;
     setValidPassword(isValid);
   };
 
@@ -41,7 +43,7 @@ const AddOrUpdateStudentForm = ({
                 Enter Password
               </label>
               <input
-                type="text"
+                type="password"
                 name="studentId"
                 value={getPassword}
                 onChange={handleInputChange}
@@ -74,10 +76,9 @@ const AddOrUpdateStudentForm = ({
         </form>
       </div>
       <FeeCollectionDetailsModal
-      isOpen={isModalOpen2}
-      onClose={setIsModalOpen2}
-    />
-
+        isOpen={isModalOpen2}
+        onClose={setIsModalOpen2}
+      />
     </Modal>
   );
 };

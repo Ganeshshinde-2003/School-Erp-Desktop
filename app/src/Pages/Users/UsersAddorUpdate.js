@@ -13,6 +13,7 @@ import {
   getSpecificExpenseDataFromDb,
   updateExpenseDataToDatabase,
 } from "../../api/ExpenseAdding/AddExpense";
+import { signupAdminUser } from "../../api/Authapi/auth";
 
 const AddOrUpdateUsersForm = ({
   isUpdateOn,
@@ -23,9 +24,9 @@ const AddOrUpdateUsersForm = ({
   handleExpenseUpdated,
 }) => {
   const inticalData = {
-    expenseName: "",
-    amount: "",
-    description: "",
+    userName: "",
+    password: "",
+    role: "",
   };
   const [expenseData, setExpenseData] = useState(inticalData);
 
@@ -78,7 +79,7 @@ const AddOrUpdateUsersForm = ({
 
   const handleAdd = async () => {
     try {
-      const response = await addExpenseDataToDb(expenseData);
+      const response = await signupAdminUser(expenseData);
       // Show a confirmation message
       setConfirmationMessage(response.message);
 
@@ -115,8 +116,8 @@ const AddOrUpdateUsersForm = ({
               </label>
               <input
                 type="text"
-                name="expenseName"
-                value={expenseData.expenseName}
+                name="userName"
+                value={expenseData.userName}
                 onChange={handleInputChange}
                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -127,8 +128,8 @@ const AddOrUpdateUsersForm = ({
               </label>
               <input
                 type="text"
-                name="amount"
-                value={expenseData.amount}
+                name="password"
+                value={expenseData.password}
                 onChange={handleInputChange}
                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -138,8 +139,8 @@ const AddOrUpdateUsersForm = ({
                 Role
               </label>
               <select
-                name="feeslab"
-                value={expenseData.description}
+                name="role"
+                value={expenseData.role}
                 onChange={handleInputChange}
                 require
                 className="mt-1 p-2 block w-[94%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
