@@ -3,8 +3,14 @@ import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import "./Navbar.css";
 import SearchComponent from "./SearchComponent";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/logout");
+  };
+
   return (
     <nav className="navbar flex justify-between items-center sticky top-0 z-20 py-2">
       <div className="flex items-center ml-4">
@@ -20,7 +26,10 @@ const Navbar = () => {
           <option value="2022-2023">2022-2023</option>
         </select>
         <img src="assets/icons/question-icon.png" alt="question" />
-        <Avatar sx={{ bgcolor: deepPurple[500] }}></Avatar>
+        <Avatar
+          onClick={handleClick}
+          sx={{ bgcolor: deepPurple[500], cursor: "pointer" }}
+        ></Avatar>
       </div>
     </nav>
   );

@@ -34,6 +34,7 @@ import Templates from "./Pages/Templates/Templates.js";
 import Users from "./Pages/Users/Users.js";
 import LoginPage from "./Pages/Auth/LoginPage.js";
 import { UserProvider } from "./Context/UserAuthContext.js";
+import LogoutPage from "./Pages/Auth/LogoutPage.js";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -163,6 +164,12 @@ const App = () => {
                     element={<Templates />}
                   />
                   <Route path="/core-functions/users" element={<Users />} />
+                  <Route
+                    path="/logout"
+                    element={
+                      <LogoutPage setIsAuthenticated={setIsAuthenticated} />
+                    }
+                  />
                 </>
               )}
             </Routes>

@@ -8,7 +8,7 @@ const ButtonComponent = ({ buttonText, onClickButton, isUpdateDisabled }) => {
       onClick={onClickButton}
       className={`bg-${
         isUpdateDisabled ? "gray-600" : "blue-500"
-      } text-white px-5 py-2 flex items-center rounded`}
+      } text-white px-10 py-2 flex items-center rounded`}
       style={{ position: "relative" }}
     >
       <span>{buttonText}</span>
