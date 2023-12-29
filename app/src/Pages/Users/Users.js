@@ -9,6 +9,7 @@ import {
 } from "../../api/ExpenseAdding/AddExpense";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { getAllUsers } from "../../api/Authapi/auth";
 
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,7 @@ const Users = () => {
   const [docId, setDocId] = useState(null);
 
   const fetchData = () => {
-    getExpenseDataFromDatabase()
+    getAllUsers()
       .then((data) => {
         setexpenseData(data);
         setIsLoading(false);

@@ -1,4 +1,4 @@
-import { doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
 const testUserDetails = {
@@ -59,6 +59,68 @@ export const loginAdminUser = async (userDetails) => {
     };
   }
 };
+
+export const getAllUsers = async () => {
+    const authDocRef = collection(db, 'Authentication');
+
+    try {
+        const querySnapshot = await getDocs(authDocRef);
+        const authData = [];
+
+        querySnapshot.forEach(async (doc) => {
+            const data = doc.data();
+
+            if (doc.id !== 'accounts') {
+                const modifiedData = {
+                    id: doc.id,
+                    "User Name": data.userName, 
+                    Role: data.role,
+                };
+                authData.push(modifiedData);
+            }
+        });
+
+        return authData;
+    } catch (error) {
+        console.error('Error fetching all users', error);
+        return [];
+    }
+};
+
+
+
+
+
+
+export const getSpecificUser = async (DocId) => {
+    try {
+      const authDocRef = doc(db, "Authentication", DocId);
+      const authDocRefSnapshot = await getDoc(authDocRef);
+  
+      if (authDocRefSnapshot.exists()) {
+        return authDocRefSnapshot.data();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching subject data", error);
+      throw error;
+    }
+  };
+
+  export const updateSpecificUser = async (documentId, updatedUserData) => {
+    const authDocRef = collection(db, "Authentication");
+    const authDocumentRef = doc(authDocRef, documentId);
+
+    try {
+        await updateDoc(authDocumentRef, updatedUserData);
+        return { status: true, message: "Document successfully updated" };
+    } catch (error) {
+        console.error("Error updating document:", error);
+        return { status: false, message: "Error updating document" };
+    }
+};
+
 
 export const CheckAccountPassword = async (password) => {
   const authDocRef = doc(db, "Authentication", "accounts");

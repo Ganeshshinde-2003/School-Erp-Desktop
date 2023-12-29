@@ -13,7 +13,7 @@ import {
   getSpecificExpenseDataFromDb,
   updateExpenseDataToDatabase,
 } from "../../api/ExpenseAdding/AddExpense";
-import { signupAdminUser } from "../../api/Authapi/auth";
+import { getSpecificUser, signupAdminUser, updateSpecificUser } from "../../api/Authapi/auth";
 
 const AddOrUpdateUsersForm = ({
   isUpdateOn,
@@ -41,7 +41,7 @@ const AddOrUpdateUsersForm = ({
 
   const getexpenseData = async (DocId) => {
     try {
-      const subject = await getSpecificExpenseDataFromDb(DocId);
+      const subject = await getSpecificUser(DocId);
 
       if (subject) {
         setExpenseData(subject);
@@ -61,7 +61,7 @@ const AddOrUpdateUsersForm = ({
 
   const handleUpdate = async () => {
     try {
-      const response = await updateExpenseDataToDatabase(DocId, expenseData);
+      const response = await updateSpecificUser(DocId, expenseData);
 
       setConfirmationMessage(response.message);
 
@@ -127,7 +127,7 @@ const AddOrUpdateUsersForm = ({
                 Password*
               </label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 value={expenseData.password}
                 onChange={handleInputChange}
