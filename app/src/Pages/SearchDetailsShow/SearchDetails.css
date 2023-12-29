@@ -37,3 +37,189 @@
   justify-content: space-between;
   gap: 40px;
 }
+
+.Fees{
+  display: flex;
+  margin-left: 50px;
+  
+}
+
+.fees-container{
+  display: flex;
+ 
+}
+
+.fees-section{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  margin-top: 5px;
+  padding-left: 20px;
+  padding-right: 30px;
+  padding-bottom: 100px;
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.marks-section{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-right: 30px;
+  padding-top: 10px;
+  margin-left: 5.5%;
+  margin-right: 2.5%;
+  padding-bottom: 20px;
+}
+
+.fees-text{
+  margin-right: 50px;
+  margin-top: 20px;
+}
+
+.fees-text-2{
+  margin-right: 50px;
+  margin-top: 30px;
+ 
+}
+
+.checkout-options {
+  margin-top: 20px;
+
+}
+
+.option-button {
+  background-color: rgba(102, 255, 48, 1);
+  color: white;
+  padding: 10px 30px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pay-button {
+  background-color: rgba(48, 118, 255, 1);
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.Regular-Fees{
+  margin-right: 20px;
+}
+
+.mode{
+  font-size: x-small;
+  margin-top: 3px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+  margin-top: 3px;
+  margin-left: 2px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 17px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #21f344;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.month-buttons-container {
+  text-align: center;
+}
+
+.month-button {
+  display: block;
+  width: 200px;
+  margin: 10px auto;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.marks-container{
+  display: flex;
+  margin-top: 10px;
+}
+
+.downloads{
+  margin-top: 3px;
+  margin-right: 50px;
+}
+.downloads-1{
+  margin-top: 3px;
+  margin-right: 100px;
+}
+
+.exam-section{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-right: 30px;
+  padding-top: 10px;
+  margin-left: 5.5%;
+  margin-right: 2.5%;
+  padding-bottom: 20px;
+}
+
+.exam{
+  text-align: center;
+}
