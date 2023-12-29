@@ -149,3 +149,14 @@
 .checbox-many-exam label {
   width: 80px !important;
 }
+.template-design {
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.template-items {
+  width: 600px !important;
+}
