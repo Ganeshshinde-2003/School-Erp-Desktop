@@ -96,7 +96,6 @@ const CoreSettings = () => {
 
   const handleUpdateClick = async () => {
     try {
-      setIsDisabled(true);
       const academicYearData = {
         startDate: academicYearStartDate,
         endDate: academicYearEndDate,
@@ -109,6 +108,7 @@ const CoreSettings = () => {
 
       await updateOrCreateAcademicYearInDb(academicYearData);
       await updateOrCreateAdmissionDataInDb(admissionData);
+      setIsDisabled(true);
     } catch (error) {
       console.error("Error updating fee collection details: ", error);
     }
