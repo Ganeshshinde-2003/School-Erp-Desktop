@@ -60,7 +60,6 @@ export const loginAdminUser = async (userDetails) => {
   }
 };
 
-// this when admin want's to see account info!
 export const CheckAccountPassword = async (password) => {
   const authDocRef = doc(db, "Authentication", "accounts");
 

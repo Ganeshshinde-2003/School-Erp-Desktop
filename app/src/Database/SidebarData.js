@@ -14,7 +14,7 @@ export const SidebarData = [
         alt="sidebar-icon"
       />
     ),
-    path: "/",
+    path: "/home",
   },
   {
     title: "Class Master",
@@ -284,7 +284,7 @@ export const SidebarData = [
     ],
   },
   {
-    title: "Statical Reports",
+    title: "Reports & Allocation",
     custonIcons: (
       <img
         src="assets/icons/13statisticalreport.png"
@@ -297,8 +297,18 @@ export const SidebarData = [
 
     subNav: [
       {
-        title: "Add driver",
-        path: "/teacher-master/add-teacher",
+        title: "Visualize Graphs",
+        path: "/reports-allocation/visualize-graphs",
+        cName: "sub-nav",
+      },
+      {
+        title: "Assign Sections",
+        path: "/reports-allocation/assign-sections",
+        cName: "sub-nav",
+      },
+      {
+        title: "Reports",
+        path: "reports-allocation/reports",
         cName: "sub-nav",
       },
     ],

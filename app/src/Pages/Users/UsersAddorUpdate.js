@@ -91,7 +91,7 @@ const AddOrUpdateUsersForm = ({
       setConfirmationMessage(null);
       setIsModalOpen(false);
       handleExpenseAdded();
-    }, 2000); // Hide the message after 2 seconds
+    }, 2000);
   };
 
   if (!isModalOpen) return null;

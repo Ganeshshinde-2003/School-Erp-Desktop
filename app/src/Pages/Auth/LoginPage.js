@@ -1,14 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LoginPage.css";
 import "../AddTeacher/AddTeacherForm.css";
 import ButtonComponent from "../../Components/ButtonComponent";
-import { Link, useNavigate } from "react-router-dom";
+import { loginAdminUser } from "../../api/Authapi/auth";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const initialData = {
+    userName: "",
+    password: "",
+  };
+  const [loginData, setLoginData] = useState(initialData);
 
-  const handleSubmit = () => {
-    window.location.href = "/home";
+  const handleSubmit = async () => {
+    try {
+      const response = await loginAdminUser(loginData);
+      setLoginData(initialData);
+      if (response.status) {
+        toast.success(response.message);
+        window.location.href = "/home";
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error("Invalid Credentials");
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    });
   };
 
   return (
@@ -24,9 +48,9 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  //   value={studentData.firstName}
-                  //   onChange={handleInputChange}
+                  name="userName"
+                  value={loginData.userName}
+                  onChange={handleInputChange}
                   required
                   className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
@@ -37,9 +61,9 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="text"
-                  name="lastName"
-                  //   value={studentData.lastName}
-                  //   onChange={handleInputChange}
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleInputChange}
                   required
                   className="mt-1 p-2 block w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
