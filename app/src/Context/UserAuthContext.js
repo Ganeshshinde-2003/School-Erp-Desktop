@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
   const loginUser = async (data) => {
     try {
       setUserData(data);
+      console.log(userData);
     } catch (error) {
       console.error("Login failed:", error);
     }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import "../AddTeacher/AddTeacherForm.css";
 import ButtonComponent from "../../Components/ButtonComponent";
-import { loginAdminUser } from "../../api/Authapi/auth";
+import { getSpecificUser, loginAdminUser } from "../../api/Authapi/auth";
 import { toast } from "react-toastify";
 import { useUser } from "../../Context/UserAuthContext";
 
@@ -19,7 +19,9 @@ const LoginPage = () => {
       const response = await loginAdminUser(loginData);
       if (response.status) {
         toast.success(response.message);
-        await loginUser(loginData);
+        const userData = await getSpecificUser(loginData.userName);
+        console.log(userData);
+        await loginUser(userData);
         window.location.href = "/home";
       } else {
         toast.error(response.message);
