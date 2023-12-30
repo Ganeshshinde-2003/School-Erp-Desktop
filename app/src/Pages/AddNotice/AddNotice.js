@@ -14,9 +14,7 @@ const AddNoticePage = () => {
 
   const openModal = async () => {
     console.log("Open modal");
-    const res = await getStudentListByJoiningClass("10");
-    console.log(res);
-    // setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleNoticeAdded = () => {
