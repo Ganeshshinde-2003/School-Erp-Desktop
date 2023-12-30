@@ -236,3 +236,93 @@ export const getSpecificStudentDataFromDd = async (DocId) => {
     throw error;
   }
 };
+
+
+export const getStudentListByJoiningClass = async (joiningClass) => {
+  const studentRef = collection(db, "AddStudentsDirectly");
+
+  try {
+    const q = query(studentRef, where("joiningClass", "==", joiningClass));
+    const querySnapshot = await getDocs(q);
+
+    const studentList = [];
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const fullName = `${data.firstName} ${data.lastName}`;
+      const optionalSubjects = data.optionalSubjects.join(", ") || [];
+      const id = doc.id;
+      
+      studentList.push({
+        "Full Name":fullName,
+        "Student Id":id,
+        "Optional subjects":optionalSubjects,
+      });
+    });
+
+    const totalStudents = querySnapshot.size;
+
+    return {
+      studentList,
+      totalStudents,
+    };
+  } catch (error) {
+    console.error("Error fetching student list by joining class: ", error);
+    return {
+      status: false,
+      message: "Error fetching student list by joining class",
+    };
+  }
+};
+
+// export const updateStudentSection = async (studentId, newSection) => {
+//   const studentRef = doc(db, "AddStudentsDirectly", studentId);
+
+//   try {
+//     await updateDoc(studentRef, {
+//       joiningSection: newSection,
+//     });
+
+//     console.log("Student section successfully updated!");
+//     return { status: true, message: "Student section successfully updated" };
+//   } catch (error) {
+//     console.error("Error updating student section:", error);
+//     return { status: false, message: "Error updating student section" };
+//   }
+// };
+
+export const updateMultipleStudentsSections = async (studentsList) => {
+  try {
+    const batch = [];
+    
+    studentsList.forEach((student) => {
+      const { studentId, section } = student;
+      const studentRef = doc(db, "AddStudentsDirectly", studentId);
+
+      batch.push(updateDoc(studentRef, { joiningSection: section }));
+    });
+
+    await Promise.all(batch);
+
+    console.log("Students' sections successfully updated!");
+    return { status: true, message: "Students' sections successfully updated" };
+  } catch (error) {
+    console.error("Error updating students' sections:", error);
+    return { status: false, message: "Error updating students' sections" };
+  }
+};
+
+export const getSectionOfParticularStudent = async (studentId) => { 
+  const studentRef = doc(db, "AddStudentsDirectly", studentId);
+
+  try {
+    const studentDocSnapshot = await getDoc(studentRef);
+    const studentData = studentDocSnapshot.data();
+
+    return studentData.joiningSection || undefined;
+  } catch (error) {
+    console.error("Error fetching student section:", error);
+    return { status: false, message: "Error fetching student section" };
+  }
+}
+

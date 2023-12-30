@@ -33,7 +33,7 @@ const AddOrUpdateStudentForm = ({
   return (
     <Modal setShowModal={setIsModalOpen}>
       <h2 className="text-[20px] font-bold text-left bg-[#333333] text-white addTeacher-header">
-        Enter Password
+        Verification required
       </h2>
       <div className="addTeacher-form">
         <form>
@@ -58,6 +58,7 @@ const AddOrUpdateStudentForm = ({
               disabled={!validPassword}
               className={validPassword ? "" : "invalid-button"}
               onClick={() => {
+                setGetPassword("");
                 setIsModalOpen2(true);
               }}
             >
