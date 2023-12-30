@@ -52,42 +52,39 @@
   height: 35px;
 }
 
-.timetable-edit-btn, .timetable-delete-btn {
+.timetable-edit-btn,
+.timetable-delete-btn {
   width: 50px;
   height: 20px;
   font-size: 12px;
 }
 
-.option-btn-timetable{
+.option-btn-timetable {
   align-items: center;
   justify-content: space-evenly;
   margin-top: 10px;
 }
 
-.timetable-title-padding{
+.timetable-title-padding {
   padding: 5px 10px;
   align-items: center;
 }
 
-.x-close-btn{
+.x-close-btn {
   border-radius: 50%;
   border: 1px solid;
   padding: 5px;
 }
 
-.modal-content-style-timetable{
+.modal-content-style-timetable {
   min-width: 45vw;
   min-height: 30vh;
 }
 
-.oval-styling-timetable{
+.oval-styling-timetable {
   position: absolute;
   top: 50vh;
-    left: 50vw;
-}
-
-.timetable-block-style {
-  /* width: 180px; */
+  left: 50vw;
 }
 
 .timetable-timings-style {
@@ -100,7 +97,7 @@
 
 .assign-section-top-options {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   background-color: #333333;
   color: white;
