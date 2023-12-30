@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal";
 import Alert from "@mui/material/Alert";
-import "../AddTeacher/AddTeacherForm.css";
-import { addNoticeToDatabase } from "../../api/AddNotice/AddNotice";
+import { assignStudentsToSections } from "../../api/StudentMaster/AddStudentDirectly";
+
 
 const AutomaticAssignForm = ({
   isModalOpen,
   setIsModalOpen,
   selectedClass,
+  sectionOptions,
+  totalStudents,
+  setTotalStudents,
+  listOfStudentsWithoutJoiningSection,
+  setDataChanged
 }) => {
-  const inticalData = {
-    noticeTo: "",
-    noticeDescription: "",
-  };
-  const [noticeData, setNoticeData] = useState(inticalData);
 
   const [error, setError] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
+  const [prevInputValues, setPrevInputValues] = useState({});
 
   useEffect(() => {
     if (isModalOpen) {
@@ -24,37 +25,38 @@ const AutomaticAssignForm = ({
     }
   }, [isModalOpen]);
 
-  const getnoticeData = async (DocId) => {};
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setNoticeData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleInputChange = (section, e) => {
+    const { value } = e.target;
+    const newValue = parseInt(value, 10) || 0;
+    console.log("sec", section);
+    
+    setTotalStudents((prevTotalStudents) => {
+      const prevValue = prevInputValues[section] || 0;
+      const adjustment = prevValue - newValue;
+      setPrevInputValues((prev) => ({ ...prev, [section]: newValue }));
+      return prevTotalStudents + adjustment;
+    });
   };
+  
+  
 
-  const handleUpdate = async () => {};
-
-  const handleAdd = async () => {
+  const handleAssign = async () => {
     try {
-      const response = await addNoticeToDatabase(noticeData);
-
-      // Show a confirmation message
-      setConfirmationMessage(response.message);
-
-      setNoticeData(inticalData);
+      sectionOptions.forEach((section) => {
+        const inputValue = prevInputValues[section] || 0;
+        console.log(`Section ${section}: ${inputValue}`);
+      });
+  
+      await assignStudentsToSections(prevInputValues,listOfStudentsWithoutJoiningSection);
+  
+      console.log(prevInputValues);
+      setDataChanged(true);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error updating subject data", error);
     }
-
-    setTimeout(() => {
-      setConfirmationMessage(null);
-      setIsModalOpen(false);
-      handleNoticeAdded();
-    }, 2000); // Hide the message after 2 seconds
   };
+  
 
   if (!isModalOpen) return null;
 
@@ -66,56 +68,38 @@ const AutomaticAssignForm = ({
         </Alert>
       )}
 
-    <h2 className="text-[20px] font-bold text-left bg-[#333333] text-white addTeacher-header">
-        {"Automatic assign " + selectedClass }
-    </h2>
+      <h2 className="flex justify-between items-center text-[20px] font-bold text-left bg-[#333333] text-white addTeacher-header">
+        <span>{"Automatic assign " + selectedClass}</span>
+        <span className="pl-20"> Total left: {totalStudents}</span>
+      </h2>
       <div className="addTeacher-form">
         <form>
-          <div className="addTeacher-main-form subject-form">
-            <div className="form-first">
-              <label className="block text-sm font-medium text-gray-700">
-                Notice To*
+          {sectionOptions.map((section, index) => (
+            <div key={index} className="flex justify-between items-center mb-4">
+              <label className="block text-[18px] font-medium text-[#333333]">
+                Section {section}
               </label>
-              <select
-                type="text"
-                name="noticeTo"
-                value={noticeData.noticeTo}
-                onChange={handleInputChange}
-                className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="">--- Select ---</option>
-                <option value="Pysics">Pysics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Biology">Biology</option>
-                <option value="Maths">Maths</option>
-              </select>
-            </div>
-            <div className="flex justify-between">
-              <label className="block text-sm w-[200px] font-medium text-gray-700">
-                Notice Description*
-              </label>
-              <textarea
-                type="text"
-                rows="6"
-                name="noticeDescription"
-                value={noticeData.noticeDescription}
-                onChange={handleInputChange}
-                className="mt-1 p-2 block w-[92%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              <input
+                type="number"
+                name={`section_${section}`}
+                onChange={(e) => handleInputChange(section, e)}
+                className="mt-1 p-2 w-half border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
-          </div>
+          ))}
           <div className="add-subject-btn addTeacher-buttons">
             <button
               type="button"
-              onClick={handleAdd}
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white "
+              onClick={handleAssign}
+              disabled={!(totalStudents >= 0)}
+              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed "
             >
-              { "Add"}
+              {"Assign"}
             </button>
             <button
               type="button"
               onClick={() => {
-                setNoticeData(inticalData);
+               
                 setIsModalOpen(false);
               }}
               className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white "

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
 import AlertComponent from "../../Components/AlertComponent";
 import AddButton from "../../Components/AddButton";
-import AutomaticAssignForm from "../AssignSections/AutomaticAssignForm";
+import AutomaticAssignForm from "./AutomaticAssignForm";
 import { Oval } from "react-loader-spinner";
 import "../../App.css";
 import { toast } from "react-toastify";
-import { getStudentListByJoiningClass, updateMultipleStudentsSections } from "../../api/StudentMaster/AddStudentDirectly";
+import { getStudentListByJoiningClass, getStudentsWithoutJoiningSection, updateMultipleStudentsSections } from "../../api/StudentMaster/AddStudentDirectly";
 import { getAllSectionsByClassName, getAllclassNames } from "../../api/ClassMaster/AddClassAndSection";
 
 
@@ -18,7 +18,8 @@ const AssignSection = () => {
   const [sectionOptions, setSectionOptions] = useState([]);
   const [initialStudentAndClassData, setInitialStudentAndClassData] = useState([]);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [listOfStudentsWithoutJoiningSection, setListOfStudentsWithoutJoiningSection] = useState([]);
 
   const [selectedClass, setSelectedClass] = useState("KG");
 
@@ -31,6 +32,7 @@ const AssignSection = () => {
     getStudentListByJoiningClass(selectedClass)
       .then((data) => {
         setSubjectData(data.studentList);
+
         setIsLoading(false);
       })
       .catch((error) => {
@@ -52,11 +54,19 @@ const AssignSection = () => {
     });
   };
 
+  const getStudentsWithoutJoiningSectionfn = async (selectedClass) => {
+    const res = await getStudentsWithoutJoiningSection(selectedClass);
+    setTotalStudents(res.totalStudentsWithoutJoiningSection);
+    setListOfStudentsWithoutJoiningSection(res.studentList);
+    console.log(res);
+  }
+
   useEffect(() => {
     fetchData();
     getClasses();
     if (selectedClass !== '' && selectedClass !== null) {
       getSectionsOfRespectiveClass(selectedClass);
+      getStudentsWithoutJoiningSectionfn(selectedClass);
 
     }
   }, [selectedClass]);
@@ -65,6 +75,10 @@ const AssignSection = () => {
   if (dataChanged) {
     fetchData(); // Refetch data when dataChanged is true
     setDataChanged(false);
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
   }
 
 
@@ -84,7 +98,7 @@ const AssignSection = () => {
     setDocId(null);
     setShowDeleteAlert(false);
   };
-  const openModal = () => {
+  const saveButtonClicked = () => {
     console.log(initialStudentAndClassData );
 try {
     const res = updateMultipleStudentsSections(initialStudentAndClassData)
@@ -185,7 +199,7 @@ catch (e) {
                 <AddButton
                 isButtonDisabled={isSaveButtonDisabled}
                   buttonText={"Save"}
-                  onClickButton={openModal}
+                  onClickButton={saveButtonClicked}
                 />
               </p>
             </div>
@@ -196,6 +210,11 @@ catch (e) {
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
       selectedClass={selectedClass}
+      sectionOptions={sectionOptions}
+      totalStudents={totalStudents}
+      setTotalStudents={setTotalStudents} 
+      listOfStudentsWithoutJoiningSection={listOfStudentsWithoutJoiningSection}
+      setDataChanged={setDataChanged}
     />
     </div>
   );
