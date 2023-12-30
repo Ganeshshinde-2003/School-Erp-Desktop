@@ -97,3 +97,24 @@
 .update-btn-core-settings {
   margin-left: 30px;
 }
+
+.assign-section-top-options {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #333333;
+  color: white;
+  height: 80px;
+  width: 480px;
+  border-radius: 7px;
+  padding: 5px 15px;
+}
+
+.assign-section-top-options label {
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.assign-section-top-options select {
+  margin-right: 80px;
+}

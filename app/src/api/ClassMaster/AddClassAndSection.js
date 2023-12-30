@@ -174,9 +174,9 @@ const addAssignSubjectsToDatabase = async (
     console.error("Error adding document: ", error);
   }
 };
-
 export const getAllclassNames = async () => {
   const classAndSectionsRef = collection(db, "AddClassAndSections");
+  
   try {
     const querySnapshot = await getDocs(classAndSectionsRef);
 
@@ -184,15 +184,29 @@ export const getAllclassNames = async () => {
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-
       classNameData.push(data.className);
     });
 
-    return classNameData;
+    // Custom sort function to handle numeric values
+    const sortedClassNames = classNameData.sort((a, b) => {
+      const numA = parseInt(a, 10);
+      const numB = parseInt(b, 10);
+
+      if (!isNaN(numA) && !isNaN(numB)) {
+        return numA - numB;
+      }
+
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    });
+
+    return sortedClassNames;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching class names: ", error);
+    throw error;
   }
 };
+
+
 
 // export const getAllclassNamesAndSubjects = async () => {
 //   const classAndSectionsRef = collection(db, "AddClassAndSections");
@@ -293,3 +307,34 @@ export const getSubjectsByClassName = async (className) => {
     return [];
   }
 };
+
+export const getAllSectionsByClassName = async (className) => {
+  const classAndSectionsRef = collection(db, "AddClassAndSections");
+
+  try {
+    const querySnapshot = await getDocs(classAndSectionsRef);
+
+    let matchingSections = [];
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      if (data.className === className && data.nameOfSections) {
+        const sectionsForClass = data.nameOfSections.filter(section =>
+          section.startsWith(className)
+        );
+
+        matchingSections = [...matchingSections, ...sectionsForClass];
+      }
+    });
+
+    console.log(matchingSections);
+
+    return matchingSections;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+
