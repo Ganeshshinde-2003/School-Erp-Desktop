@@ -4,8 +4,9 @@ import { ImCross } from "react-icons/im";
 
 import "./DynamicTable.css";
 import AddButton from "./AddButton";
+import { getSectionOfParticularStudent } from "../api/StudentMaster/AddStudentDirectly";
 
-const DynamicTable = ({ data, rowHeight, action, handleAction, ispanding, attendanceStatus }) => {
+const DynamicTable = ({ data, rowHeight, action, handleAction, ispanding, attendanceStatus, selectSection, sectionList, onChangeSection }) => {
   if (!data || data.length === 0) {
     return <div>No data to display</div>;
   }
@@ -59,6 +60,13 @@ const DynamicTable = ({ data, rowHeight, action, handleAction, ispanding, attend
               className={`h-[${rowHeight}px] py-2 px-4 text-center bg-gray-200 border border-gray-300`}
             >
               Attendance Status
+            </th>
+          )}
+          {selectSection && (
+            <th
+              className={`h-[${rowHeight}px] py-2 px-4 text-center bg-gray-200 border border-gray-300`}
+            >
+              Select Section
             </th>
           )}
         </tr>
@@ -132,11 +140,58 @@ const DynamicTable = ({ data, rowHeight, action, handleAction, ispanding, attend
                 </div>
               </td>
             )}
+            {selectSection && (
+              <td
+                className={`h-[${rowHeight}px] py-2 px-4 border border-gray-300 text-center`}
+              >
+                <div className="flex items-center justify-around">
+                  {/* Updated code here */}
+                  <AsyncSectionSelect
+                    studentId={row["Student Id"]}
+                    sectionList={sectionList}
+                    onChangeSection={onChangeSection}
+                  />
+                </div>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>
     </table>
   );
 };
+
+const AsyncSectionSelect = ({ studentId, sectionList, onChangeSection }) => {
+  const [selectedSection, setSelectedSection] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const section = await getSectionOfParticularStudent(studentId);
+        setSelectedSection(section);
+      } catch (error) {
+        console.error("Error fetching section:", error);
+      }
+    };
+
+    fetchData();
+  }, [studentId]);
+
+  return (
+    <select
+      value={selectedSection}
+      onChange={(e) => {onChangeSection(e.target.value, studentId), setSelectedSection(e.target.value)}}
+      className="mt-1 block py-2 px-3 border text-white bg-[#333333] border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+    >
+      <option value="">-- Select --</option>
+      {sectionList.map((options) => (
+        <option key={options} value={options}>
+          {options}
+        </option>
+      ))}
+    </select>
+  );
+};
+
 
 export default DynamicTable;

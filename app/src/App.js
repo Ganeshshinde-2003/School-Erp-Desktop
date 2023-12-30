@@ -33,6 +33,7 @@ import CoreSettings from "./Pages/CoreSettings/CoreSettings.js";
 import Templates from "./Pages/Templates/Templates.js";
 import Users from "./Pages/Users/Users.js";
 import LoginPage from "./Pages/Auth/LoginPage.js";
+import AssignSection from "./Pages/ReportsAndAllocation/AssignSection.js";
 import { UserProvider } from "./Context/UserAuthContext.js";
 
 const App = () => {
@@ -140,6 +141,10 @@ const App = () => {
               <Route
                 path="/staff-attendance/put-attendance"
                 element={<PutAttendance />}
+              />
+              <Route 
+              path="/reports-allocation/assign-sections"
+              element={<AssignSection />}
               />
               <Route path="/exam-addition/add-exam" element={<AddExams />} />
               <Route path="/searchresult/:id" element={<SearchDetailsShow />} />
