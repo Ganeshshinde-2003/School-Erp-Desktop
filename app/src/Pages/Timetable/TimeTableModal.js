@@ -327,8 +327,8 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
       contentLabel="Timetable Modal"
     >
       <div className="modal-content modal-content-style-timetable">
-     {!isLoading? <span className="flex justify-between timetable-title-padding">
-     <h2><b>Timetable for {section}</b></h2> 
+     {!isLoading? <span className="flex justify-between timetable-title-padding bg-[#333333]">
+     <h2 className="text-[20px] font-bold text-left bg-[#333333] text-white addTeacher-header">Timetable for {section}</h2> 
      <ImCross
      onClick={closeModal}
      className="w-5 h-5 cursor-pointer text-white mr-1 rounded-full bg-black p-1"
@@ -352,7 +352,7 @@ const TimetableModal = ({ isOpen, closeModal, section }) => {
           <React.Fragment>
             <DynamicTable
               data={generateTable()}
-              rowHeight={150}
+              rowHeight={100}
               action={false}
               ispanding={false}
             />
