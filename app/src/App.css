@@ -86,10 +86,6 @@
     left: 50vw;
 }
 
-.timetable-block-style {
-  /* width: 180px; */
-}
-
 .timetable-timings-style {
   white-space: nowrap;
 }
@@ -100,7 +96,7 @@
 
 .assign-section-top-options {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   background-color: #333333;
   color: white;
