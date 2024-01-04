@@ -10,6 +10,8 @@ import {
   serverTimestamp,
   query,
   orderBy,
+  setDoc,
+  where,
 } from "firebase/firestore";
 
 export const testStaffData = {
@@ -27,8 +29,18 @@ export const testStaffData = {
 export const addNonTeachingStaffToDb = async (StaffData) => {
   const StaffRef = collection(db, "AddNonTeachingStaff");
 
+  const querySnapshot = await getDocs(query(StaffRef, where("staffId", "==", StaffData?.staffId)));
+
+   if (!querySnapshot.empty) {
+       return { status: false, message: "staff with the same staffId already exists" };
+   }
+  // Create a reference to the document with the sectionName as docId
+  const StaffDocRef = doc(StaffRef,StaffData.staffId);
+  console.log(StaffDocRef);
+
+
   try {
-    const StaffDoc = await addDoc(StaffRef, {
+    const StaffDoc = await setDoc(StaffDocRef, {
       firstName: StaffData.firstName,
       lastName: StaffData.lastName,
       role: StaffData.role,
@@ -79,10 +91,12 @@ export const updateStaffToDatabase = async (documentId, updatedStaffData) => {
 export const deleteStaffData = async (docId) => {
   const StaffRef = collection(db, "AddNonTeachingStaff");
   const StaffDocRef = doc(StaffRef, docId);
+  const staffAttendanceRef = doc(db, "StaffAttendance", docId);
 
   try {
     await deleteDoc(StaffDocRef);
-    console.log("Document successfully deleted!");
+    await deleteDoc(staffAttendanceRef);
+
     return { status: true, message: "Document successfully deleted" };
   } catch (error) {
     console.error("Error deleting document:", error);

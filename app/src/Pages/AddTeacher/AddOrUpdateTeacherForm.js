@@ -92,6 +92,7 @@ const AddOrUpdateTeacherForm = ({
   const [className, setClassName] = useState([]);
   const [subjectsName, setSubjectsName] = useState([]);
   const [singleClassName, setSingleClassName] = useState("");
+  const [sectionName, setSectionName] = useState([]);
 
   useEffect(() => {
     if (isModalOpen && isUpdateOn) {
@@ -101,6 +102,7 @@ const AddOrUpdateTeacherForm = ({
     }
     getTransportSlabs();
     getClassNames();
+    getAllsectionsList();
   }, [isModalOpen, isUpdateOn]);
 
   const getClassNames = async () => {
@@ -131,6 +133,12 @@ const AddOrUpdateTeacherForm = ({
       console.error("Error fetching teacher data", error);
       toast.error("Error fetching data");
     }
+  };
+
+  const getAllsectionsList = async () => {
+    await getAllClassesAndSectionNames().then((data) => {
+      setSectionName(data);
+    });
   };
 
   const getTransportSlabs = async () => {
@@ -344,7 +352,7 @@ const AddOrUpdateTeacherForm = ({
               </div>
               <div>
                 <label className="block text-[18px] font-medium text-[#333333]">
-                  Mail I’D*
+                  Mail I'D*
                 </label>
                 <input
                   type="email"
@@ -380,18 +388,19 @@ const AddOrUpdateTeacherForm = ({
                   className="mt-1 p-2 block w-[47%] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
                   <option value="">--- Select ---</option>
-                  <option value="Class A">Class A</option>
-                  <option value="Class B">Class B</option>
-                  <option value="Class C">Class C</option>
+                  {sectionName.map((option) => (
+                    <option key={option} value={option}>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="form-first w-[200px]">
               <label
                 htmlFor="fileInput"
-                className={`mt-1 p-2 w-half text-[20px] font-bold block h-[200px] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-center ${
-                  teacherData.profilePic ? "cursor-pointer" : ""
-                }`}
+                className={`mt-1 p-2 w-half text-[20px] font-bold block h-[200px] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-center ${teacherData.profilePic ? "cursor-pointer" : ""
+                  }`}
                 style={{ color: "#333333" }}
               >
                 {teacherData.profilePic ? (
