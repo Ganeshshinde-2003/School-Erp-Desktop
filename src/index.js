@@ -28,7 +28,7 @@ const createWindow = () => {
   //   protocol: "file",
   // });
 
-  mainWindow.loadURL("http://localhost:3000");
+  mainWindow.loadURL("http://localhost:58289");
 };
 
 // This method will be called when Electron has finished
