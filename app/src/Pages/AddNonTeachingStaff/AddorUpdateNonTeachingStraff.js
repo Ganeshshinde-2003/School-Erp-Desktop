@@ -26,6 +26,7 @@ const AddorUpdateNonTeachingStaff = ({
     salary: null,
     bloodGroup: "",
     bankAccount: "",
+    profilePic: null,
     dob: null,
   };
   const [staffData, setstaffData] = useState(inticalData);
@@ -52,11 +53,24 @@ const AddorUpdateNonTeachingStaff = ({
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setstaffData({
-      ...staffData,
-      [name]: value,
-    });
+    const { name, files } = e.target;
+    if (name === "profilePic" && files && files[0]) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setstaffData({
+          ...staffData,
+          [name]: reader.result, // Convert the file to a data URL
+        });
+      };
+
+      reader.readAsDataURL(files[0]);
+    } else {
+      setstaffData({
+        ...staffData,
+        [name]: e.target.value,
+      });
+    }
   };
 
   const handleUpdate = async () => {
@@ -242,23 +256,33 @@ const AddorUpdateNonTeachingStaff = ({
                 />
               </div>
             </div>
-            <div className="form-first">
-              <div>
-                <label
-                  htmlFor="fileInput"
-                  className="mt-1 p-2 w-half text-[20px] font-bold block h-[200px] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-center"
-                  style={{ color: "#333333" }}
-                >
-                  Photo+
-                </label>
+            <div className="form-first w-[200px]">
+              <label
+                htmlFor="fileInput"
+                className={`mt-1 p-2 w-half text-[20px] font-bold block h-[200px] border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-center ${
+                  staffData.profilePic ? "cursor-pointer" : ""
+                }`}
+                style={{ color: "#333333" }}
+              >
+                {staffData.profilePic ? (
+                  <img
+                    src={staffData.profilePic}
+                    alt="Selected Profile"
+                    className="mt-2 h-[200px] w-full rounded-[10px] form-first"
+                  />
+                ) : (
+                  "Photo+"
+                )}
+              </label>
 
-                <input
-                  type="file"
-                  id="fileInput"
-                  accept="image/*"
-                  className="hidden"
-                />
-              </div>
+              <input
+                type="file"
+                name="profilePic"
+                id="fileInput"
+                onChange={handleInputChange}
+                accept="image/*"
+                className="hidden"
+              />
             </div>
           </div>
           <div className="add-subject-btn addTeacher-buttons">
