@@ -43,8 +43,8 @@ import { calculateAttendancePercentage, calculateNumberOfAbsentDays } from "../S
           "Staff Name":staffName,
           "Staff Id":staffId,
           "Staff Salary":staffSalary,
-          "Absent days":absentDays,
-          "Total Amount":totalAmount.toFixed(2),
+          "Absent days":absentDays || 0,
+          "Total Amount":totalAmount.toFixed(2) || 0,
         };
   
         nonTeachingStaffSalaryData.push(modifiedData);

@@ -294,6 +294,8 @@ export const getStudentListByJoiningClass = async (joiningClass) => {
 export const updateMultipleStudentsSections = async (studentsList) => {
   try {
     const batch = [];
+    console.log("++++++++++++++++++++++++++++");
+    console.log(studentsList);
     
     studentsList.forEach((student) => {
       const { studentId, section } = student;
@@ -325,4 +327,86 @@ export const getSectionOfParticularStudent = async (studentId) => {
     return { status: false, message: "Error fetching student section" };
   }
 }
+
+export const getStudentsWithoutJoiningSection = async (joiningClass) => {
+  const studentRef = collection(db, "AddStudentsDirectly");
+
+  try {
+    const q = query(studentRef, where("joiningClass", "==", joiningClass));
+    const querySnapshot = await getDocs(q);
+
+    const studentList = [];
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const fullName = `${data.firstName} ${data.lastName}`;
+      const optionalSubjects = data.optionalSubjects.join(", ") || [];
+      const id = doc.id;
+
+      // Check if joiningSection field is absent
+      if (!("joiningSection" in data)) {
+        studentList.push({
+          "Full Name": fullName,
+          "Student Id": id,
+          "Optional subjects": optionalSubjects,
+        });
+      }
+    });
+
+    const totalStudentsWithoutJoiningSection = studentList.length;
+
+    return {
+      studentList,
+      totalStudentsWithoutJoiningSection,
+    };
+  } catch (error) {
+    console.error("Error fetching students without joining section: ", error);
+    return {
+      status: false,
+      message: "Error fetching students without joining section",
+    };
+  }
+};
+
+
+export const assignStudentsToSections = async (sectionLimits, studentsList) => {
+  try {
+    const sectionAssignments = {};
+    
+    
+    // Initialize section assignments with 0 students
+    Object.keys(sectionLimits).forEach((section) => {
+      sectionAssignments[section] = 0;
+    });
+    console.log(studentsList);
+
+    const assignmentsList = []; // List to store studentId and joiningSection
+
+    studentsList.forEach((student) => {
+      const studentId  = student["Student Id"];
+
+      // Find the first available section
+      const availableSection = Object.keys(sectionLimits).find(
+        (section) => sectionAssignments[section] < sectionLimits[section]
+      );
+
+      if (availableSection) {
+        assignmentsList.push({ studentId, section: availableSection });
+        sectionAssignments[availableSection]++;
+      } else {
+        console.error("No available sections for student:", student);
+      }
+    });
+
+    // Call the function to update multiple students with their sections
+    await updateMultipleStudentsSections(assignmentsList);
+    console.log(assignmentsList);
+
+    console.log("Students' sections successfully updated!");
+    return { status: true, message: "Students' sections successfully updated" };
+  } catch (error) {
+    console.error("Error updating students' sections:", error);
+    return { status: false, message: "Error updating students' sections" };
+  }
+};
 

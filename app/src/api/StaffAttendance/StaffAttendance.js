@@ -108,10 +108,7 @@ export const calculateAttendancePercentage = async (options) => {
       const staffAttendanceDoc = await getDoc(staffAttendanceRef);
   
       if (!staffAttendanceDoc.exists()) {
-        return {
-          status: false,
-          message: "Staff attendance data not found",
-        };
+        return 0;
       }
   
       const attendanceData = staffAttendanceDoc.data();
@@ -172,10 +169,7 @@ export const calculateAttendancePercentage = async (options) => {
       const staffAttendanceDoc = await getDoc(staffAttendanceRef);
   
       if (!staffAttendanceDoc.exists()) {
-        return {
-          status: false,
-          message: "Staff attendance data not found",
-        };
+        return 0;
       }
   
       const attendanceData = staffAttendanceDoc.data();

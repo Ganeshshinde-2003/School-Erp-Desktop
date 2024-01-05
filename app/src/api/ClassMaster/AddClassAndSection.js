@@ -269,12 +269,8 @@ export const getAllClassesAndSectionNames = async () => {
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-
-      // Concatenate the arrays in nameOfSections into classNameData
       classNameData.push(...data.nameOfSections);
     });
-
-    console.log(classNameData);
 
     return classNameData;
   } catch (error) {

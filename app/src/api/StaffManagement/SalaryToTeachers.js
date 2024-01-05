@@ -33,13 +33,13 @@ export const getTeacherAndSalaryDataFromDatabase = async (month) => {
         const staffId = data.teacherId;
   
         // Extract salaryAmount from the salaryDetails map
-        const salaryAmount = data.salaryDetails ? data.salaryDetails.salaryAmount : null;
+        const salaryAmount = data.salaryDetails ? data.salaryDetails.salaryAmount : 0;
   
         // Set default values for totalAmount and absentDays
 
         const options = {
           staffId: staffId,
-          month: month, // Replace with the desired month
+          month: month,
           overall: false,
         };
 

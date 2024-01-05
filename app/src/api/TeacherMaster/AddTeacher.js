@@ -136,8 +136,6 @@ export const addTeacherToDatabase = async (teacherData) => {
       assignClasses: teacherData.assignClasses,
       createdAt: serverTimestamp(),
     });
-
-    console.log("data added succfully");
     return {
       status: true,
       message: "Teacher and subcollections added successfully",
@@ -147,7 +145,7 @@ export const addTeacherToDatabase = async (teacherData) => {
     console.log(error);
     return {
       status: false,
-      message: "Error adding teacher and subcollections",
+      message: "Error adding teacher document",
     };
   }
 };
@@ -238,9 +236,12 @@ export const deleteTeacher = async (teacheId) => {
   const teachersRef = collection(db, "AddTeachers");
   const teacherDocRef = doc(teachersRef, teacheId);
 
+  const staffAttendanceRef = doc(db, "StaffAttendance", teacheId);
+
   try {
     await deleteDoc(teacherDocRef);
-    console.log("Document successfully deleted!");
+    await deleteDoc(staffAttendanceRef);
+
     return { status: true, message: "Document successfully deleted" };
   } catch (error) {
     console.error("Error deleting document:", error);
