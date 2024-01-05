@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal";
 import Alert from "@mui/material/Alert";
-import {
-  getexpenseDataFromDb,
-  addSubjectToDatabase,
-  updateSubjectInDatabase,
-} from "../../api/ClassMaster/Addsubject";
 import "../AddTeacher/AddTeacherForm.css";
-import {
-  addExpenseDataToDb,
-  getExpenseDataFromDatabase,
-  getSpecificExpenseDataFromDb,
-  updateExpenseDataToDatabase,
-} from "../../api/ExpenseAdding/AddExpense";
+import { toast } from "react-toastify";
 import { getSpecificUser, signupAdminUser, updateSpecificUser } from "../../api/Authapi/auth";
 
 const AddOrUpdateUsersForm = ({
@@ -48,6 +38,7 @@ const AddOrUpdateUsersForm = ({
       }
     } catch (error) {
       console.error("Error fetching subject data", error);
+      toast.error("Error fetching data");
     }
   };
 
@@ -64,7 +55,7 @@ const AddOrUpdateUsersForm = ({
       const response = await updateSpecificUser(DocId, expenseData);
 
       setConfirmationMessage(response.message);
-
+      toast.success(response.message);
       setExpenseData(inticalData);
 
       setTimeout(() => {
@@ -82,7 +73,7 @@ const AddOrUpdateUsersForm = ({
       const response = await signupAdminUser(expenseData);
       // Show a confirmation message
       setConfirmationMessage(response.message);
-
+      toast.success(response.message);
       setExpenseData(inticalData);
     } catch (error) {
       console.error("Error updating subject data", error);
