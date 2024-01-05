@@ -9,7 +9,7 @@ import {
 } from "../../api/ExpenseAdding/AddExpense";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
-import { getAllUsers } from "../../api/Authapi/auth";
+import { deleteUser, getAllUsers } from "../../api/Authapi/auth";
 
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +55,7 @@ const Users = () => {
     }
   };
   const onConfirm = async () => {
-    const response = await deleteExpenseData(docId);
+    const response = await deleteUser(docId);
     console.log("Delete document with ID:", docId);
     if (response.status) {
       setDataChanged(true);
