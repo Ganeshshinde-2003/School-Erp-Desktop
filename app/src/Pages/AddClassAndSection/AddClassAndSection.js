@@ -10,6 +10,7 @@ import AddOrUpdateClassAndSectionForm from "./AddOrUpdateClassAndSectionForm ";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle";
 
 const AddClassAndSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,15 +110,18 @@ const AddClassAndSubject = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Classes
-              </h1>
+              <TableTitle title={'Add Classes'} />
+
               <DynamicTable
                 data={subjectData}
                 rowHeight={100}
                 action={true}
                 handleAction={handleAction}
                 ispanding={false}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add Class"} onClickButton={openModal} />

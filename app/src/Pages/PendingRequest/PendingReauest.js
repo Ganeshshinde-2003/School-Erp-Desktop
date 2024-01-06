@@ -163,6 +163,10 @@ const PendingRequest = () => {
                 action={false}
                 ispanding={true}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add students"} />

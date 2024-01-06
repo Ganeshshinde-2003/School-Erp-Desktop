@@ -11,6 +11,7 @@ import DynamicTable from "../../Components/DynamicTable";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle";
 
 
 const AddDriver = () => {
@@ -107,15 +108,18 @@ const AddDriver = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Driver
-              </h1>
+            <TableTitle title={'Add Driver'} />
+            
               <DynamicTable
                 data={driverData}
                 rowHeight={100}
                 action={true}
                 handleAction={handleAction}
                 ispanding={false}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton

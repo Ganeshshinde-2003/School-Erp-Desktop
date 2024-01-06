@@ -8,6 +8,7 @@ import "../../App.css";
 import { toast } from "react-toastify";
 import { getStudentListByJoiningClass, getStudentsWithoutJoiningSection, updateMultipleStudentsSections } from "../../api/StudentMaster/AddStudentDirectly";
 import { getAllSectionsByClassName, getAllclassNames } from "../../api/ClassMaster/AddClassAndSection";
+import TableTitle from "../../Components/TableTitle"
 
 
 const AssignSection = () => {
@@ -183,14 +184,15 @@ catch (e) {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Assign Section
-              </h1>
+            <TableTitle title={'Assign Section'} />
+                
               <DynamicTable
                 data={subjectData}
                 rowHeight={100}
                 action={false}
                 ispanding={false}
+                isLocateOn={false}
+                attendanceStatus={false}
                 selectSection={true}
                 sectionList={sectionOptions}
                 onChangeSection={onChangedSection}

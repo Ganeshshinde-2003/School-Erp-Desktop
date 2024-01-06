@@ -9,6 +9,7 @@ import BarGraph from "../../Components/BarGraph";
 import BarGraphData from "../../Database/BarGraphData";
 import PieGraph from "../../Components/PieGraph";
 import { useUser } from "../../Context/UserAuthContext.js";
+import TableTitle from "../../Components/TableTitle.js"
 const Home = () => {
   const [attendanceBarGraphData, setAttendanceBarGraphData] = useState({
     labels: BarGraphData.map((data) => data.class),
@@ -49,25 +50,30 @@ const Home = () => {
     <div className="mt-5 mb-5 flex flex-col w-full	items-center">
       <div className="flex justify-around w-full">
         <div className="birthdays-table">
-          <h1 className="h-8 text-center font-bold text-white flex items-center justify-center">
-            Today's Birthday's
-          </h1>
+          <TableTitle title={" Today's Birthday's"} />
           <DynamicTable
             data={Birthdays}
             rowHeight={8}
             action={false}
             ispanding={false}
+            isLocateOn={false}
+            attendanceStatus={false}
+            selectSection={false}
+            sectionList={false}
           />
         </div>
         <div className="attendance-table">
-          <h1 className="h-8 text-center font-bold text-white	flex items-center justify-center">
-            Attendance Count
-          </h1>
+          <TableTitle title={"Attendance Count"} />
+
           <DynamicTable
             data={Attendance}
             rowHeight={8}
             action={false}
             ispanding={false}
+            isLocateOn={false}
+            attendanceStatus={false}
+            selectSection={false}
+            sectionList={false}
           />
         </div>
       </div>
@@ -77,14 +83,17 @@ const Home = () => {
       <br></br>
       <div className="flex justify-around w-full">
         <div className="birthdays-table">
-          <h1 className="h-8 text-center font-bold text-white flex items-center justify-center">
-            Monthly Expense
-          </h1>
+        <TableTitle title={' Monthly Expense'} />
+
           <DynamicTable
             data={expense}
             rowHeight={8}
             action={false}
             ispanding={false}
+            isLocateOn={false}
+            attendanceStatus={false}
+            selectSection={false}
+            sectionList={false}
           />
         </div>
         <div className="w-1/4	">

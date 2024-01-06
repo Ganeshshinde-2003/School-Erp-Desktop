@@ -7,6 +7,7 @@ import AddOrUpdateFeeSlab from "./AddOrUpdateAddExams";
 
 import { deleteExam, getExamsDatabase } from "../../api/ExamAddtion/AddExam";
 import "../../App.css";
+import TableTitle from "../../Components/TableTitle";
 
 const AddExam = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -95,15 +96,18 @@ const AddExam = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Exams
-              </h1>
+            <TableTitle title={'Add Exams'} />
+
               <DynamicTable
                 data={examData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add Exam"} onClickButton={openModal} />

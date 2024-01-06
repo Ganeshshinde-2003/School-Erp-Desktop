@@ -11,6 +11,7 @@ import {
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle"
 
 const AddStop = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +59,7 @@ const AddStop = () => {
   }
 
 
-  const onConfirm = async ()=>{
+  const onConfirm = async () => {
     const response = await deleteTransportData(docId);
     console.log("Delete document with ID:", docId);
     if (response.status) {
@@ -66,14 +67,14 @@ const AddStop = () => {
       setDocId(null);
       setShowDeleteAlert(false);
       toast.success(response.message);
+    }
   }
-}
 
-const onCancel = () => {
-  setDocId(null);
-  setShowDeleteAlert(false);
+  const onCancel = () => {
+    setDocId(null);
+    setShowDeleteAlert(false);
 
-};
+  };
 
   // Function to open the modal
   const openModal = () => {
@@ -116,10 +117,8 @@ const onCancel = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Stops and Fees
-              </h1>
-              {/* Assuming you have a DynamicTable component for stops and fees */}
+              <TableTitle title={"Add Stops and Fees"} />
+
               <DynamicTable
                 data={stopData}
                 rowHeight={100}

@@ -7,6 +7,8 @@ import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { deleteUser, getAllUsers } from "../../api/Authapi/auth";
 import { toast } from "react-toastify";
+import { getAllUsers } from "../../api/Authapi/auth";
+import TableTitle from "../../Components/TableTitle";
 
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,15 +106,17 @@ const Users = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add User
-              </h1>
-              <DynamicTable
+            <TableTitle title={'Add Admin Users'} />
+            <DynamicTable
                 data={expenseData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add User"} onClickButton={openModal} />
