@@ -87,6 +87,7 @@ const TeacherSalaryTable = () => {
                 rowHeight={100}
                 action={false}
                 ispanding={false}
+                csvFileName="Teachers Salaries"
               />
             </div>
           )}

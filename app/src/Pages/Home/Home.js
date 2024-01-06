@@ -60,6 +60,7 @@ const Home = () => {
             attendanceStatus={false}
             selectSection={false}
             sectionList={false}
+            csvFileName="Today's Birthday List"
           />
         </div>
         <div className="attendance-table">
@@ -74,6 +75,7 @@ const Home = () => {
             attendanceStatus={false}
             selectSection={false}
             sectionList={false}
+            csvFileName="Attendance Count"
           />
         </div>
       </div>
@@ -94,6 +96,7 @@ const Home = () => {
             attendanceStatus={false}
             selectSection={false}
             sectionList={false}
+            csvFileName="Monthly Expense"
           />
         </div>
         <div className="w-1/4	">

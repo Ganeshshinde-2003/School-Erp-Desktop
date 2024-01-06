@@ -247,6 +247,7 @@ const DatePicker = ({ minDate, maxDate }) => {
             ispanding={false}
             attendanceStatus={true}
             handleAction={handleAction}
+            csvFileName="Staff Attendance"
           />
           <p className="h-16 text-center font-bold text-white flex items-center justify-center">
             <button

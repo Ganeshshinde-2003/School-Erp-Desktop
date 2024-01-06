@@ -125,6 +125,7 @@ const AddStop = () => {
                 action={true}
                 handleAction={handleAction}
                 ispanding={false}
+                csvFileName="Stops & Fees"
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton

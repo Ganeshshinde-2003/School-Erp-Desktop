@@ -93,6 +93,7 @@ const NonTeachingStaffSalaryTable = () => {
                 attendanceStatus={false}
                 selectSection={false}
                 sectionList={false}
+                csvFileName="Non Teaching Staff Salaries"
               />
             </div>
           )}

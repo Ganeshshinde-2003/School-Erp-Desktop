@@ -97,6 +97,7 @@ const AddFeeSlab = () => {
                 attendanceStatus={false}
                 selectSection={false}
                 sectionList={false}
+                csvFileName="Fee Structure"
               />
             </div>
           )}

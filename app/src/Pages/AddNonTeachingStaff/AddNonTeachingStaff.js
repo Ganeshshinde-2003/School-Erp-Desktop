@@ -117,6 +117,7 @@ const AddNonTeachingStaff = () => {
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                csvFileName="Non Teaching Staff"
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add Staff"} onClickButton={openModal} />

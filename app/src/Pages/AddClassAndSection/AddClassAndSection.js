@@ -122,6 +122,7 @@ const AddClassAndSubject = () => {
                 attendanceStatus={false}
                 selectSection={false}
                 sectionList={false}
+                csvFileName="Add Class & Sections"
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add Class"} onClickButton={openModal} />

@@ -108,6 +108,7 @@ const AddExam = () => {
                 attendanceStatus={false}
                 selectSection={false}
                 sectionList={false}
+                csvFileName="Exmas Data"
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add Exam"} onClickButton={openModal} />
