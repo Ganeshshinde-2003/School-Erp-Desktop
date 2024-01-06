@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useLocation, useParams } from "react-router-dom";
 import TextNameComponent from "../../Components/TextNameComponent";
 import "./SearchDetails.css";
+import svgImage from "./add.png";
+import Classes  from "../../Database/Classes";
 
 const SearchDetailsShow = () => {
   const { id } = useParams();
@@ -97,16 +99,18 @@ const SearchDetailsShow = () => {
           <div>
           </div>
         </div>
+        {who === "student" && (
+    <div>
       <div className="Fees">
-       <div>
-        <div className="fees-section">
-          <div className="fees-container">
-          <h3 className="fees-text">Application Fees</h3><button className="option-button">Receipt</button>
+        <div>
+          <div className="fees-section">
+            <div className="fees-container">
+              <h3 className="fees-text">Application Fees</h3><button className="option-button">Receipt</button>
+            </div>
+            <div className="fees-container">
+              <h3 className="fees-text-2">Admission Fees</h3><button className="pay-button ">Take Fees</button>
+            </div>
           </div>
-          <div className="fees-container">
-          <h3 className="fees-text-2">Admission Fees</h3><button className="pay-button ">Take Fees</button>
-          </div>
-        </div>
        </div>
        <div className="fees-section">
         <div className="fees-container">
@@ -122,9 +126,20 @@ const SearchDetailsShow = () => {
         <div>
           <br></br>
           <hr></hr>
-          <div className="Month">
-
+        <div>
+          <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button1">Take Fees</button>
           </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button1">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button1 ">Take Fees</button>
+          </div>
+        </div>
         </div>
        </div>
        <div className="fees-section">
@@ -141,34 +156,100 @@ const SearchDetailsShow = () => {
         <div>
           <br></br>
           <hr></hr>
+          <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
         </div>
+      </div>
+    </div>
+    <div className="marks-section">
+        <div className="marks-container">
+          <div className="marks-container">
+            <h3 className="downloads-1">Marks Card</h3><button className="option-button">Download</button>
+          </div>
+          <div className="marks-container">
+            <h3 className="downloads-1">Hall Ticket</h3><button className="option-button">Download</button>
+          </div>
+        </div>
+        <div className="marks-container">
+          <div className="marks-container">
+              <h3 className="downloads">Previous year Data</h3><button className="option-button">Download</button>
+          </div>
+          <div className="marks-container">
+              <h3 className="downloads">No Due Certificate</h3><button className="option-button">Download</button>
+          </div>
        </div>
     </div>
-  <div className="marks-section">
-      <div className="marks-container">
-        <div className="marks-container">
-          <h3 className="downloads-1">Marks Card</h3><button className="option-button">Download</button>
-        </div>
-        <div className="marks-container">
-          <h3 className="downloads-1">Hall Ticket</h3><button className="option-button">Download</button>
-        </div>
-      </div>
-    <div className="marks-container">
-        <div className="marks-container">
-          <h3 className="downloads">Previous year Data</h3><button className="option-button">Download</button>
-          
-        </div>
-        <div className="marks-container">
-          <h3 className="downloads">No Due Certificate</h3><button className="option-button">Download</button>
-        </div>
-    </div>
-  </div>
-  <div className="ExamAttendance">
-      <div className="exam-section">
+    <div className="ExamAttendance">
+        <div className="exam-section">
           <h3 className="exam">Exam wise Grades</h3>
             <hr></hr>
+            <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+         
+        </div>
+    </div>
+   
+  </div> )}
+   {who !== "student" && (
+  <div className="ExamAttendance">
+      <div className="Fees">
+        <div>
+          <div className="fees-section2">
+              <h2>Assign Classes</h2>
+              <img src={svgImage} alt="SVG Image" />
+              <hr></hr>
+              <div>
+                {Classes.map(Classes =>(
+                 <Section value={Classes.text}/>
+                )
+                  )}
+              </div>
+          </div>
+       </div>
+       <div className="fees-section">
+        <div className="fees-container">
+              <h2 className="Regular-Fees">Syllabus Completed</h2>
+              <hr></hr>
+        </div>
+        <div>
+          <br></br>
+          <hr></hr>
+          <div className="Month">
+          </div>
+        </div>
+       </div>
+       <div className="fees-section">
+        <div className="fees-container">
+              <h2 className="Regular-Fees">Salary Payments</h2>
+              <hr></hr>
+        </div>
+        <div>
+          <br></br>
+          <hr></hr>
+        </div>
       </div>
-   </div> 
+    </div>
+    </div> )}
       </div>
       )}
     </div>
