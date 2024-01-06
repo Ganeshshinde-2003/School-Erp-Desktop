@@ -1,0 +1,54 @@
+.reports-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    background-color: #333333;
+    width: 100%;
+    padding: 30px 80px;
+    border-radius: 10px;
+    gap: 50px;
+}
+.reports-container{
+    width: 75vw;
+    margin: 20px auto;
+}
+.reports-selections{
+    display: flex;
+}
+.reports-selections .reports-part{
+    display: flex;
+    width: 50%;
+    align-items: center;
+    gap: 50px;
+}
+.report-part-two{
+   justify-content: flex-end;
+}
+.reports-part div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.reports-part div select, .reports-checkpoints select{
+    padding: 5px 10px;
+    border-radius: 7px;
+}
+.reports-part div label{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+.reports-checpoints-list{
+    display: flex;
+}
+.reports-checkpoints{
+    display: flex;
+    width: 50%;
+    gap: 50px;
+    flex-direction: column;
+}
+.reports-download-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
