@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
 import AlertComponent from "../../Components/AlertComponent";
 import AddButton from "../../Components/AddButton";
+import { SiGooglesheets } from "react-icons/si";
+import { CSVLink } from "react-csv";
 import {
   getSubjectDataFromDb,
   deleteSubject,
@@ -110,8 +112,19 @@ const AddSubject = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-            <TableTitle title={'Add Subjects'} />
-            
+              <div className="text-center">
+                <CSVLink
+                  data={subjectData}
+                  filename={"subject_file.csv"}
+                  className="btn btn-primary"
+                  target="_blank"
+                >
+                  Download Data
+                </CSVLink>
+              </div>
+
+              <TableTitle title={"Add Subjects"} />
+
               <DynamicTable
                 data={subjectData}
                 rowHeight={100}
@@ -149,3 +162,12 @@ const AddSubject = () => {
 };
 
 export default AddSubject;
+
+
+// <CSVLink
+//   data={subjectData}
+//   onClick={() => {}}
+//   className="cursor-pointer text-black font-semibold rounded bg-white px-3 py-1 mr-2"
+// >
+//   Export data
+// </CSVLink>
