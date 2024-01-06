@@ -17,15 +17,26 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 // const res = await getCustomDataForReport(customDataOptions);
 
 export const getCustomDataForReport = async (options) => {
-  const { includeName, includeStudentID, includeClass, includeSection, includefeeslab, includeTransportSlab, includeAttendancePercentage, includeOptionalSubjects } = options;
+  console.log(options);
+  const {
+    includeName,
+    includeStudentID,
+    includeClass,
+    includeSection,
+    includefeeslab,
+    includeTransportSlab,
+    includeAttendancePercentage,
+    includeOptionalSubjects,
+  } = options;
 
   const studentRef = collection(db, "AddStudentsDirectly");
   let data = [];
 
   try {
-    const q = query(studentRef,
-      includeClass && where("joiningClass", "==", options.class),
-      includeSection && where("joiningSection", "==", options.section)
+    const q = query(
+      studentRef,
+      where("joiningClass", "==", options.class),
+      where("joiningSection", "==", options.section)
     );
 
     const querySnapshot = await getDocs(q);
@@ -65,11 +76,12 @@ export const getCustomDataForReport = async (options) => {
       if (includeOptionalSubjects) {
         result.optionalSubjects = studentData.optionalSubjects || [];
       }
+      console.log(result);
 
       data.push(result);
     });
 
-    return  data;
+    return data;
   } catch (error) {
     console.error("Error fetching custom data:", error);
     return { status: false, message: "Error fetching custom data" };

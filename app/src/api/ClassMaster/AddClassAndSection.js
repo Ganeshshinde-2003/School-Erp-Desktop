@@ -22,7 +22,11 @@ import {
  * @param {Array} classData.optionalSubjects - An array of optional subjects.
  */
 export const addClassAndSectionsToDatabase = async (classData) => {
-  const classAndSectionsRef = doc(db, "AddClassAndSections",classData.className);
+  const classAndSectionsRef = doc(
+    db,
+    "AddClassAndSections",
+    classData.className
+  );
   try {
     const className = classData.className;
     const noOfSections = classData.noOfSections;
@@ -176,7 +180,7 @@ const addAssignSubjectsToDatabase = async (
 };
 export const getAllclassNames = async () => {
   const classAndSectionsRef = collection(db, "AddClassAndSections");
-  
+
   try {
     const querySnapshot = await getDocs(classAndSectionsRef);
 
@@ -196,7 +200,7 @@ export const getAllclassNames = async () => {
         return numA - numB;
       }
 
-      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+      return a.localeCompare(b, undefined, { sensitivity: "base" });
     });
 
     return sortedClassNames;
@@ -205,8 +209,6 @@ export const getAllclassNames = async () => {
     throw error;
   }
 };
-
-
 
 // export const getAllclassNamesAndSubjects = async () => {
 //   const classAndSectionsRef = collection(db, "AddClassAndSections");
@@ -257,8 +259,6 @@ export const getAllclassesAndSubjects = async () => {
   }
 };
 
-
-
 export const getAllClassesAndSectionNames = async () => {
   const classAndSectionsRef = collection(db, "AddClassAndSections");
 
@@ -278,7 +278,6 @@ export const getAllClassesAndSectionNames = async () => {
   }
 };
 
-
 export const getSubjectsByClassName = async (className) => {
   console.log(className);
   console.log(className);
@@ -293,7 +292,9 @@ export const getSubjectsByClassName = async (className) => {
     const subjectsData = docSnapshot.data();
     console.log(subjectsData);
     // Filter subjects with false values
-    const falseSubjects = Object.keys(subjectsData).filter(subject => !subjectsData[subject]);
+    const falseSubjects = Object.keys(subjectsData).filter(
+      (subject) => !subjectsData[subject]
+    );
     console.log(falseSubjects);
 
     console.log(falseSubjects);
@@ -316,21 +317,16 @@ export const getAllSectionsByClassName = async (className) => {
       const data = doc.data();
 
       if (data.className === className && data.nameOfSections) {
-        const sectionsForClass = data.nameOfSections.filter(section =>
+        const sectionsForClass = data.nameOfSections.filter((section) =>
           section.startsWith(className)
         );
 
         matchingSections = [...matchingSections, ...sectionsForClass];
       }
     });
-
-    console.log(matchingSections);
-
     return matchingSections;
   } catch (error) {
     console.error(error);
     return [];
   }
 };
-
-

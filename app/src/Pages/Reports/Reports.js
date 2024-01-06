@@ -1,26 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Reports.css";
 import ButtonComponent from "../../Components/ButtonComponent";
 import ClassRankList from "./ClassRankList";
 import CerticationAllOnce from "./CertifiAll";
+import {
+  getAllSectionsByClassName,
+  getAllclassNames,
+} from "../../api/ClassMaster/AddClassAndSection";
+import { getCustomDataForReport } from "../../api/ReportAndAllocation/Reports";
+import DynamicTable from "../../Components/DynamicTable";
+import TableTitle from "../../Components/TableTitle";
 
 const Reports = () => {
+  const initialData = {
+    Name: false,
+    "Student ID": false,
+    Class: false,
+    Section: false,
+    "Fee Slab": false,
+    "Tranport Slab": false,
+    "Attendance Percentage": false,
+    "Optional Subjects chosen": false,
+    Classname: "",
+    Sectionname: "",
+  };
   const checkPointshalf = [
     "Name",
     "Class",
     "Fee Slab",
     "Tranport Slab",
-    "Attendance percentage",
+    "Attendance Percentage",
   ];
   const checkPointsotherhalf = [
     "Student ID",
     "Section",
     "Optional Subjects chosen",
   ];
+  const [reportData, setReportData] = useState(initialData);
   const [feesPendingChecked, setFeesPendingChecked] = useState(false);
   const [transportChecked, setTransportChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [allClassesName, setAllClassesName] = useState(null);
+  const [allSectionWithclass, setAllSectionWithClass] = useState(null);
+  const [isDynamic, setIsDynamic] = useState(false);
+  const [dynamicTableData, setDynamicTableData] = useState(null);
 
   const openModal = async () => {
     console.log("Open modal");
@@ -32,6 +56,61 @@ const Reports = () => {
     setIsModalOpen2(true);
   };
 
+  const getAllClasses = async () => {
+    const data = await getAllclassNames();
+    setAllClassesName(data);
+    if (reportData.Classname !== "") {
+      const sectionData = await getAllSectionsByClassName(reportData.Classname);
+      setAllSectionWithClass(sectionData);
+    }
+  };
+
+  const handleInputChange1 = (e) => {
+    const { name, value } = e.target;
+    setReportData({
+      ...reportData,
+      [name]: value,
+    });
+  };
+
+  const handleInputChange2 = (e) => {
+    const { name, checked } = e.target;
+
+    setReportData((prevReportData) => ({
+      ...prevReportData,
+      [name]: checked,
+    }));
+  };
+
+  const handleDownload = async () => {
+    const formatedData = {
+      includeName: reportData.Name,
+      includeStudentID: reportData["Student ID"],
+      includeClass: reportData.Class,
+      includeSection: reportData.Section,
+      includefeeslab: reportData["Fee Slab"],
+      includeTransportSlab: reportData["Tranport Slab"],
+      includeAttendancePercentage: reportData["Attendance Percentage"],
+      includeOptionalSubjects: reportData["Optional Subjects chosen"],
+      class: reportData.Classname,
+      section: reportData.Sectionname,
+    };
+
+    console.log(formatedData);
+
+    const response = await getCustomDataForReport(formatedData);
+    setDynamicTableData(response);
+    console.log(dynamicTableData);
+
+    if (response !== null) {
+      setIsDynamic(true);
+    }
+  };
+
+  useEffect(() => {
+    getAllClasses();
+  }, [reportData.Classname]);
+
   return (
     <div className="reports-container">
       <form className="reports-wrapper">
@@ -39,18 +118,32 @@ const Reports = () => {
           <div className="reports-part">
             <div>
               <label>Class</label>
-              <select>
+              <select
+                name="Classname"
+                value={reportData.Classname}
+                onChange={handleInputChange1}
+              >
                 <option value="">Select Class</option>
-                <option value="A">A</option>
-                <option value="A">A</option>
+                {allClassesName?.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <label>Section</label>
-              <select>
+              <select
+                name="Sectionname"
+                value={reportData.Sectionname}
+                onChange={handleInputChange1}
+              >
                 <option value="">Select Section</option>
-                <option value="A">A</option>
-                <option value="A">A</option>
+                {allSectionWithclass?.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -74,6 +167,7 @@ const Reports = () => {
                 <input
                   type="checkbox"
                   name={subject}
+                  onChange={handleInputChange2}
                   className="mt-1 p-2 w-[24px] h-[24px] block w-half "
                 />
                 <label className="block text-[18px] font-medium text-white">
@@ -88,6 +182,7 @@ const Reports = () => {
                 <input
                   type="checkbox"
                   name={subject}
+                  onChange={handleInputChange2}
                   className="mt-1 p-2 w-[24px] h-[24px] block w-half "
                 />
                 <label className="block text-[18px] font-medium text-white">
@@ -106,7 +201,7 @@ const Reports = () => {
               <label className="block text-[18px] font-medium text-white">
                 Fees Pending
               </label>
-              {feesPendingChecked && (
+              {/* {feesPendingChecked && (
                 <div>
                   <select>
                     <option value="">Select </option>
@@ -114,7 +209,7 @@ const Reports = () => {
                     <option value="Type2">Type 2</option>
                   </select>
                 </div>
-              )}
+              )} */}
             </div>
             <div className="flex gap-3 items-center">
               <input
@@ -127,7 +222,7 @@ const Reports = () => {
               <label className="block text-[18px] font-medium text-white">
                 Transport Fees pending
               </label>
-              {transportChecked && (
+              {/* {transportChecked && (
                 <div>
                   <select>
                     <option value="">Select </option>
@@ -135,18 +230,36 @@ const Reports = () => {
                     <option value="Type2">Type 2</option>
                   </select>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
         <div className="reports-download-button">
           <ButtonComponent
             buttonText={"Download"}
-            onClickButton={() => {}}
+            onClickButton={handleDownload}
             isUpdateDisabled={false}
           />
         </div>
       </form>
+
+      {isDynamic && (
+        <div className="add-optional-sub-table">
+          <TableTitle title={"Student Report"} />
+          <DynamicTable
+            data={dynamicTableData}
+            rowHeight={100}
+            action={false}
+            ispanding={false}
+            isLocateOn={false}
+            attendanceStatus={false}
+            selectSection={false}
+            sectionList={false}
+            csvFileName="Report-Data"
+          />
+        </div>
+      )}
+
       <ClassRankList
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
