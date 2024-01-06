@@ -242,3 +242,16 @@ input:checked + .slider:before {
   width: 20px;
   margin-left: 2%;
 }
+
+
+
+.pay-button1 {
+  background-color: rgba(48, 118, 255, 1);
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 15px;
+}

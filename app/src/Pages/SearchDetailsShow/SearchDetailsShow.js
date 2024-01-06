@@ -126,8 +126,20 @@ const SearchDetailsShow = () => {
         <div>
           <br></br>
           <hr></hr>
-          <div className="Month">
+        <div>
+          <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button1">Take Fees</button>
           </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button1">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button1 ">Take Fees</button>
+          </div>
+        </div>
         </div>
        </div>
        <div className="fees-section">
@@ -144,6 +156,18 @@ const SearchDetailsShow = () => {
         <div>
           <br></br>
           <hr></hr>
+          <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
         </div>
       </div>
     </div>
@@ -169,8 +193,22 @@ const SearchDetailsShow = () => {
         <div className="exam-section">
           <h3 className="exam">Exam wise Grades</h3>
             <hr></hr>
+            <div className="flex">
+                <p className="month">January</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">February</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+          <div className="flex">
+                <p className="month">March</p>
+                <button className="pay-button">Take Fees</button>
+          </div>
+         
         </div>
     </div>
+   
   </div> )}
    {who !== "student" && (
   <div className="ExamAttendance">
