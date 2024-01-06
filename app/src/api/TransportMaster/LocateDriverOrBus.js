@@ -51,8 +51,7 @@ export const getLocateDataFromDatabase = async () => {
         "Driver Vehicle": data.driverVehicle,
         "Driver Id": data.driverId,
         "Mobile no.": data.mobileNo,
-        Stops: [],  // Assuming you want to store stops here
-        Locate: "",  // You may need to update this based on your requirements
+        Stops: [],  
       };
 
       // Match with vehicle data based on driverVehicle

@@ -3,6 +3,7 @@ import { Oval } from "react-loader-spinner";
 import DynamicTable from "../../Components/DynamicTable";
 import { getLocateDataFromDatabase } from "../../api/TransportMaster/LocateDriverOrBus";
 import "../../App.css";
+import TableTitle from "../../Components/TableTitle";
 
 const LocateDriver = () => {
   const [driverData, setDriverData] = useState([]);
@@ -29,41 +30,50 @@ const LocateDriver = () => {
     fetchData(); // Refetch data when dataChanged is true
     setDataChanged(false);
   }
+  const handleAction = async (actionType, documentId) => {
+    if (actionType === "locate") {
+      console.log("locate document with ID:", documentId);
+      // -- Todo locate logic
 
-  return (
-    <div className="ml-4 mt-4 w-full ov-sc">
-      <div className="mt-5 max-w-full">
-        <div className="flex justify-around">
-          {isLoading ? (
-            <Oval
-              height={80}
-              width={80}
-              color="#333333"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-              ariaLabel="oval-loading"
-              secondaryColor="#B5B5B5"
-              strokeWidth={2}
-              strokeWidthSecondary={2}
-            />
-          ) : (
-            <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Driver
-              </h1>
-              <DynamicTable
-                data={driverData}
-                rowHeight={100}
-                action={false}
-                ispanding={false}
+    };
+  }
+    return (
+      <div className="ml-4 mt-4 w-full ov-sc">
+        <div className="mt-5 max-w-full">
+          <div className="flex justify-around">
+            {isLoading ? (
+              <Oval
+                height={80}
+                width={80}
+                color="#333333"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#B5B5B5"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
               />
-            </div>
-          )}
+            ) : (
+              <div className="add-optional-sub-table">
+              <TableTitle title={'Locate'} />
+                <DynamicTable
+                  data={driverData}
+                  rowHeight={100}
+                  action={false}
+                  handleAction={handleAction}
+                  ispanding={false}
+                  isLocateOn={true}
+                  attendanceStatus={false}
+                  selectSection={false}
+                  sectionList={false}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default LocateDriver;
+  export default LocateDriver;

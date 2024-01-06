@@ -3,6 +3,7 @@ import { Oval } from "react-loader-spinner";
 import { getTimetableTable } from "../../api/Timetable/Timetable";
 import DynamicTimeTable from "../../Components/DynamicTimeTable";
 import "../../App.css";
+import TableTitle from "../../Components/TableTitle"
 
 const CheckSyllabus = () => {
   const [timetableData, setTimetableData] = useState([]);
@@ -43,9 +44,8 @@ const CheckSyllabus = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Check Syllabus
-              </h1>
+            <TableTitle title={"Check Syllabus"} />
+                
               <DynamicTimeTable
                 data={timetableData}
                 rowHeight={100}

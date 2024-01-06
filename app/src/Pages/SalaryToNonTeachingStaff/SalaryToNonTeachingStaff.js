@@ -89,6 +89,10 @@ const NonTeachingStaffSalaryTable = () => {
                 rowHeight={100}
                 action={false} // Set action to false to hide edit and delete options
                 ispanding={false}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
             </div>
           )}

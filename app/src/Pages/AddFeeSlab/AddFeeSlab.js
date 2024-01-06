@@ -12,6 +12,7 @@ import {
   getFeeSlabDataFromDatabase,
 } from "../../api/FeeStructure/AddFeeSlab";
 import "../../App.css";
+import TableTitle from "../../Components/TableTitle";
 
 const AddFeeSlab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,15 +97,18 @@ const AddFeeSlab = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Fee Slabs
-              </h1>
+            <TableTitle title={'Add Fee Slabs'} />
+                
               <DynamicTable
                 data={feeSlabData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton

@@ -12,6 +12,7 @@ import { Oval } from "react-loader-spinner";
 import AddOrUpdateSubjectForm from "./AddOrUpdateSubjectForm ";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle";
 
 const AddSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,15 +110,18 @@ const AddSubject = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Subjects
-              </h1>
+            <TableTitle title={'Add Subjects'} />
+            
               <DynamicTable
                 data={subjectData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton

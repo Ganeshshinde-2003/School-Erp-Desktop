@@ -9,7 +9,7 @@ import {
 } from "../../api/ExpenseAdding/AddExpense";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
-
+import TableTitle from "../../Components/TableTitle"
 const AddSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expenseUpdate, setexpenseUpdate] = useState(false);
@@ -104,15 +104,18 @@ const AddSubject = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Expense
-              </h1>
+            <TableTitle title={'Add Expense'} />
+            
               <DynamicTable
                 data={expenseData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton

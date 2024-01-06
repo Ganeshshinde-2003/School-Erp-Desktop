@@ -10,6 +10,7 @@ import {
 } from "../../api/StaffManagement/AddNonTeachingStaff";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle"
 
 const AddNonTeachingStaff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,9 +109,8 @@ const AddNonTeachingStaff = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Staff
-              </h1>
+            <TableTitle title={'Add Staff'} />
+            
               <DynamicTable
                 data={nonTeachingStaffData}
                 rowHeight={100}

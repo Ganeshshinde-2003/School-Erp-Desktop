@@ -13,6 +13,7 @@ const DynamicTable = ({
   handleAction,
   ispanding,
   attendanceStatus,
+  isLocateOn,
   selectSection,
   sectionList,
   onChangeSection,
@@ -59,6 +60,11 @@ const DynamicTable = ({
             {attendanceStatus && (
               <th className={`h-[${rowHeight}px] py-2 px-4 text-center bg-gray-200 border border-gray-300`}>
                 Attendance Status
+              </th>
+            )}
+            {isLocateOn && (
+              <th className={`h-[${rowHeight}px] py-2 px-4 text-center bg-gray-200 border border-gray-300`}>
+                Locate
               </th>
             )}
             {selectSection && (
@@ -119,6 +125,19 @@ const DynamicTable = ({
                       className={`cursor-pointer text-white font-semibold rounded px-3 py-1 mr-2 ${row.Status ? "bg-green-500" : "bg-red-500"}`}
                     >
                       {row.Status ? "Present" : "Absent"}
+                    </button>
+                  </div>
+                </td>
+              )}
+
+              {isLocateOn && (
+                <td className={`h-[${rowHeight}px] py-2 px-4 border border-gray-300 text-center`}>
+                  <div className="flex items-center justify-around">
+                    <button
+                      onClick={() => handleAction("locate", row.id)}
+                      className="cursor-pointer text-white font-semibold rounded bg-gray-800 px-3 py-1 mr-2"
+                    >
+                      Locate
                     </button>
                   </div>
                 </td>

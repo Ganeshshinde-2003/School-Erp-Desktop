@@ -10,6 +10,7 @@ import {
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
+import TableTitle from "../../Components/TableTitle";
 
 const AddStudent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,15 +109,18 @@ const AddStudent = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-              <h1 className="h-16 text-center font-bold text-white flex items-center justify-center">
-                Add Holidays
-              </h1>
+            <TableTitle title={'Add Holidays'} />
+            
               <DynamicTable
                 data={holidayData}
                 rowHeight={100}
                 action={true}
                 ispanding={false}
                 handleAction={handleAction}
+                isLocateOn={false}
+                attendanceStatus={false}
+                selectSection={false}
+                sectionList={false}
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton
