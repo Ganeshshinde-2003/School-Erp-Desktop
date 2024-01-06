@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useLocation, useParams } from "react-router-dom";
 import TextNameComponent from "../../Components/TextNameComponent";
 import "./SearchDetails.css";
+import svgImage from "./add.png";
+import Classes  from "../../Database/Classes";
 
 const SearchDetailsShow = () => {
   const { id } = useParams();
@@ -172,11 +174,44 @@ const SearchDetailsShow = () => {
   </div> )}
    {who !== "student" && (
   <div className="ExamAttendance">
-      <div className="exam-section">
-          <h3 className="exam">Exam wise Grades</h3>
-            <hr></hr>
+      <div className="Fees">
+        <div>
+          <div className="fees-section2">
+              <h2>Assign Classes</h2>
+              <img src={svgImage} alt="SVG Image" />
+              <hr></hr>
+              <div>
+                {Classes.map(Classes =>(
+                 <Section value={Classes.text}/>
+                )
+                  )}
+              </div>
+          </div>
+       </div>
+       <div className="fees-section">
+        <div className="fees-container">
+              <h2 className="Regular-Fees">Syllabus Completed</h2>
+              <hr></hr>
+        </div>
+        <div>
+          <br></br>
+          <hr></hr>
+          <div className="Month">
+          </div>
+        </div>
+       </div>
+       <div className="fees-section">
+        <div className="fees-container">
+              <h2 className="Regular-Fees">Salary Payments</h2>
+              <hr></hr>
+        </div>
+        <div>
+          <br></br>
+          <hr></hr>
+        </div>
       </div>
-   </div> )}
+    </div>
+    </div> )}
       </div>
       )}
     </div>
