@@ -3,6 +3,7 @@ import AddButton from "../../Components/AddButton";
 import "../../Pages/AddStudentsDirectly/AddStudent.css";
 import AddOrUpdateNoticeForm from "./AddOrUpdateNotice";
 import "../../App.css";
+import { getCustomDataForReport } from "../../api/ReportAndAllocation/Reports";
 
 const AddNoticePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,7 +12,7 @@ const AddNoticePage = () => {
   const [docId, setDocId] = useState(null);
   const [noticeUpdate, setNoticeUpdate] = useState(false);
 
-  const openModal = async () => {
+  const openModal = () => {
     console.log("Open modal");
     setIsModalOpen(true);
   };

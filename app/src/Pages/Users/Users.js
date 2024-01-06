@@ -7,7 +7,6 @@ import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { deleteUser, getAllUsers } from "../../api/Authapi/auth";
 import { toast } from "react-toastify";
-import { getAllUsers } from "../../api/Authapi/auth";
 import TableTitle from "../../Components/TableTitle";
 
 const Users = () => {
