@@ -5,10 +5,8 @@ import AddButton from "../../Components/AddButton";
 import { SiGooglesheets } from "react-icons/si";
 import { CSVLink } from "react-csv";
 import {
-  getSubjectDataFromDb,
   deleteSubject,
   getAddSubjectDatabase,
-  updateSubjectInDatabase,
 } from "../../api/ClassMaster/Addsubject";
 import { Oval } from "react-loader-spinner";
 import AddOrUpdateSubjectForm from "./AddOrUpdateSubjectForm ";
@@ -20,7 +18,6 @@ const AddSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [subjectUpdate, setSubjectUpdate] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-
   const [subjectData, setSubjectData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataChanged, setDataChanged] = useState(false);

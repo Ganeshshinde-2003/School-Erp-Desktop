@@ -16,7 +16,6 @@ const AddNonTeachingStaff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nonTeachingstaffUpdate, setnonTeachingstaffUpdate] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-
   const [nonTeachingStaffData, setnonTeachingStaffData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataChanged, setDataChanged] = useState(false);
@@ -30,6 +29,7 @@ const AddNonTeachingStaff = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
     console.log(nonTeachingStaffData);
