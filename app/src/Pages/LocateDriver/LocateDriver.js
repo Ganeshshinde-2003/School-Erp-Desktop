@@ -67,6 +67,7 @@ const LocateDriver = () => {
                   attendanceStatus={false}
                   selectSection={false}
                   sectionList={false}
+                  csvFileName="Driver Locations"
                 />
               </div>
             )}

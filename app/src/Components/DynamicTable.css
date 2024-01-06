@@ -1,3 +1,21 @@
 .table-cols th {
   background-color: #B5B5B5;
 }
+.download-csv a{
+  position: absolute;
+  top: -50px;
+  right: 4%;
+  color: white;
+  padding: 5px 10px !important;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+.download-csv .csv-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.csv-button .csv-icon{
+  color: green;
+}

@@ -116,6 +116,7 @@ const Users = () => {
                 attendanceStatus={false}
                 selectSection={false}
                 sectionList={false}
+                csvFileName="Present Users Data"
               />
               <p className="h-16 text-center font-bold text-white flex items-center justify-center">
                 <AddButton buttonText={"Add User"} onClickButton={openModal} />
