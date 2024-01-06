@@ -6,7 +6,6 @@ import AddOrUpdateUsersForm from "./UsersAddorUpdate";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
-import { getAllUsers } from "../../api/Authapi/auth";
 import TableTitle from "../../Components/TableTitle";
 
 const Users = () => {
