@@ -1,4 +1,4 @@
-import { db } from "../../config/firebase";
+import { db, storage } from "../../config/firebase";
 import {
   getDocs,
   addDoc,
@@ -10,9 +10,10 @@ import {
   serverTimestamp,
   query,
   orderBy,
-  setDoc,
   where,
+  setDoc,
 } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 export const testStaffData = {
   firstName: "John",
@@ -38,6 +39,24 @@ export const addNonTeachingStaffToDb = async (StaffData) => {
   const StaffDocRef = doc(StaffRef,StaffData.staffId);
   console.log(StaffDocRef);
 
+  try {
+    const profilePicRef = ref(
+      storage,
+      `staffData/profile_pics/${StaffData.staffId}`
+    );
+    await uploadString(profilePicRef, StaffData.profilePic, "data_url");
+  } catch (error) {
+    console.error("Error uploading profile picture to storage:", error);
+    return {
+      status: false,
+      message: "Error uploading profile picture",
+    };
+  }
+
+  const profilePicUrl = await getDownloadURL(
+    ref(storage, `staffData/profile_pics/${StaffData.staffId}`)
+  );
+
 
   try {
     const StaffDoc = await setDoc(StaffDocRef, {
@@ -50,6 +69,7 @@ export const addNonTeachingStaffToDb = async (StaffData) => {
       bloodGroup: StaffData.bloodGroup,
       bankAccount: StaffData.bankAccount,
       dob: StaffData.dob,
+      profilePic: profilePicUrl,
       createdAt: serverTimestamp(),
     });
 
@@ -77,7 +97,29 @@ export const updateStaffToDatabase = async (documentId, updatedStaffData) => {
     const StaffDataChanged =
       JSON.stringify(existingData) !== JSON.stringify(updatedStaffData);
 
-    if (StaffDataChanged) {
+    // Check if the image has changed
+    const profilePicChanged =
+    updatedStaffData.profilePic !== existingData.profilePic;
+
+
+    if (StaffDataChanged || profilePicChanged) {
+      if (profilePicChanged && updatedStaffData.profilePic) {
+        const profilePicRef = ref(
+          storage,
+          `staffData/profile_pics/${documentId}`
+        );
+        await uploadString(
+          profilePicRef,
+          updatedStaffData.profilePic,
+          "data_url"
+        );
+
+        // Get the URL of the uploaded profile picture
+        const profilePicUrl = await getDownloadURL(profilePicRef);
+
+        // Update the profilePic field in the driver data
+        updatedDriverData.profilePic = profilePicUrl;
+      }
       await updateDoc(StaffDocRef, updatedStaffData);
       console.log("Data updated successfully");
       return { status: true, message: "Document successfully updated" };

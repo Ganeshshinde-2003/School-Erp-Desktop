@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import DynamicTable from "../../Components/DynamicTable";
 import AddButton from "../../Components/AddButton";
 import { Oval } from "react-loader-spinner";
-import {
-  deleteHoliday,
-  getHolidayAndEventsData,
-} from "../../api/AddHoliday/AddHoliday";
 import AddOrUpdateFeeSlab from "./AddOrUpdateFeeSlab";
 import {
   deleteFeeSlabData,
   getFeeSlabDataFromDatabase,
 } from "../../api/FeeStructure/AddFeeSlab";
 import "../../App.css";
+import { toast } from "react-toastify";
 import TableTitle from "../../Components/TableTitle";
 
 const AddFeeSlab = () => {
@@ -31,6 +28,7 @@ const AddFeeSlab = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };

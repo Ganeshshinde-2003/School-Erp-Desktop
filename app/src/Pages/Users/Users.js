@@ -3,12 +3,10 @@ import DynamicTable from "../../Components/DynamicTable";
 import AddButton from "../../Components/AddButton";
 import { Oval } from "react-loader-spinner";
 import AddOrUpdateUsersForm from "./UsersAddorUpdate";
-import {
-  deleteExpenseData,
-  getExpenseDataFromDatabase,
-} from "../../api/ExpenseAdding/AddExpense";
 import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
+import { deleteUser, getAllUsers } from "../../api/Authapi/auth";
+import { toast } from "react-toastify";
 import { getAllUsers } from "../../api/Authapi/auth";
 import TableTitle from "../../Components/TableTitle";
 
@@ -30,6 +28,7 @@ const Users = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data");
         setIsLoading(false);
       });
   };
@@ -56,12 +55,13 @@ const Users = () => {
     }
   };
   const onConfirm = async () => {
-    const response = await deleteExpenseData(docId);
+    const response = await deleteUser(docId);
     console.log("Delete document with ID:", docId);
     if (response.status) {
       setDataChanged(true);
       setDocId(null);
       setShowDeleteAlert(false);
+      toast.success(response.message);
     }
   };
 
