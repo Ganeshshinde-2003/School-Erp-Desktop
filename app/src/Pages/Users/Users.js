@@ -7,6 +7,7 @@ import AlertComponent from "../../Components/AlertComponent";
 import "../../App.css";
 import { toast } from "react-toastify";
 import TableTitle from "../../Components/TableTitle";
+import { getAllUsers } from "../../api/Authapi/auth";
 
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,8 +105,8 @@ const Users = () => {
             />
           ) : (
             <div className="add-optional-sub-table">
-            <TableTitle title={'Add Admin Users'} />
-            <DynamicTable
+              <TableTitle title={"Add Admin Users"} />
+              <DynamicTable
                 data={expenseData}
                 rowHeight={100}
                 action={true}
